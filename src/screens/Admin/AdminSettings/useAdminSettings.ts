@@ -1,26 +1,34 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { storage, StorageKeys } from '@/utils/storage';
-import { UserProfile } from './types.d';
+import { AdminProfile } from './types.d';
 
-export const useProfile = () => {
+export const useAdminSettings = () => {
   const navigation = useAppNavigation();
-  const [profile, setProfile] = useState<UserProfile>({
-    name: 'Brother John',
-    phone: '9090909090',
+  const [profile, setProfile] = useState<AdminProfile>({
+    name: 'Admin User',
+    role: 'ADMIN',
   });
 
   useEffect(() => {
     try {
-      const stored = storage.getString(StorageKeys.USER_PROFILE);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed && parsed.name && parsed.phone) {
-          setProfile(parsed);
+      const storedProfileStr = storage.getString(StorageKeys.USER_PROFILE);
+      const storedRole = storage.getString(StorageKeys.USER_ROLE);
+      
+      let name = 'Admin User';
+      if (storedProfileStr) {
+        const parsed = JSON.parse(storedProfileStr);
+        if (parsed && parsed.name) {
+          name = parsed.name;
         }
       }
+
+      setProfile({
+        name,
+        role: storedRole || 'ADMIN',
+      });
     } catch (e) {
-      console.log('Failed to parse stored user profile', e);
+      console.log('Failed to parse stored admin profile', e);
     }
   }, []);
 
@@ -38,13 +46,13 @@ export const useProfile = () => {
     });
   }, [navigation]);
 
-  const handleTabChange = useCallback((tab: 'home' | 'bookings' | 'history' | 'profile') => {
-    if (tab === 'home') {
-      navigation.navigate('HomeBookingStatus');
+  const handleTabChange = useCallback((tab: 'dashboard' | 'bookings' | 'customers' | 'settings') => {
+    if (tab === 'dashboard') {
+      navigation.navigate('AdminDashboardHome');
     } else if (tab === 'bookings') {
-      navigation.navigate('MyBookings');
-    } else if (tab === 'history') {
-      navigation.navigate('History');
+      navigation.navigate('ManageBookings');
+    } else if (tab === 'customers') {
+      navigation.navigate('ManageUsersAdmin');
     }
   }, [navigation]);
 

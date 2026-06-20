@@ -1,16 +1,21 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import type { OtpInputRef } from 'react-native-otp-entry';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { useLocale } from '@/hooks/useLocale';
 import { storage, StorageKeys } from '@/utils/storage';
+import { useApi } from '@/hooks/useApi';
+import { AuthService } from '@/serviceManager/AuthService';
 
 export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string) => {
   const navigation = useAppNavigation();
   const { t } = useLocale();
 
+  const otpRef = useRef<OtpInputRef>(null);
   const [otp, setOtp] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(30);
+
+  const { execute, isLoading } = useApi(AuthService.verifyOtp);
 
   // Resend OTP Countdown Timer
   useEffect(() => {
@@ -22,51 +27,66 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string) => {
   }, [resendTimer]);
 
   const onOtpChange = useCallback((text: string) => {
-    // Numeric input only
-    const cleanText = text.replace(/[^0-9]/g, '');
-    setOtp(cleanText);
-    if (cleanText.length > 0) {
+    setOtp(text);
+    if (text.length > 0) {
       setError(undefined);
     }
   }, []);
 
-  const onVerifyPress = useCallback(() => {
-    if (otp.length !== 6) {
+  const onVerifyPress = useCallback(async (filledOtp?: string) => {
+    const currentOtp = typeof filledOtp === 'string' ? filledOtp : otp;
+    
+    if (currentOtp.length !== 6) {
       setError(t('user.otp_verification.error_otp'));
       return;
     }
 
     setError(undefined);
-    setIsLoading(true);
 
-    // Simulate OTP verification API request
-    setTimeout(() => {
-      setIsLoading(false);
+    const cleanPhone = phoneNumber ? phoneNumber.replace('+91 ', '').trim() : '';
 
-      const cleanPhone = phoneNumber ? phoneNumber.replace('+91 ', '').trim() : '';
+    const result = await execute({
+      phoneNumber: cleanPhone,
+      otp: currentOtp,
+    });
+
+    if (result.success && result.data) {
+      const responseData = result.data;
+
+      // Store tokens and user details
+      storage.set(StorageKeys.AUTH_TOKEN, responseData.token);
+      storage.set(StorageKeys.REFRESH_TOKEN, responseData.refreshToken);
+      storage.set(StorageKeys.USER_ROLE, responseData.role);
+      storage.set(StorageKeys.USER_ID, responseData.userId);
+
+      // Save profile info in MMKV
+      const isUserAdmin = responseData.role === 'ADMIN' || responseData.role === 'SUPER_ADMIN';
       const profile = {
-        name: isAdmin ? 'Admin User' : 'Brother John',
+        name: isUserAdmin ? 'Admin User' : 'Brother John',
         phone: cleanPhone,
       };
-
       storage.set(StorageKeys.USER_PROFILE, JSON.stringify(profile));
 
-      if (isAdmin) {
+      if (isUserAdmin) {
         navigation.navigate('AdminDashboardHome');
       } else {
         navigation.navigate('HomeBookingStatus');
       }
-    }, 1200);
-  }, [otp, navigation, t, isAdmin, phoneNumber]);
+    } else if (result.error) {
+      setError(result.error.message || t('user.errors.server_error'));
+    }
+  }, [otp, phoneNumber, execute, navigation, t]);
 
   const onResendPress = useCallback(() => {
     setResendTimer(30);
     setOtp('');
     setError(undefined);
-    console.log('Resend OTP code requested');
+    // Clear the OTP input boxes via ref
+    otpRef.current?.clear();
   }, []);
 
   return {
+    otpRef,
     otp,
     onOtpChange,
     onVerifyPress,

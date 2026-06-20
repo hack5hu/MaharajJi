@@ -6,6 +6,7 @@ export type RootStackParamList = {
   ManageUsersAdmin: undefined;
   AddNewCustomerAdmin: undefined;
   ManageBookings: undefined;
+  AdminSettings: undefined;
   HomeBookingStatus: undefined;
   MyBookings: undefined;
   History: undefined;

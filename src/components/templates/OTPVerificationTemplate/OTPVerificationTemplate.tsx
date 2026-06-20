@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { OtpInput } from 'react-native-otp-entry';
 import { Landmark } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
@@ -17,7 +17,6 @@ import {
   LogoCircle,
   FormCard,
   FieldGroup,
-  OtpInputWrapper,
   TimerRow,
   ResendPressable,
 } from './OTPVerificationTemplate.styles';
@@ -25,7 +24,7 @@ import { OTPVerificationTemplateProps } from './types.d';
 
 export const OTPVerificationTemplate = React.memo(({
   phone,
-  otp,
+  otpRef,
   onOtpChange,
   onVerifyPress,
   onResendPress,
@@ -40,13 +39,14 @@ export const OTPVerificationTemplate = React.memo(({
     <TemplateContainer>
       <BackgroundDecorations>
         <Box style={{ width: scale(200), height: scale(200), borderRadius: 999, backgroundColor: theme.colors.primary_fixed, opacity: 0.1, position: 'absolute', top: -scale(50), left: -scale(50) }} />
-        <Box style={{ width: scale(250), height: scale(250), borderRadius: 999, backgroundColor: theme.colors.secondary_fixed, opacity: 0.1, position: 'absolute', bottom: -scale(50), right: -scale(50) }} />
+        <Box style={{ width: scale(250), height: scale(250), borderRadius: 999, backgroundColor: theme.colors.primary_fixed, opacity: 0.08, position: 'absolute', bottom: -scale(50), right: -scale(50) }} />
       </BackgroundDecorations>
 
       <KeyboardAwareScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ paddingBottom: verticalScale(40) }}
+        bottomOffset={verticalScale(180)}
       >
         <InnerWrapper>
           {/* Brand Identity */}
@@ -75,31 +75,58 @@ export const OTPVerificationTemplate = React.memo(({
               </Typography>
             </Box>
 
-            {/* Input Verification Code */}
+            {/* OTP Entry */}
             <FieldGroup>
               <Typography variant="label_caps" color={error ? 'error' : 'outline'} style={{ fontWeight: '600', letterSpacing: 1.5 }}>
                 {t('user.otp_verification.code_label')}
               </Typography>
-              <OtpInputWrapper isError={!!error}>
-                <TextInput
-                  value={otp}
-                  onChangeText={onOtpChange}
-                  placeholder="------"
-                  placeholderTextColor={theme.colors.outline_variant}
-                  keyboardType="numeric"
-                  maxLength={6}
-                  style={{
-                    width: '100%',
-                    color: theme.colors.on_surface,
+
+              <OtpInput
+                ref={otpRef}
+                numberOfDigits={6}
+                autoFocus
+                type="numeric"
+                focusColor={theme.colors.primary as string}
+                blurOnFilled={false}
+                disabled={isLoading}
+                onTextChange={onOtpChange}
+                onFilled={onVerifyPress}
+                textInputProps={{
+                  style: { backgroundColor: 'transparent' },
+                  caretHidden: true,
+                }}
+                theme={{
+                  containerStyle: {
+                    gap: scale(8),
+                  },
+                  pinCodeContainerStyle: {
+                    width: scale(44),
+                    height: scale(52),
+                    borderRadius: scale(12),
+                    backgroundColor: theme.colors.surface_container_low as string,
+                    borderWidth: 1.5,
+                    borderColor: theme.colors.outline_variant as string,
+                  },
+                  focusedPinCodeContainerStyle: {
+                    borderColor: theme.colors.primary as string,
+                  },
+                  filledPinCodeContainerStyle: {
+                    borderColor: theme.colors.primary as string,
+                  },
+                  pinCodeTextStyle: {
+                    color: theme.colors.on_surface as string,
                     fontSize: scale(22),
-                    fontFamily: 'Inter',
-                    textAlign: 'center',
-                    letterSpacing: scale(8),
+                    fontFamily: 'PlusJakartaSans-Bold',
                     fontWeight: '700',
-                  }}
-                  editable={!isLoading}
-                />
-              </OtpInputWrapper>
+                  },
+                  focusStickStyle: {
+                    backgroundColor: theme.colors.primary as string,
+                    width: 2,
+                    height: scale(24),
+                  },
+                }}
+              />
+
               {error && (
                 <Typography variant="body_sm" color="error" style={{ textAlign: 'center' }}>
                   {error}
@@ -107,7 +134,7 @@ export const OTPVerificationTemplate = React.memo(({
               )}
             </FieldGroup>
 
-            {/* Button */}
+            {/* Verify Button */}
             <Button
               label={isLoading ? t('user.otp_verification.verifying') : t('user.otp_verification.verify_button')}
               onPress={onVerifyPress}

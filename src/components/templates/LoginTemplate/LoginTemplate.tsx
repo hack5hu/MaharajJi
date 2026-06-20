@@ -46,7 +46,8 @@ export const LoginTemplate = React.memo(({
       <KeyboardAwareScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ paddingBottom: verticalScale(40) }}
+        bottomOffset={verticalScale(220)}
       >
         <InnerWrapper>
           {/* Brand Identity */}
@@ -80,7 +81,7 @@ export const LoginTemplate = React.memo(({
               <Typography variant="label_caps" color={error ? 'error' : 'outline'} style={{ fontWeight: '600', letterSpacing: 1.5 }}>
                 {t('user.login.phone_label')}
               </Typography>
-              <PhoneInputWrapper isError={!!error}>
+              <PhoneInputWrapper isError={!!error} disabled={isLoading}>
                 <CountryCode>
                   <Typography variant="body_lg" color="outline" style={{ fontWeight: '600' }}>
                     +91

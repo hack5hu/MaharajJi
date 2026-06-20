@@ -154,6 +154,17 @@ export const en = {
     errors: {
       server_error: "Something went wrong. Please try again.",
       network_error: "Connection problem. Please check your network."
+    },
+    debugger: {
+      title: "API Logs Debugger",
+      clear: "Clear All",
+      close: "Close",
+      no_logs: "No API logs yet. Make requests to populate.",
+      req_payload: "Request Data:",
+      res_payload: "Response Data:",
+      duration: "Duration: {{ms}}ms",
+      status: "Status: {{status}}",
+      endpoint: "Endpoint: {{url}}"
     }
   }
 };

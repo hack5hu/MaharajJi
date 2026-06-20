@@ -16,10 +16,11 @@ export const BackgroundDecorations = styled(Box)`
 `;
 
 export const InnerWrapper = styled(Box)`
-  flex: 1;
-  justify-content: center;
+  width: 100%;
   align-items: center;
   padding-horizontal: ${scale(20)}px;
+  padding-top: ${verticalScale(80)}px;
+  padding-bottom: ${verticalScale(40)}px;
   z-index: 10;
 `;
 
@@ -62,7 +63,7 @@ export const FieldGroup = styled(Box)`
   gap: ${verticalScale(8)}px;
 `;
 
-export const PhoneInputWrapper = styled(Box)<{ isError?: boolean }>`
+export const PhoneInputWrapper = styled(Box)<{ isError?: boolean; disabled?: boolean }>`
   flex-direction: row;
   align-items: center;
   border-width: 1px;
@@ -72,6 +73,7 @@ export const PhoneInputWrapper = styled(Box)<{ isError?: boolean }>`
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
   padding-horizontal: ${scale(12)}px;
   height: ${scale(56)}px;
+  opacity: ${({ disabled }) => disabled ? 0.5 : 1};
 `;
 
 export const CountryCode = styled(Box)`

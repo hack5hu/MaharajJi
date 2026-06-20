@@ -36,6 +36,8 @@ export const ManageUsersAdmin = React.memo(() => {
       navigation.navigate('AdminDashboardHome');
     } else if (tab === 'bookings') {
       navigation.navigate('ManageBookings');
+    } else if (tab === 'settings') {
+      navigation.navigate('AdminSettings');
     }
   }, [navigation]);
 
