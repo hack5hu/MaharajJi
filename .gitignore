@@ -73,3 +73,5 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+stitch_mahaji_booking_management_system/**
