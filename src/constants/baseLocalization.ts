@@ -56,6 +56,42 @@ export const en = {
       schedule_title: "Schedule Future Event",
       schedule_desc: "Add a new recurring or one-time session to the calendar."
     }
+  },
+  user: {
+    home_booking_status: {
+      welcome: "Welcome, Brother",
+      subtitle: "Find your next moment of spiritual connection and community gathering below.",
+      available_sessions: "Available Sessions",
+      booking_open: "Booking Open",
+      coming_up: "Coming Up This Sunday",
+      slots_left: "{{count}} Slots Left",
+      reserve_seat: "Reserve Your Seat",
+      view_all: "View All Sessions",
+      no_active_bookings: "No Active Bookings",
+      empty_desc: "All current sessions are fully booked or completed. Check back later for upcoming sessions.",
+      notify_me: "Notify Me of New Slots"
+    },
+    login: {
+      welcome_back: "Welcome back",
+      phone_subtitle: "Please enter your registered phone number to continue your journey.",
+      phone_label: "Phone Number",
+      phone_placeholder: "555 0123",
+      restriction_info: "Access is limited to numbers pre-registered by the community administrators.",
+      login_button: "Login",
+      need_help: "Need help accessing your account?",
+      error_phone: "Please enter a valid 10-digit phone number",
+      sending_otp: "Sending OTP..."
+    },
+    otp_verification: {
+      title: "Verify Code",
+      subtitle: "We've sent a 6-digit verification code to {{phone}}.",
+      code_label: "Verification Code",
+      verify_button: "Verify & Continue",
+      resend_text: "Resend Code",
+      resend_timer: "Resend Code in {{seconds}}s",
+      verifying: "Verifying...",
+      error_otp: "OTP must be 6 digits"
+    }
   }
 };
 
