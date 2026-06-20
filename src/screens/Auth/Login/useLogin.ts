@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { useLocale } from '@/hooks/useLocale';
+import { useApi } from '@/hooks/useApi';
+import { AuthService } from '@/serviceManager/AuthService';
 
 export const useLogin = () => {
   const navigation = useAppNavigation();
@@ -8,7 +10,8 @@ export const useLogin = () => {
 
   const [phone, setPhone] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { execute, isLoading } = useApi(AuthService.login);
 
   const onPhoneChange = useCallback((text: string) => {
     // Only allow numeric input
@@ -19,7 +22,7 @@ export const useLogin = () => {
     }
   }, []);
 
-  const onLoginPress = useCallback(() => {
+  const onLoginPress = useCallback(async () => {
     const phoneRegex = /^\d{10}$/; // Any 10 digits to allow test numbers like 1212121212
     if (!phoneRegex.test(phone)) {
       setError(t('user.login.error_phone'));
@@ -27,16 +30,16 @@ export const useLogin = () => {
     }
 
     setError(undefined);
-    setIsLoading(true);
 
-    // Simulate OTP API request matching the mockup
-    setTimeout(() => {
-      setIsLoading(false);
+    const result = await execute({ phoneNumber: phone });
+    if (result.success) {
       const isAdmin = phone === '1212121212';
       // Navigate to OTP Verification screen and pass phone details + flow
       navigation.navigate('OTPVerification', { phoneNumber: '+91 ' + phone, isAdmin });
-    }, 1200);
-  }, [phone, navigation, t]);
+    } else if (result.error) {
+      setError(result.error.message || t('user.errors.server_error'));
+    }
+  }, [phone, navigation, t, execute]);
 
   const onHelpPress = useCallback(() => {
     console.log('Need help clicked');

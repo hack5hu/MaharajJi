@@ -1,7 +1,9 @@
 import { useState, useCallback, useMemo } from 'react';
+import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { BookingStateMode, ActiveSessionBooking } from './types.d';
 
 export const useHomeBookingStatus = () => {
+  const navigation = useAppNavigation();
   const [mode, setMode] = useState<BookingStateMode>('available');
 
   const activeSession: ActiveSessionBooking = useMemo(() => ({
@@ -19,8 +21,14 @@ export const useHomeBookingStatus = () => {
   }, []);
 
   const handleReservePress = useCallback(() => {
-    console.log('Reserve Seat Pressed for: ', activeSession.title);
-  }, [activeSession]);
+    navigation.navigate('BookSession', {
+      sessionTitle: activeSession.title,
+      date: activeSession.date,
+      time: activeSession.time,
+      imageUrl: activeSession.imageUrl,
+      slotsLeft: activeSession.slotsLeft,
+    });
+  }, [navigation, activeSession]);
 
   const handleNotifyPress = useCallback(() => {
     console.log('Notify Me of New Slots Pressed');

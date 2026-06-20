@@ -71,6 +71,29 @@ export const en = {
       empty_desc: "All current sessions are fully booked or completed. Check back later for upcoming sessions.",
       notify_me: "Notify Me of New Slots"
     },
+    my_bookings: {
+      title: "My Bookings",
+      active_session: "Active Session",
+      session_today: "Session Today",
+      time: "TIME",
+      token: "TOKEN",
+      scan_at_entry: "SCAN AT ENTRY",
+      get_directions: "Get Directions",
+      cancel_booking: "Cancel Booking",
+      past_bookings: "Past Bookings",
+      filter: "Filter",
+      load_more: "Load More History",
+      cancel_confirm_title: "Cancel Booking?",
+      cancel_confirm_msg: "Are you sure you want to cancel your booking for {{session}}? This action cannot be undone.",
+      cancel_confirm_ok: "Cancel Booking",
+      cancel_confirm_cancel: "Keep Booking",
+      cancel_success: "Booking cancelled successfully.",
+      status_confirmed: "CONFIRMED",
+      status_completed: "COMPLETED",
+      status_cancelled: "CANCELLED",
+      no_active_booking: "No Active Booking",
+      empty_desc: "You have no upcoming sessions booked."
+    },
     login: {
       welcome_back: "Welcome back",
       phone_subtitle: "Please enter your registered phone number to continue your journey.",
@@ -91,6 +114,46 @@ export const en = {
       resend_timer: "Resend Code in {{seconds}}s",
       verifying: "Verifying...",
       error_otp: "OTP must be 6 digits"
+    },
+    profile: {
+      title: "Profile",
+      name_label: "Name",
+      phone_label: "Phone Number",
+      status_label: "Community Status",
+      status_value: "Active Member",
+      member_since: "Member Since: Oct 2023",
+      logout_btn: "Logout"
+    },
+    booking_successful: {
+      confirmed_title: "Booking Confirmed!",
+      confirmed_desc: "Your space in the sanctuary is reserved.",
+      booking_id_label: "Booking ID",
+      token_no_label: "Token No.",
+      date_label: "Date",
+      time_label: "Time",
+      attendees_label: "Attendees",
+      attendees_val: "2 People",
+      hall_label: "Hall",
+      hall_val: "Main Chapel",
+      info_footer: "Please arrive 15 minutes before your scheduled time for check-in.",
+      add_to_calendar: "Add to Calendar",
+      view_all_bookings: "View All Bookings",
+      back_to_home: "Back to Home"
+    },
+    book_session: {
+      title: "Book Session",
+      select_seats: "Select Number of Seats",
+      choose_desc: "Choose how many seats you want to reserve (max 5 seats).",
+      tokens_label: "Tokens required:",
+      tokens_value: "25 per seat",
+      disclaimer: "By reserving, you agree to attend the community prayer session.",
+      confirm_btn: "Confirm Reservation",
+      error_max: "Cannot select more than {{max}} seats.",
+      error_min: "Minimum 1 seat is required."
+    },
+    errors: {
+      server_error: "Something went wrong. Please try again.",
+      network_error: "Connection problem. Please check your network."
     }
   }
 };

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { Calendar, Clock, RefreshCw, AlertTriangle, Eye, Sparkles, MoreHorizontal } from 'lucide-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from 'styled-components/native';
@@ -46,10 +47,18 @@ export const HomeBookingStatus = React.memo(() => {
     handleMenuPress,
   } = useHomeBookingStatus();
 
-  const handleTabChange = (tab: any) => {
+  const navigation = useAppNavigation();
+
+  const handleTabChange = useCallback((tab: 'home' | 'bookings' | 'history' | 'profile') => {
     setActiveTab(tab);
-    console.log('Switch to customer tab: ', tab);
-  };
+    if (tab === 'bookings') {
+      navigation.navigate('MyBookings');
+    } else if (tab === 'profile') {
+      navigation.navigate('Profile');
+    } else if (tab === 'history') {
+      navigation.navigate('History');
+    }
+  }, [navigation]);
 
   const renderAvailableState = () => {
     const progress = activeSession.slotsLeft / activeSession.totalSlots;

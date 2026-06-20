@@ -1,8 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { useLocale } from '@/hooks/useLocale';
+import { storage, StorageKeys } from '@/utils/storage';
 
-export const useOTPVerification = (isAdmin?: boolean) => {
+export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string) => {
   const navigation = useAppNavigation();
   const { t } = useLocale();
 
@@ -41,13 +42,22 @@ export const useOTPVerification = (isAdmin?: boolean) => {
     // Simulate OTP verification API request
     setTimeout(() => {
       setIsLoading(false);
+
+      const cleanPhone = phoneNumber ? phoneNumber.replace('+91 ', '').trim() : '';
+      const profile = {
+        name: isAdmin ? 'Admin User' : 'Brother John',
+        phone: cleanPhone,
+      };
+
+      storage.set(StorageKeys.USER_PROFILE, JSON.stringify(profile));
+
       if (isAdmin) {
         navigation.navigate('AdminDashboardHome');
       } else {
         navigation.navigate('HomeBookingStatus');
       }
     }, 1200);
-  }, [otp, navigation, t, isAdmin]);
+  }, [otp, navigation, t, isAdmin, phoneNumber]);
 
   const onResendPress = useCallback(() => {
     setResendTimer(30);
