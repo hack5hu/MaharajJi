@@ -77,6 +77,13 @@ export const ManageBookings = React.memo(() => {
       publishedBy={item.publishedBy}
       onDeletePress={() => setSessionToCancel(item.id)}
       onViewPress={() => onViewSession(item.id)}
+      onPress={() => navigation.navigate('SessionAttendeesList', { 
+        sessionId: item.id, 
+        sessionTitle: item.title, 
+        sessionDate: item.sessionDate,
+        location: item.originalData.location,
+        totalTokens: item.originalData.totalTokens
+      })}
     />
   ), [onViewSession]);
 

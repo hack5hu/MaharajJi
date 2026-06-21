@@ -27,6 +27,7 @@ import { BookingSuccessful } from './src/screens/User/BookingSuccessful';
 import { BookSession } from './src/screens/User/BookSession';
 import { Login } from './src/screens/Auth/Login';
 import { OTPVerification } from './src/screens/Auth/OTPVerification';
+import { SessionAttendeesList } from './src/screens/Admin/SessionAttendeesList';
 import { ApiDebugger } from './src/components/organisms/ApiDebugger';
 import type { RootStackParamList } from './src/navigation/types';
 import { storage, StorageKeys } from './src/utils/storage';
@@ -69,6 +70,7 @@ function App() {
               <Stack.Screen name="AddNewCustomerAdmin" component={AddNewCustomerAdmin} />
               <Stack.Screen name="ManageBookings" component={ManageBookings} />
               <Stack.Screen name="AdminSettings" component={AdminSettings} />
+              <Stack.Screen name="SessionAttendeesList" component={SessionAttendeesList} />
               <Stack.Screen name="HomeBookingStatus" component={HomeBookingStatus} />
               <Stack.Screen name="MyBookings" component={MyBookings} />
               <Stack.Screen name="Profile" component={Profile} />

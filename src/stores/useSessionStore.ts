@@ -129,7 +129,13 @@ export const useSessionStore = create<SessionStore>()(
     })),
     { 
       name: 'session-store', 
-      storage: createJSONStorage(() => zustandMMKVStorage) 
+      storage: createJSONStorage(() => zustandMMKVStorage),
+      partialize: (state) => ({
+        sessions: state.sessions,
+        customerSessions: state.customerSessions,
+        currentPage: state.currentPage,
+        hasMore: state.hasMore,
+      }),
     },
   ),
 );

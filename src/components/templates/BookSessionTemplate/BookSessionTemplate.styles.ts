@@ -12,24 +12,32 @@ export const HeaderWrapper = styled(Box)<{ paddingTop: number }>`
   padding-top: ${({ paddingTop }) => paddingTop}px;
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
   z-index: 40;
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
-  height: ${verticalScale(76)}px;
-  flex-direction: row;
-  align-items: center;
-  padding-horizontal: ${scale(16)}px;
-  gap: ${scale(8)}px;
 `;
 
-export const BackButton = styled.Pressable`
-  width: ${scale(40)}px;
-  height: ${scale(40)}px;
-  border-radius: 999px;
+export const BackPressable = styled.Pressable`
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  gap: ${scale(6)}px;
+`;
+
+export const HeaderContainer = styled(Box)`
+  padding-horizontal: ${scale(20)}px;
+  padding-top: ${verticalScale(12)}px;
+  padding-bottom: ${verticalScale(4)}px;
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
 `;
 
 export const ContentContainer = styled(Box)`
   flex: 1;
   padding-horizontal: ${scale(20)}px;
+`;
+
+export const StyledScrollView = styled.ScrollView.attrs<{ insetsBottom: number }>(({ insetsBottom }) => ({
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {
+    paddingTop: verticalScale(20),
+    paddingBottom: Math.max(insetsBottom, verticalScale(20)) + verticalScale(20),
+  },
+}))`
+  flex: 1;
 `;

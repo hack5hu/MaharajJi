@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 export interface BookSessionTemplateProps {
-  headerTitle: string;
+  headerTitle?: string;
   onBackPress: () => void;
   children: ReactNode;
 }

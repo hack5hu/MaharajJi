@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { Box } from '@/components/atoms/Box';
+import { Typography } from '@/components/atoms/Typography';
 import { scale, verticalScale, moderateScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
 import FastImage from 'react-native-fast-image';
@@ -99,4 +100,9 @@ export const DisclaimerBox = styled(Box)`
 
 export const ButtonWrapper = styled(Box)`
   width: 100%;
+`;
+
+export const PageTitle = styled(Typography)`
+  font-weight: 700;
+  margin-bottom: ${verticalScale(20)}px;
 `;

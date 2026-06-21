@@ -1,4 +1,5 @@
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { MapPin, Calendar, CheckCircle2 } from 'lucide-react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -31,6 +32,7 @@ import {
   ActionButtonsWrapper,
   EmptyStateWrapper,
   EmptyIconCircle,
+  LoadingOverlay,
 } from './MyBookings.styles';
 
 export const MyBookings = React.memo(() => {
@@ -42,6 +44,7 @@ export const MyBookings = React.memo(() => {
     showCancelModal,
     cancelling,
     successMessage,
+    isLoading,
     handleCancelPress,
     handleConfirmCancel,
     handleDismissCancel,
@@ -105,10 +108,10 @@ export const MyBookings = React.memo(() => {
                 </GridCol>
                 <GridCol>
                   <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700', marginBottom: 2 }}>
-                    {t('user.my_bookings.token')}
+                    {t('user.booking_successful.booking_id_label') || 'Booking ID'}
                   </Typography>
-                  <Typography variant="body_lg" color="on_surface" style={{ fontWeight: '700' }}>
-                    {activeBooking.token}
+                  <Typography variant="body_lg" color="on_surface" style={{ fontWeight: '700' }} numberOfLines={1} ellipsizeMode="tail">
+                    {activeBooking.id}
                   </Typography>
                 </GridCol>
               </GridRow>
@@ -196,7 +199,13 @@ export const MyBookings = React.memo(() => {
             ) : null}
           </HeaderLabelContainer>
 
-          {renderActiveBooking()}
+          {isLoading && !activeBooking ? (
+            <LoadingOverlay>
+              <ActivityIndicator size="large" color={theme.colors.primary as string} />
+            </LoadingOverlay>
+          ) : (
+            renderActiveBooking()
+          )}
         </SectionContainer>
       </MyBookingsTemplate>
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pressable } from 'react-native';
+import React, { useEffect } from 'react';
+import { Pressable, BackHandler } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { useRoute } from '@react-navigation/native';
 import { Check, Calendar, Clock, Users, MapPin, Info } from 'lucide-react-native';
@@ -12,6 +12,7 @@ import { Box } from '@/components/atoms/Box';
 import { BookingSuccessfulTemplate } from '@/components/templates/BookingSuccessfulTemplate';
 import { useBookingSuccessful } from './useBookingSuccessful';
 import { BookingSuccessfulScreenRouteProp } from './types.d';
+import { useAppNavigation } from '@/navigation/useAppNavigation';
 import {
   ScreenContainer,
   HeroContainer,
@@ -31,15 +32,33 @@ export const BookingSuccessful = React.memo(() => {
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
   const route = useRoute<BookingSuccessfulScreenRouteProp>();
+  const navigation = useAppNavigation();
 
   // Default fallback values if params are missing
   const bookingId = route.params?.bookingId || '#SS-88291';
-  const tokenNo = route.params?.tokenNo || 'A-42';
-  const date = route.params?.date || 'Oct 24, 2023';
-  const time = route.params?.time || '08:00 AM';
+  const date = route.params?.date || 'All Day';
+  const time = route.params?.time || 'All Day';
   const attendees = route.params?.attendees || 2;
   const hall = route.params?.hall || 'Main Chapel';
   const imageUrl = route.params?.imageUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuB-6JGNAokKE2FmYtxezQnj3ec4ZM0ZKRTGbSM2X7PhCqveWUUsw306MZd36PcORyeuikA7N3nJk02WtUuIg-giBW-jNhQCYSnVzDtGe8btW7uYkqPVKBkUXi1q5IijqbvL-raEaUEjpufWmhl7ZZHrPoYevp8OFH3tWDBLkwXh050O2mbWAWCqIJAo2vrZyT2KGhmu23ighquJTI7-oID-1oIU6p_Pq0hCgC1f1z4Sb2jTtYUQMMS7xdlAooItXACJbIkwzRvNY8I';
+
+  useEffect(() => {
+    const backAction = () => {
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    // Prevent iOS swipe-to-go-back gesture
+    navigation.setOptions({
+      gestureEnabled: false,
+    });
+
+    return () => backHandler.remove();
+  }, [navigation]);
 
   const {
     handleAddCalendar,
@@ -77,14 +96,6 @@ export const BookingSuccessful = React.memo(() => {
               </Typography>
               <Typography variant="headline_md" color="primary" style={{ fontWeight: '700', marginTop: 2 }}>
                 {bookingId}
-              </Typography>
-            </Box>
-            <Box style={{ alignItems: 'flex-end' }}>
-              <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700', fontSize: 10 }}>
-                {t('user.booking_successful.token_no_label')}
-              </Typography>
-              <Typography variant="headline_md" color="secondary" style={{ fontWeight: '700', marginTop: 2 }}>
-                {tokenNo}
               </Typography>
             </Box>
           </CardHeader>
@@ -177,11 +188,6 @@ export const BookingSuccessful = React.memo(() => {
               paddingVertical: verticalScale(14),
             }}
           />
-          <Pressable onPress={handleBackHome} style={{ marginTop: scale(8) }}>
-            <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700', paddingBottom: scale(2) }}>
-              {t('user.booking_successful.back_to_home')}
-            </Typography>
-          </Pressable>
         </ButtonContainer>
       </BookingSuccessfulTemplate>
     </ScreenContainer>

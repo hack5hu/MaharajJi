@@ -100,3 +100,17 @@ export interface AdminCustomer {
   status?: string;
   createdAt?: string;
 }
+
+export interface CustomerBooking {
+  id: string;
+  sessionId: string;
+  sessionTitle: string;
+  sessionDate: string;
+  location: string;
+  customerId: string;
+  customerName: string;
+  customerPhone: string;
+  numberOfPeople: number;
+  status: string;
+  bookedAt: string;
+}

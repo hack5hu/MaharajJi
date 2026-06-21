@@ -11,10 +11,9 @@ export type RootStackParamList = {
   HomeBookingStatus: undefined;
   MyBookings: undefined;
   History: undefined;
-  BookSession: { sessionTitle: string; date: string; time: string; imageUrl: string; slotsLeft: number };
+  BookSession: { sessionId: string; sessionTitle: string; date: string; time: string; imageUrl: string; slotsLeft: number; maxPeoplePerToken: number; location: string };
   BookingSuccessful: {
     bookingId: string;
-    tokenNo: string;
     date: string;
     time: string;
     attendees: number;
@@ -24,6 +23,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Login: undefined;
   OTPVerification: { phoneNumber: string; isAdmin: boolean; reqId?: string };
+  SessionAttendeesList: { sessionId: string; sessionTitle: string; sessionDate: string; location: string; totalTokens: number };
 };
 
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;

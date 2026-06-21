@@ -34,6 +34,16 @@ export const en = {
       nav_customers: "Customers",
       nav_settings: "Settings"
     },
+    session_attendees: {
+      title: 'Session Attendees',
+      search_placeholder: 'Search by name...',
+      filled: '{{filled}} / {{total}} Filled',
+      waitlisted: 'Waitlisted',
+      person: '{{count}} Person',
+      people: '{{count}} People',
+      attendee_list: 'Attendee List ({{count}} Bookings)',
+      no_results: 'No attendees found',
+    },
     manage_users: {
       empty_title: "No Customers Found",
       empty_desc: "Add a customer to see them listed here."
@@ -102,14 +112,15 @@ export const en = {
       welcome: "Welcome, Brother",
       subtitle: "Find your next moment of spiritual connection and community gathering below.",
       available_sessions: "Available Sessions",
+      upcoming_sessions: "Upcoming Sessions",
       booking_open: "Booking Open",
       coming_up: "Coming Up This Sunday",
-      slots_left: "{{count}} Slots Left",
-      reserve_seat: "Reserve Your Seat",
+      slots_left: "{{count}} Persons Left",
+      reserve_seat: "Reserve Your Spot",
       view_all: "View All Sessions",
       no_active_bookings: "No Active Bookings",
       empty_desc: "All current sessions are fully booked or completed. Check back later for upcoming sessions.",
-      notify_me: "Notify Me of New Slots"
+      notify_me: "Notify Me of New Openings"
     },
     my_bookings: {
       title: "My Bookings",
@@ -182,14 +193,14 @@ export const en = {
     },
     book_session: {
       title: "Book Session",
-      select_seats: "Select Number of Seats",
-      choose_desc: "Choose how many seats you want to reserve (max 5 seats).",
+      select_seats: "Select Number of Persons",
+      choose_desc: "Choose how many persons you want to reserve (max {{max}} persons).",
       tokens_label: "Tokens required:",
-      tokens_value: "25 per seat",
+      tokens_value: "25 per person",
       disclaimer: "By reserving, you agree to attend the community prayer session.",
       confirm_btn: "Confirm Reservation",
-      error_max: "Cannot select more than {{max}} seats.",
-      error_min: "Minimum 1 seat is required."
+      error_max: "Cannot select more than {{max}} persons.",
+      error_min: "Minimum 1 person is required."
     },
     errors: {
       server_error: "Something went wrong. Please try again.",

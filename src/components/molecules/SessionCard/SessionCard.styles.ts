@@ -4,7 +4,7 @@ import { scale, verticalScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
 import FastImage from 'react-native-fast-image';
 
-export const CardContainer = styled(Box)<{ isPast?: boolean }>`
+export const CardContainer = styled.Pressable<{ isPast?: boolean }>`
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
   border-width: 1px;
   border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};

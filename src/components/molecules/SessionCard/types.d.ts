@@ -12,4 +12,5 @@ export interface SessionCardProps {
   onEditPress?: () => void;
   onDeletePress?: () => void;
   onViewPress?: () => void;
+  onPress?: () => void;
 }

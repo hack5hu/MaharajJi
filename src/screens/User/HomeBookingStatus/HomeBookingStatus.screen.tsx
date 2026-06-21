@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { Calendar, Clock, RefreshCw, AlertTriangle, Eye, Sparkles, MoreHorizontal } from 'lucide-react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -30,6 +31,7 @@ import {
   EmptyStateIconCircle,
   NotifyButton,
   ToggleFloatingButton,
+  LoadingOverlay,
 } from './HomeBookingStatus.styles';
 
 export const HomeBookingStatus = React.memo(() => {
@@ -39,8 +41,10 @@ export const HomeBookingStatus = React.memo(() => {
 
   const {
     mode,
+    isFetching,
     toggleMode,
-    activeSession,
+    liveSessions,
+    upcomingSessions,
     handleReservePress,
     handleNotifyPress,
     handleViewAllPress,
@@ -60,88 +64,145 @@ export const HomeBookingStatus = React.memo(() => {
     }
   }, [navigation]);
 
-  const renderAvailableState = () => {
-    if (!activeSession) return null;
-    const progress = activeSession.slotsLeft / activeSession.totalSlots;
-
+  const renderSessionCard = (session: any, type: 'live' | 'upcoming') => {
+    const progress = session.totalSlots > 0 ? session.slotsLeft / session.totalSlots : 0;
+    
     return (
-      <Box style={{ flex: 1 }}>
-        <HeaderLabelContainer>
-          <Typography variant="headline_md" color="on_surface" style={{ fontWeight: '700' }}>
-            {t('user.home_booking_status.available_sessions')}
-          </Typography>
-          <AvailableSlotsTag>
-            <Typography variant="label_caps" color="on_primary_container" style={{ textTransform: 'none', fontWeight: '700' }}>
-              {t('user.home_booking_status.booking_open')}
+      <BentoCardContainer key={session.id} style={{ marginBottom: verticalScale(16) }}>
+        <Box>
+          <CardBannerImage source={{ uri: session.imageUrl }} />
+          <LinearGradient
+            colors={['transparent', 'rgba(0,0,0,0.7)']}
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: verticalScale(100),
+              justifyContent: 'flex-end',
+              padding: scale(16),
+            }}
+          >
+            <Typography variant="label_caps" style={{ color: '#fff', opacity: 0.9 }}>
+              {type === 'live' ? t('user.home_booking_status.coming_up') : 'UPCOMING SESSION'}
             </Typography>
-          </AvailableSlotsTag>
-        </HeaderLabelContainer>
+            <Typography variant="headline_md" style={{ color: '#fff', fontWeight: '700', fontSize: 20 }}>
+              {session.title}
+            </Typography>
+          </LinearGradient>
+        </Box>
 
-        {/* Bento Primary Session Card */}
-        <BentoCardContainer>
-          <Box>
-            <CardBannerImage source={{ uri: activeSession.imageUrl }} />
-            <LinearGradient
-              colors={['transparent', 'rgba(0,0,0,0.7)']}
-              style={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                bottom: 0,
-                height: verticalScale(100),
-                justifyContent: 'flex-end',
-                padding: scale(16),
-              }}
-            >
-              <Typography variant="label_caps" style={{ color: '#fff', opacity: 0.9 }}>
-                {t('user.home_booking_status.coming_up')}
-              </Typography>
-              <Typography variant="headline_md" style={{ color: '#fff', fontWeight: '700', fontSize: 20 }}>
-                {activeSession.title}
-              </Typography>
-            </LinearGradient>
-          </Box>
-
-          <CardContentBody>
-            <RowContainer>
+        <CardContentBody>
+          <RowContainer style={{ alignItems: 'flex-start' }}>
+            <Box style={{ flex: 1, gap: scale(6) }}>
               <DetailsSubRow>
                 <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
                   <Calendar color={theme.colors.on_surface_variant as string} size={scale(16)} />
                   <Typography variant="body_sm" color="on_surface_variant">
-                    {activeSession.date}
-                  </Typography>
-                </Box>
-                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
-                  <Clock color={theme.colors.on_surface_variant as string} size={scale(16)} />
-                  <Typography variant="body_sm" color="on_surface_variant">
-                    {activeSession.time}
+                    {t('admin.manage_sessions.session_date') || 'Session'}: {session.sessionDate}
                   </Typography>
                 </Box>
               </DetailsSubRow>
 
-              <Typography variant="label_caps" color="primary" style={{ fontWeight: '700' }}>
-                {t('user.home_booking_status.slots_left', { count: activeSession.slotsLeft })}
+              {type === 'upcoming' && (
+                <>
+                  <DetailsSubRow>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
+                      <Calendar color={theme.colors.on_surface_variant as string} size={scale(16)} />
+                      <Typography variant="body_sm" color="on_surface_variant">
+                        {t('admin.manage_sessions.booking_date') || 'Booking'}: {session.bookingOpenDate}
+                      </Typography>
+                    </Box>
+                  </DetailsSubRow>
+                  <DetailsSubRow>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
+                      <Clock color={theme.colors.on_surface_variant as string} size={scale(16)} />
+                      <Typography variant="body_sm" color="on_surface_variant">
+                        {(session.bookingOpenTime && session.bookingCloseTime) ? `${session.bookingOpenTime} - ${session.bookingCloseTime}` : 'All Day'}
+                      </Typography>
+                    </Box>
+                  </DetailsSubRow>
+                </>
+              )}
+
+              {type === 'live' && (
+                <DetailsSubRow>
+                  <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
+                    <Clock color={theme.colors.on_surface_variant as string} size={scale(16)} />
+                    <Typography variant="body_sm" color="on_surface_variant">
+                      {(session.bookingOpenTime && session.bookingCloseTime) ? `${session.bookingOpenTime} - ${session.bookingCloseTime}` : 'All Day'}
+                    </Typography>
+                  </Box>
+                </DetailsSubRow>
+              )}
+            </Box>
+
+            {type === 'live' && (
+              <Typography variant="label_caps" color="primary" style={{ fontWeight: '700', marginLeft: scale(8) }}>
+                {t('user.home_booking_status.slots_left', { count: session.slotsLeft })}
               </Typography>
-            </RowContainer>
+            )}
+          </RowContainer>
 
-            {/* Slots utilization progress bar */}
-            <ProgressTrack>
-              <ProgressFill progress={progress} />
-            </ProgressTrack>
+          {type === 'live' && (
+            <>
+              {/* Slots utilization progress bar */}
+              <ProgressTrack style={{ marginTop: verticalScale(12) }}>
+                <ProgressFill progress={progress} />
+              </ProgressTrack>
 
-            <Button
-              label={t('user.home_booking_status.reserve_seat')}
-              onPress={handleReservePress}
-              variant="primary"
-              fullWidth
-              style={{
-                backgroundColor: theme.colors.primary,
-                borderRadius: theme.rounded.lg,
-                paddingVertical: verticalScale(14),
-              }}
-            />
-          </CardContentBody>
-        </BentoCardContainer>
+              <Button
+                label={t('user.home_booking_status.reserve_seat')}
+                onPress={() => handleReservePress(session)}
+                variant="primary"
+                fullWidth
+                style={{
+                  backgroundColor: theme.colors.primary,
+                  borderRadius: theme.rounded.lg,
+                  paddingVertical: verticalScale(14),
+                  marginTop: verticalScale(16),
+                }}
+              />
+            </>
+          )}
+        </CardContentBody>
+      </BentoCardContainer>
+    );
+  };
+
+  const renderAvailableState = () => {
+    if (liveSessions.length === 0 && upcomingSessions.length === 0) return null;
+
+    return (
+      <Box style={{ flex: 1 }}>
+        {liveSessions.length > 0 && (
+          <>
+            <HeaderLabelContainer>
+              <Typography variant="headline_md" color="on_surface" style={{ fontWeight: '700' }}>
+                {t('user.home_booking_status.available_sessions')}
+              </Typography>
+              <AvailableSlotsTag>
+                <Typography variant="label_caps" color="on_primary_container" style={{ textTransform: 'none', fontWeight: '700' }}>
+                  {t('user.home_booking_status.booking_open')}
+                </Typography>
+              </AvailableSlotsTag>
+            </HeaderLabelContainer>
+            
+            {liveSessions.map((session: any) => renderSessionCard(session, 'live'))}
+          </>
+        )}
+
+        {upcomingSessions.length > 0 && (
+          <>
+            <HeaderLabelContainer style={{ marginTop: verticalScale(8) }}>
+              <Typography variant="headline_md" color="on_surface" style={{ fontWeight: '700' }}>
+                {t('user.home_booking_status.upcoming_sessions') || 'Upcoming Sessions'}
+              </Typography>
+            </HeaderLabelContainer>
+            
+            {upcomingSessions.map((session: any) => renderSessionCard(session, 'upcoming'))}
+          </>
+        )}
 
         {/* Asymmetric Grid */}
         <GridContainer>
@@ -196,7 +257,15 @@ export const HomeBookingStatus = React.memo(() => {
           </Typography>
         </WelcomeSection>
 
-        {mode === 'available' ? renderAvailableState() : renderEmptyState()}
+        {isFetching && liveSessions.length === 0 && upcomingSessions.length === 0 ? (
+          <LoadingOverlay>
+            <ActivityIndicator size="large" color={theme.colors.primary} />
+          </LoadingOverlay>
+        ) : mode === 'available' ? (
+          renderAvailableState()
+        ) : (
+          renderEmptyState()
+        )}
       </HomeBookingStatusTemplate>
     </ScreenContainer>
   );

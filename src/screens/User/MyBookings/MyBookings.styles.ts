@@ -208,3 +208,10 @@ export const EmptyIconCircle = styled(Box)`
   justify-content: center;
   margin-bottom: ${verticalScale(8)}px;
 `;
+
+export const LoadingOverlay = styled(Box)`
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-vertical: ${verticalScale(48)}px;
+`;

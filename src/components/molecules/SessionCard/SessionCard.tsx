@@ -34,6 +34,7 @@ export const SessionCard = React.memo(({
   onEditPress,
   onDeletePress,
   onViewPress,
+  onPress,
 }: SessionCardProps) => {
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
@@ -41,7 +42,7 @@ export const SessionCard = React.memo(({
   const isPast = status === 'past';
 
   return (
-    <CardContainer isPast={isPast}>
+    <CardContainer isPast={isPast} onPress={onPress}>
       <CardHeader>
         <StatusTag status={status}>
           <TagText status={status}>{status}</TagText>

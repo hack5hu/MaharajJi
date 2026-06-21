@@ -10,6 +10,7 @@ export interface SessionData {
     name: string;
     avatarUrl?: string;
   };
+  originalData?: any;
 }
 
 export type SessionFilter = 'all' | 'active' | 'draft' | 'past';

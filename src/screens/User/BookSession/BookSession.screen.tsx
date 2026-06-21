@@ -23,6 +23,7 @@ import {
   TokensBox,
   DisclaimerBox,
   ButtonWrapper,
+  PageTitle,
 } from './BookSession.styles';
 
 export const BookSession = React.memo(() => {
@@ -37,14 +38,18 @@ export const BookSession = React.memo(() => {
     handleConfirm,
     handleBack,
     session,
+    isLoading,
   } = useBookSession();
 
   return (
     <ScreenContainer>
       <BookSessionTemplate
-        headerTitle={t('user.book_session.title')}
         onBackPress={handleBack}
       >
+        <PageTitle variant="headline_lg" color="on_surface">
+          {t('user.book_session.title')}
+        </PageTitle>
+
         {/* Session Card */}
         <SessionCard>
           {session?.imageUrl ? (
@@ -85,7 +90,7 @@ export const BookSession = React.memo(() => {
                 {t('user.book_session.select_seats')}
               </Typography>
               <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: scale(2) }}>
-                {t('user.book_session.choose_desc')}
+                {t('user.book_session.choose_desc', { max: maxSeats })}
               </Typography>
             </Box>
 
@@ -117,16 +122,6 @@ export const BookSession = React.memo(() => {
           </CounterRow>
         </CounterSection>
 
-        {/* Tokens / Info Card */}
-        <TokensBox>
-          <Typography variant="body_sm" color="on_surface">
-            {t('user.book_session.tokens_label')}
-          </Typography>
-          <Typography variant="body_sm" color="primary" style={{ fontWeight: '700' }}>
-            {t('user.book_session.tokens_value')}
-          </Typography>
-        </TokensBox>
-
         {/* Disclaimer */}
         <DisclaimerBox>
           <Typography variant="body_sm" color="on_surface_variant" style={{ fontStyle: 'italic', textAlign: 'center' }}>
@@ -141,6 +136,8 @@ export const BookSession = React.memo(() => {
             onPress={handleConfirm}
             variant="primary"
             fullWidth
+            loading={isLoading}
+            disabled={isLoading}
           />
         </ButtonWrapper>
       </BookSessionTemplate>

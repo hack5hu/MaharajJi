@@ -153,3 +153,10 @@ export const ToggleFloatingButton = styled.Pressable`
   elevation: 6;
   z-index: 99;
 `;
+
+export const LoadingOverlay = styled(Box)`
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-vertical: ${verticalScale(48)}px;
+`;
