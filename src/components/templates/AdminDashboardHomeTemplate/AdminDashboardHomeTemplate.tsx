@@ -1,7 +1,5 @@
 import React from 'react';
-import { ViewStyle, SafeAreaView } from 'react-native';
-import { ThemeType } from '@/theme/theme';
-import { useTheme } from 'styled-components/native';
+import { ViewStyle } from 'react-native';
 import { AdminHeader } from '@/components/organisms/AdminHeader';
 import { AdminBottomNav } from '@/components/organisms/AdminBottomNav';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -25,7 +23,6 @@ export const AdminDashboardHomeTemplate = React.memo(({
   children,
   style
 }: AdminDashboardHomeTemplateProps) => {
-  const theme = useTheme() as ThemeType;
   const insets = useSafeAreaInsets();
 
   return (

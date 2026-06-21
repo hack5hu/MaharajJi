@@ -10,7 +10,7 @@ export const useAddNewCustomerAdmin = () => {
 
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [countryCode, setCountryCode] = useState('+91');
+  const [countryCode, _setCountryCode] = useState('+91');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [nameError, setNameError] = useState<string | undefined>(undefined);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { ChevronDown } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';

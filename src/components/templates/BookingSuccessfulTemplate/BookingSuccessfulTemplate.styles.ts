@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { Box } from '@/components/atoms/Box';
-import { scale, verticalScale } from '@/styles/scaling';
+import { scale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
 
 export const TemplateContainer = styled(Box)`

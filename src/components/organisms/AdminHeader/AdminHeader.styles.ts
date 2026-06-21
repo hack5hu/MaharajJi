@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
 import { Box } from '@/components/atoms/Box';
 import { moderateScale, scale, verticalScale } from '@/styles/scaling';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const HeaderContainer = styled(Box)<{ insetsTop: number }>`
   flex-direction: row;

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Terminal, Bug, ChevronDown, ChevronUp, Trash2, X, Copy } from 'lucide-react-native';
-import { TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
@@ -48,12 +48,12 @@ export const ApiDebugger = React.memo(() => {
     setExpandedId((prev) => (prev === id ? null : id));
   }, []);
 
-  const getStatusColor = (status?: number) => {
+  const getStatusColor = useCallback((status?: number) => {
     if (!status) return theme.colors.on_surface_variant;
     if (status >= 200 && status < 300) return '#2e7d32'; // Green
     if (status >= 400) return '#c62828'; // Red
     return '#f57f17'; // Orange
-  };
+  }, [theme.colors.on_surface_variant]);
 
   const formatJSON = (data: any) => {
     if (!data) return 'null';
@@ -166,7 +166,7 @@ export const ApiDebugger = React.memo(() => {
         )}
       </LogCard>
     );
-  }, [expandedId, handleToggleExpand, theme, t]);
+  }, [expandedId, handleToggleExpand, theme, t, getStatusColor, handleCopyCurl]);
 
   return (
     <DebuggerWrapper>

@@ -20,7 +20,6 @@ import {
   CounterRow,
   CounterControls,
   CircularButton,
-  TokensBox,
   DisclaimerBox,
   ButtonWrapper,
   PageTitle,

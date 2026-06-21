@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { TextInput } from 'react-native';
 import { Box } from '@/components/atoms/Box';
 import { scale, verticalScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
@@ -93,47 +94,6 @@ export const ListHeader = styled(Box)`
   margin-bottom: ${verticalScale(12)}px;
 `;
 
-export const AttendeeCardContainer = styled.Pressable`
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
-  border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
-  padding: ${scale(16)}px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: ${verticalScale(16)}px;
-  shadow-color: #000;
-  shadow-offset: 0px 2px;
-  shadow-opacity: 0.05;
-  shadow-radius: 6px;
-  elevation: 1;
-`;
-
-export const AttendeeInfo = styled(Box)`
-  flex-direction: row;
-  align-items: center;
-  flex: 1;
-`;
-
-export const AvatarInitials = styled(Box)<{ bgColor: string }>`
-  width: ${scale(48)}px;
-  height: ${scale(48)}px;
-  border-radius: 9999px;
-  background-color: ${({ bgColor }) => bgColor};
-  align-items: center;
-  justify-content: center;
-  margin-right: ${scale(16)}px;
-`;
-
-export const AttendeeDetails = styled(Box)`
-  flex: 1;
-`;
-
-export const AttendeeStatus = styled(Box)`
-  align-items: flex-end;
-`;
-
 export const LoaderContainer = styled(Box)`
   flex: 1;
   width: 100%;
@@ -141,3 +101,22 @@ export const LoaderContainer = styled(Box)`
   justify-content: center;
   background-color: transparent;
 `;
+
+export const SearchInput = styled(TextInput)`
+  flex: 1;
+  margin-left: ${scale(12)}px;
+  font-family: 'Inter';
+  font-size: ${scale(16)}px;
+  color: ${({ theme }: { theme: ThemeType }) => theme.colors.on_surface};
+  padding-vertical: ${verticalScale(8)}px;
+`;
+
+export const ListContainer = styled(Box)`
+  flex: 1;
+`;
+
+export const EmptyContainer = styled(Box)`
+  padding: ${scale(24)}px;
+  align-items: center;
+`;
+

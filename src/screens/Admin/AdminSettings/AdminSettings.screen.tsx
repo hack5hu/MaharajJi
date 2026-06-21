@@ -6,7 +6,7 @@ import { Typography } from '@/components/atoms/Typography';
 import { Button } from '@/components/atoms/Button';
 import { AdminSettingsTemplate } from '@/components/templates/AdminSettingsTemplate';
 import { useAdminSettings } from './useAdminSettings';
-import { scale, verticalScale } from '@/styles/scaling';
+import { verticalScale } from '@/styles/scaling';
 import {
   ScreenContainer,
   ProfileHeaderContainer,

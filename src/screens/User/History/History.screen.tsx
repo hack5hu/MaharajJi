@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme } from 'styled-components/native';
 import { Sparkles, Music, Flame, BookOpen, Filter, History as HistoryIcon } from 'lucide-react-native';
 import { ThemeType } from '@/theme/theme';
-import { scale, verticalScale } from '@/styles/scaling';
+import { scale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
 import { HistoryTemplate } from '@/components/templates/HistoryTemplate';

@@ -6,7 +6,7 @@ import { Typography } from '@/components/atoms/Typography';
 import { Button } from '@/components/atoms/Button';
 import { ProfileTemplate } from '@/components/templates/ProfileTemplate';
 import { useProfile } from './useProfile';
-import { scale, verticalScale } from '@/styles/scaling';
+import { verticalScale } from '@/styles/scaling';
 import {
   ScreenContainer,
   ProfileHeaderContainer,

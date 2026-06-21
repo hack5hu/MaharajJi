@@ -36,7 +36,7 @@ export const useManageBookings = () => {
       // 'HH:mm:ss' to 'hh:mm a'
       const d = parse(timeStr, 'HH:mm:ss', new Date());
       return format(d, 'hh:mm a');
-    } catch (e) {
+    } catch {
       return timeStr;
     }
   };

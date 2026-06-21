@@ -15,7 +15,7 @@
       android:supportsRtl="true">
 
       <!-- Truecaller PartnerKey -->
-      <meta-data android:name="com.truecaller.android.sdk.ClientId" android:value="xo3glydxwgapbf0zumg28mys6qud3tkzfnfzbxcqiay"/>
+      <meta-data android:name="com.truecaller.android.sdk.ClientId" android:value="t67pjn-pgafo8_8wt6xiqq0cplsm9idi6bbbh-d37cm"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

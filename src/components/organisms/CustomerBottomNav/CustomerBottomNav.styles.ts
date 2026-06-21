@@ -22,7 +22,7 @@ export const TabPressable = styled.Pressable`
 `;
 
 export const IconContainer = styled(Box)<{ isActive: boolean }>`
-  background-color: ${({ theme, isActive }: { theme: ThemeType, isActive: boolean }) => 
+  background-color: ${({ isActive }: { isActive: boolean }) => 
     isActive ? 'rgba(255, 153, 51, 0.2)' : 'transparent'}; /* primary_container / saffron background opacity */
   padding-horizontal: ${scale(20)}px;
   padding-vertical: ${verticalScale(4)}px;

@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
-import { scale, verticalScale } from '@/styles/scaling';
+import { scale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
 
 export const PickerButton = styled(TouchableOpacity)<{ isError?: boolean }>`

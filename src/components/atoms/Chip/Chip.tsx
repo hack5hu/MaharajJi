@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { useTheme } from 'styled-components/native';
+import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
 import { Box } from '@/components/atoms/Box';
 import { Typography } from '@/components/atoms/Typography';
@@ -35,7 +35,6 @@ export interface ChipProps {
 }
 
 export const Chip = React.memo(({ label, icon, isActive, onPress }: ChipProps) => {
-  const theme = useTheme() as ThemeType;
   return (
     <StyledChip isActive={isActive} onPress={onPress} activeOpacity={0.7}>
       {icon && <ChipIconWrapper>{icon}</ChipIconWrapper>}

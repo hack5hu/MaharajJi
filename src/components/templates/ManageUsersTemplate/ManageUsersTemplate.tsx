@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, ViewStyle } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AdminHeader } from '@/components/organisms/AdminHeader';
 import { Input } from '@/components/atoms/Input';

@@ -64,6 +64,5 @@ export const ActionButton = styled(TouchableOpacity)<{ isDestructive?: boolean }
   justify-content: center;
   border-color: ${({ theme, isDestructive }: { theme: ThemeType, isDestructive?: boolean }) => 
     isDestructive ? 'rgba(186, 26, 26, 0.2)' : theme.colors.outline_variant};
-  background-color: ${({ theme, isDestructive }: { theme: ThemeType, isDestructive?: boolean }) => 
-    isDestructive ? 'transparent' : 'transparent'};
+  background-color: transparent;
 `;

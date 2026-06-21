@@ -1,8 +1,8 @@
 import styled from 'styled-components/native';
 import { Box } from '@/components/atoms/Box';
+import { Typography } from '@/components/atoms/Typography';
 import { scale, verticalScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
-import FastImage from 'react-native-fast-image';
 
 export const ScreenContainer = styled(Box)`
   flex: 1;
@@ -13,11 +13,23 @@ export const WelcomeSection = styled(Box)`
   gap: ${verticalScale(4)}px;
 `;
 
+export const WelcomeTitle = styled(Typography)`
+  font-weight: 700;
+`;
+
+export const WelcomeSubtitle = styled(Typography)`
+  color: ${({ theme }: { theme: ThemeType }) => theme.colors.on_surface_variant};
+`;
+
 export const HeaderLabelContainer = styled(Box)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${verticalScale(16)}px;
+`;
+
+export const SectionTitle = styled(Typography)`
+  font-weight: 700;
 `;
 
 export const AvailableSlotsTag = styled(Box)`
@@ -27,70 +39,16 @@ export const AvailableSlotsTag = styled(Box)`
   border-radius: 999px;
 `;
 
-export const BentoCardContainer = styled(Box)`
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
-  border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
-  overflow: hidden;
-  shadow-color: #000;
-  shadow-offset: 0px 4px;
-  shadow-opacity: 0.05;
-  shadow-radius: 12px;
-  elevation: 3;
-`;
-
-export const CardBannerImage = styled(FastImage)`
-  height: ${verticalScale(180)}px;
-  width: 100%;
-`;
-
-export const CardImageOverlay = styled(Box)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: ${verticalScale(90)}px;
-  padding: ${scale(16)}px;
-  justify-content: flex-end;
-`;
-
-export const CardContentBody = styled(Box)`
-  padding: ${scale(16)}px;
-  gap: ${verticalScale(16)}px;
-`;
-
-export const RowContainer = styled(Box)`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const DetailsSubRow = styled(Box)`
-  flex-direction: row;
-  align-items: center;
-  gap: ${scale(12)}px;
-`;
-
-export const ProgressTrack = styled(Box)`
-  height: ${verticalScale(6)}px;
-  width: 100%;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_variant};
-  border-radius: 999px;
-  overflow: hidden;
-`;
-
-export const ProgressFill = styled(Box)<{ progress: number }>`
-  height: 100%;
-  width: ${({ progress }) => progress * 100}%;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary_container};
-  border-radius: 999px;
+export const TagLabel = styled(Typography)`
+  text-transform: none;
+  font-weight: 700;
 `;
 
 export const GridContainer = styled(Box)`
   margin-top: ${verticalScale(16)}px;
   flex-direction: row;
   gap: ${scale(16)}px;
+  margin-bottom: ${verticalScale(24)}px;
 `;
 
 export const AsymmetricGridCard = styled.Pressable`
@@ -102,9 +60,12 @@ export const AsymmetricGridCard = styled.Pressable`
   padding: ${scale(24)}px;
   align-items: center;
   justify-content: center;
-  text-align: center;
   gap: ${verticalScale(8)}px;
   height: ${verticalScale(120)}px;
+`;
+
+export const GridLabel = styled(Typography)`
+  font-weight: 700;
 `;
 
 export const EmptyStateContainer = styled(Box)`
@@ -130,10 +91,24 @@ export const EmptyStateIconCircle = styled(Box)`
   justify-content: center;
 `;
 
+export const EmptyStateTitle = styled(Typography)`
+  font-weight: 700;
+`;
+
+export const EmptyStateDesc = styled(Typography)`
+  text-align: center;
+  line-height: ${verticalScale(20)}px;
+`;
+
 export const NotifyButton = styled.Pressable`
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
   padding-bottom: ${verticalScale(2)}px;
+`;
+
+export const NotifyButtonText = styled(Typography)`
+  font-weight: 700;
+  padding-bottom: ${scale(2)}px;
 `;
 
 export const ToggleFloatingButton = styled.Pressable`
@@ -159,4 +134,8 @@ export const LoadingOverlay = styled(Box)`
   align-items: center;
   justify-content: center;
   padding-vertical: ${verticalScale(48)}px;
+`;
+
+export const ListContainer = styled(Box)`
+  flex: 1;
 `;

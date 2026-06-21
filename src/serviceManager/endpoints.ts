@@ -2,7 +2,7 @@ export enum ApiEndpoint {
   // COMMONS
   AUTH_LOGIN = '/auth/login',
   AUTH_VERIFY_OTP = '/auth/verify-otp',
-  AUTH_TRUECALLER_LOGIN = '/auth/truecaller/login',
+  AUTH_TRUECALLER_LOGIN = '/auth/truecaller-login',
   GET_LOCATIONS = '/locations',
 
   // ADMIN

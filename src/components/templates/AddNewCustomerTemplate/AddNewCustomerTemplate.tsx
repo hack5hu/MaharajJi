@@ -1,8 +1,8 @@
 import React from 'react';
-import { Pressable, ActivityIndicator } from 'react-native';
+import { Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { ArrowLeft, Info, ChevronDown, UserPlus, CheckCircle2 } from 'lucide-react-native';
+import { ArrowLeft, Info, ChevronDown } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { scale, verticalScale } from '@/styles/scaling';

@@ -39,7 +39,7 @@ export const useSessionAttendeesList = () => {
   }, []);
 
   const handleAttendeePress = useCallback((attendee: CustomerBooking) => {
-    Logger.debug('Attendee pressed', { id: attendee.id });
+    Logger.log('Attendee pressed', { id: attendee.id });
     // Future: Navigate to attendee details if needed
   }, []);
 

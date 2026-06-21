@@ -1,0 +1,385 @@
+
+> maharajJI@0.0.1 lint
+> eslint .
+
+
+/Users/unknown_server/Documents/projects/maharajJI/App.tsx
+  9:21  error  'StyleSheet' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/atoms/Badge/Badge.tsx
+  38:16  warning  Inline style: {
+  fontSize: 10,
+  letterSpacing: 1.5,
+  fontWeight: '700',
+  textTransform: 'uppercase'
+}  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/atoms/Button/Button.tsx
+  56:69  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/atoms/Chip/Chip.tsx
+  38:9   error    'theme' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  45:16  warning  Inline style: { fontWeight: '600' }         react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/atoms/DropdownField/DropdownField.tsx
+   2:10  error    'Modal' is defined but never used                                       @typescript-eslint/no-unused-vars
+   2:29  error    'View' is defined but never used                                        @typescript-eslint/no-unused-vars
+  43:63  warning  Inline style: { marginBottom: 4 }                                       react-native/no-inline-styles
+  62:60  warning  Inline style: { marginTop: 4 }                                          react-native/no-inline-styles
+  82:26  warning  Inline style: { fontWeight: "option.value === value ? '700' : '500'" }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/atoms/FAB/FAB.tsx
+  57:75  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/atoms/ProgressBar/ProgressBar.tsx
+  17:19  warning  Inline style: { height: 6, borderRadius: 999, overflow: 'hidden' }  react-native/no-inline-styles
+  18:20  warning  Inline style: { height: '100%', borderRadius: 999 }                 react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/atoms/StatusBadge/StatusBadge.tsx
+  30:19  warning  Inline style: {
+  paddingHorizontal: "type === 'trend' ? 0 : 8",
+  paddingVertical: "type === 'trend' ? 0 : 2",
+  borderRadius: "type === 'live' ? 999 : 4"
+}  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/atoms/TimePickerField/TimePickerField.styles.ts
+  3:17  error  'verticalScale' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/atoms/TimePickerField/TimePickerField.tsx
+  22:63  warning  Inline style: { marginBottom: 4 }  react-native/no-inline-styles
+  42:60  warning  Inline style: { marginTop: 4 }     react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/AttendeeCard/AttendeeCard.stories.tsx
+  11:16  warning  Inline style: { padding: 16, backgroundColor: '#f5f5f5', flex: 1 }  react-native/no-inline-styles
+  24:16  warning  Inline style: { padding: 16, backgroundColor: '#f5f5f5', flex: 1 }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/BentoStatCard/BentoStatCard.styles.ts
+  4:10  error  'ThemeType' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/BentoStatCard/BentoStatCard.tsx
+  58:110  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/BookingTableRow/BookingTableRow.tsx
+  26:9   error    'theme' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  33:70  warning  Inline style: { fontWeight: '700' }         react-native/no-inline-styles
+  37:65  warning  Inline style: { fontWeight: '600' }         react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/CustomerCard/CustomerCard.styles.ts
+  67:26  error  'theme' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/CustomerCard/CustomerCard.tsx
+  55:54  warning  Inline style: { fontWeight: '700' }                react-native/no-inline-styles
+  59:23  warning  Inline style: { flex: 1 }                          react-native/no-inline-styles
+  60:73  warning  Inline style: { fontSize: 18, fontWeight: '600' }  react-native/no-inline-styles
+  76:67  warning  Inline style: { fontSize: 10 }                     react-native/no-inline-styles
+  79:67  warning  Inline style: { fontWeight: '600' }                react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/DaySelector/DaySelector.styles.ts
+  3:10  error  'scale' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/DaySelector/DaySelector.tsx
+  39:22  warning  Inline style: { fontSize: 10 }       react-native/no-inline-styles
+  46:22  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/ImageUploaderPlaceholder/ImageUploaderPlaceholder.tsx
+  31:67  warning  Inline style: { fontWeight: '600' }  react-native/no-inline-styles
+  34:75  warning  Inline style: { marginTop: 4 }       react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/SessionCard/SessionCard.stories.tsx
+  11:16  warning  Inline style: { padding: 16 }  react-native/no-inline-styles
+  30:16  warning  Inline style: { padding: 16 }  react-native/no-inline-styles
+  46:16  warning  Inline style: { padding: 16 }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/SessionCard/SessionCard.tsx
+   50:30  warning  Inline style: { borderWidth: 0 }                                   react-native/no-inline-styles
+   59:18  warning  Inline style: { fontSize: 18, fontWeight: '700', lineHeight: 22 }  react-native/no-inline-styles
+   99:80  warning  Inline style: { fontSize: 9, lineHeight: 10 }                      react-native/no-inline-styles
+  102:69  warning  Inline style: { fontWeight: '600', fontSize: 12 }                  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/molecules/UserSessionCard/UserSessionCard.stories.tsx
+  24:16  warning  Inline style: { padding: 16, backgroundColor: '#f5f5f5', flex: 1 }  react-native/no-inline-styles
+  34:16  warning  Inline style: { padding: 16, backgroundColor: '#f5f5f5', flex: 1 }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/AdminBottomNav/AdminBottomNav.tsx
+  40:104  warning  Inline style: { textTransform: 'none' }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/AdminHeader/AdminHeader.styles.ts
+  4:10  error  'useSafeAreaInsets' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/AdminHeader/AdminHeader.tsx
+  22:9   error  'theme' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  24:11  error  't' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/AlertItem/AlertItem.tsx
+   2:10  error    'View' is defined but never used                              @typescript-eslint/no-unused-vars
+  32:19  warning  Inline style: { borderRadius: 999, alignSelf: 'flex-start' }  react-native/no-inline-styles
+  43:19  warning  Inline style: { flex: 1 }                                     react-native/no-inline-styles
+  44:65  warning  Inline style: { fontWeight: '700' }                           react-native/no-inline-styles
+  50:76  warning  Inline style: { opacity: 0.6 }                                react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/ApiDebugger/ApiDebugger.tsx
+    3:28  error    'Alert' is defined but never used                                                                                                           @typescript-eslint/no-unused-vars
+  107:74  warning  Inline style: { fontSize: 9, fontWeight: '800' }                                                                                            react-native/no-inline-styles
+  114:24  warning  Inline style: { fontSize: 9, fontWeight: '800' }                                                                                            react-native/no-inline-styles
+  122:87  warning  Inline style: { fontWeight: '600' }                                                                                                         react-native/no-inline-styles
+  125:77  warning  Inline style: { fontSize: 10 }                                                                                                              react-native/no-inline-styles
+  131:25  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }                                                                                react-native/no-inline-styles
+  144:77  warning  Inline style: { fontWeight: '700' }                                                                                                         react-native/no-inline-styles
+  149:73  warning  Inline style: { fontFamily: 'Courier', fontSize: 11 }                                                                                       react-native/no-inline-styles
+  155:77  warning  Inline style: { fontWeight: '700' }                                                                                                         react-native/no-inline-styles
+  160:73  warning  Inline style: { fontFamily: 'Courier', fontSize: 11 }                                                                                       react-native/no-inline-styles
+  169:6   error    React Hook useCallback has missing dependencies: 'getStatusColor' and 'handleCopyCurl'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  184:27  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }                                                                                react-native/no-inline-styles
+  186:77  warning  Inline style: { fontWeight: '700' }                                                                                                         react-native/no-inline-styles
+  193:31  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }                                                                                react-native/no-inline-styles
+  195:77  warning  Inline style: { fontWeight: '600' }                                                                                                         react-native/no-inline-styles
+  202:31  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }                                                                                react-native/no-inline-styles
+  204:75  warning  Inline style: { fontWeight: '600' }                                                                                                         react-native/no-inline-styles
+  216:81  warning  Inline style: { textAlign: 'center' }                                                                                                       react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/BookingStatusHero/BookingStatusHero.tsx
+  43:74  warning  Inline style: { textTransform: 'uppercase' }  react-native/no-inline-styles
+  54:64  warning  Inline style: { fontWeight: '700' }           react-native/no-inline-styles
+  67:77  warning  Inline style: { fontWeight: '700' }           react-native/no-inline-styles
+  74:69  warning  Inline style: { fontWeight: '700' }           react-native/no-inline-styles
+  79:69  warning  Inline style: { fontWeight: '700' }           react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/CapacityVisualCard/CapacityVisualCard.tsx
+  22:72  warning  Inline style: { color: 'white' }                react-native/no-inline-styles
+  29:71  warning  Inline style: { color: 'white' }                react-native/no-inline-styles
+  32:67  warning  Inline style: { color: 'white', opacity: 0.9 }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/ConfirmationModal/ConfirmationModal.tsx
+  44:73  warning  Inline style: { fontWeight: '700', marginBottom: 8, textAlign: 'center' }  react-native/no-inline-styles
+  47:77  warning  Inline style: { textAlign: 'center', lineHeight: 20 }                      react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/CustomerBottomNav/CustomerBottomNav.styles.ts
+  25:26  error  'theme' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/CustomerBottomNav/CustomerBottomNav.tsx
+   6:10  error    'scale' is defined but never used                                                @typescript-eslint/no-unused-vars
+  37:18  warning  Inline style: { textTransform: 'none', fontWeight: "isActive ? '700' : '500'" }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/organisms/RecentBookingsTable/RecentBookingsTable.tsx
+  28:65  warning  Inline style: { textDecorationLine: 'underline' }  react-native/no-inline-styles
+  37:80  warning  Inline style: { flex: 1.5, fontWeight: '600' }     react-native/no-inline-styles
+  40:80  warning  Inline style: { flex: 1, fontWeight: '600' }       react-native/no-inline-styles
+  43:80  warning  Inline style: { flex: 1, fontWeight: '600' }       react-native/no-inline-styles
+  46:80  warning  Inline style: { flex: 0.8, fontWeight: '600' }     react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/AddNewCustomerTemplate/AddNewCustomerTemplate.styles.ts
+  3:32  error  'moderateScale' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/AddNewCustomerTemplate/AddNewCustomerTemplate.tsx
+    2:21  error    'ActivityIndicator' is defined but never used                 @typescript-eslint/no-unused-vars
+    5:40  error    'UserPlus' is defined but never used                          @typescript-eslint/no-unused-vars
+    5:50  error    'CheckCircle2' is defined but never used                      @typescript-eslint/no-unused-vars
+   51:20  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }  react-native/no-inline-styles
+   62:16  warning  Inline style: { flex: 1 }                                     react-native/no-inline-styles
+   67:32  warning  Inline style: { flexGrow: 1 }                                 react-native/no-inline-styles
+   76:70  warning  Inline style: { fontWeight: '700' }                           react-native/no-inline-styles
+   92:24  warning  Inline style: { fontWeight: '600' }                           react-native/no-inline-styles
+  114:24  warning  Inline style: { fontWeight: '600' }                           react-native/no-inline-styles
+  125:29  warning  Inline style: { flex: 1 }                                     react-native/no-inline-styles
+  150:86  warning  Inline style: { flex: 1 }                                     react-native/no-inline-styles
+  164:26  warning  Inline style: { backgroundColor: '#16a34a' }                  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/AdminDashboardHomeTemplate/AdminDashboardHomeTemplate.tsx
+   2:21  error    'SafeAreaView' is defined but never used    @typescript-eslint/no-unused-vars
+  28:9   error    'theme' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  38:32  warning  Inline style: { paddingBottom: 100 }        react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/AdminSettingsTemplate/AdminSettingsTemplate.tsx
+  39:68  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+  54:16  warning  Inline style: { flex: 1 }            react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/BookingSuccessfulTemplate/BookingSuccessfulTemplate.styles.ts
+  3:17  error  'verticalScale' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/BookingSuccessfulTemplate/BookingSuccessfulTemplate.tsx
+  14:16  warning  Inline style: { flex: 1 }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/CreateNewSessionTemplate/CreateNewSessionTemplate.tsx
+   3:10  error    'AdminHeader' is defined but never used                       @typescript-eslint/no-unused-vars
+  44:20  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }  react-native/no-inline-styles
+  54:16  warning  Inline style: { flex: 1 }                                     react-native/no-inline-styles
+  59:32  warning  Inline style: { flexGrow: 1 }                                 react-native/no-inline-styles
+  65:73  warning  Inline style: { fontWeight: '700' }                           react-native/no-inline-styles
+  68:77  warning  Inline style: { marginTop: 4 }                                react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/HistoryTemplate/HistoryTemplate.tsx
+  38:68  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+  53:16  warning  Inline style: { flex: 1 }            react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/HomeBookingStatusTemplate/HomeBookingStatusTemplate.tsx
+  38:68  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+  53:16  warning  Inline style: { flex: 1 }            react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/LoginTemplate/LoginTemplate.styles.ts
+  3:32  error  'moderateScale' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/LoginTemplate/LoginTemplate.tsx
+    2:21  error    'ScrollView' is defined but never used                                   @typescript-eslint/no-unused-vars
+    3:10  error    'ArrowRight' is defined but never used                                   @typescript-eslint/no-unused-vars
+    3:28  error    'Phone' is defined but never used                                        @typescript-eslint/no-unused-vars
+   47:21  warning  Inline style: { borderRadius: 999, opacity: 0.1, position: 'absolute' }  react-native/no-inline-styles
+   48:21  warning  Inline style: { borderRadius: 999, opacity: 0.1, position: 'absolute' }  react-native/no-inline-styles
+   52:16  warning  Inline style: { flex: 1 }                                                react-native/no-inline-styles
+   63:25  warning  Inline style: { alignItems: 'center' }                                   react-native/no-inline-styles
+   64:79  warning  Inline style: { fontWeight: '800' }                                      react-native/no-inline-styles
+   76:75  warning  Inline style: { fontWeight: '700' }                                      react-native/no-inline-styles
+   86:91  warning  Inline style: { fontWeight: '600', letterSpacing: 1.5 }                  react-native/no-inline-styles
+   94:72  warning  Inline style: { fontWeight: '600' }                                      react-native/no-inline-styles
+  105:26  warning  Inline style: { flex: 1, fontFamily: 'Inter' }                           react-native/no-inline-styles
+  121:58  warning  Inline style: { fontWeight: '700', color: '#FFF' }                       react-native/no-inline-styles
+  136:85  warning  Inline style: { marginTop: 2 }                                           react-native/no-inline-styles
+  137:79  warning  Inline style: { flex: 1, lineHeight: 18 }                                react-native/no-inline-styles
+  157:70  warning  Inline style: { textDecorationLine: 'underline' }                        react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/ManageBookingsTemplate/ManageBookingsTemplate.tsx
+   6:10  error  'Typography' is defined but never used                                                  @typescript-eslint/no-unused-vars
+   7:10  error  'Button' is defined but never used                                                      @typescript-eslint/no-unused-vars
+   8:10  error  'FAB' is defined but never used                                                         @typescript-eslint/no-unused-vars
+   9:10  error  'Plus' is defined but never used                                                        @typescript-eslint/no-unused-vars
+  18:3   error  'TitleAndButtonRow' is defined but never used                                           @typescript-eslint/no-unused-vars
+  19:3   error  'TitleWrapper' is defined but never used                                                @typescript-eslint/no-unused-vars
+  29:3   error  'onCreateSessionPress' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  36:9   error  'theme' is assigned a value but never used                                              @typescript-eslint/no-unused-vars
+  37:11  error  't' is assigned a value but never used                                                  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/ManageUsersTemplate/ManageUsersTemplate.tsx
+  2:22  error  'ViewStyle' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/MyBookingsTemplate/MyBookingsTemplate.tsx
+  38:68  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+  53:16  warning  Inline style: { flex: 1 }            react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/OTPVerificationTemplate/OTPVerificationTemplate.tsx
+   41:21  warning  Inline style: { borderRadius: 999, opacity: 0.1, position: 'absolute' }   react-native/no-inline-styles
+   42:21  warning  Inline style: { borderRadius: 999, opacity: 0.08, position: 'absolute' }  react-native/no-inline-styles
+   46:16  warning  Inline style: { flex: 1 }                                                 react-native/no-inline-styles
+   57:25  warning  Inline style: { alignItems: 'center' }                                    react-native/no-inline-styles
+   58:79  warning  Inline style: { fontWeight: '800' }                                       react-native/no-inline-styles
+   70:75  warning  Inline style: { fontWeight: '700' }                                       react-native/no-inline-styles
+   80:91  warning  Inline style: { fontWeight: '600', letterSpacing: 1.5 }                   react-native/no-inline-styles
+  131:68  warning  Inline style: { textAlign: 'center' }                                     react-native/no-inline-styles
+  159:72  warning  Inline style: { fontWeight: '700', textDecorationLine: 'underline' }      react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/components/templates/ProfileTemplate/ProfileTemplate.tsx
+  38:68  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+  53:16  warning  Inline style: { flex: 1 }            react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/Admin/AddNewCustomerAdmin/useAddNewCustomerAdmin.ts
+  13:23  error  'setCountryCode' is assigned a value but never used. Allowed unused elements of array destructuring must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/Admin/AdminSettings/AdminSettings.screen.tsx
+   9:10  error    'scale' is defined but never used                         @typescript-eslint/no-unused-vars
+  47:71  warning  Inline style: { fontWeight: '700', textAlign: 'center' }  react-native/no-inline-styles
+  50:75  warning  Inline style: { textAlign: 'center' }                     react-native/no-inline-styles
+  57:80  warning  Inline style: { fontWeight: '700' }                       react-native/no-inline-styles
+  60:69  warning  Inline style: { fontWeight: '600' }                       react-native/no-inline-styles
+  68:80  warning  Inline style: { fontWeight: '700' }                       react-native/no-inline-styles
+  71:66  warning  Inline style: { fontWeight: '700' }                       react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/Admin/CreateNewSessionAdmin/components/BookingWindowSection.tsx
+  28:3  error  'isLoading' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/Admin/CreateNewSessionAdmin/components/SessionDetailsSection.tsx
+  91:34  warning  Inline style: { zIndex: 100, elevation: 10 }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/Admin/CreateNewSessionAdmin/useCreateNewSessionAdmin.ts
+    8:10  error  'launchImageLibrary' is defined but never used                                                           @typescript-eslint/no-unused-vars
+   12:10  error  'NotificationType' is defined but never used                                                             @typescript-eslint/no-unused-vars
+   14:8   error  'React' is defined but never used                                                                        @typescript-eslint/no-unused-vars
+   64:11  error  't' is assigned a value but never used                                                                   @typescript-eslint/no-unused-vars
+  140:6   error  React Hook useEffect has a missing dependency: 'form'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  149:6   error  React Hook useEffect has a missing dependency: 'form'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/Admin/ManageBookings/ManageBookings.screen.tsx
+  43:5  error  'hasMore' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/Admin/ManageBookings/useManageBookings.ts
+  39:14  error  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/Admin/ManageUsersAdmin/ManageUsersAdmin.screen.tsx
+  49:5  error  'hasMore' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/BookSession/BookSession.screen.tsx
+   23:3   error    'TokensBox' is defined but never used                       @typescript-eslint/no-unused-vars
+   59:73  warning  Inline style: { fontWeight: '700' }                         react-native/no-inline-styles
+   79:66  warning  Inline style: { fontWeight: '600' }                         react-native/no-inline-styles
+   88:25  warning  Inline style: { flex: 1 }                                   react-native/no-inline-styles
+   89:71  warning  Inline style: { fontWeight: '600' }                         react-native/no-inline-styles
+  108:75  warning  Inline style: { fontWeight: '700', textAlign: 'center' }    react-native/no-inline-styles
+  127:75  warning  Inline style: { fontStyle: 'italic', textAlign: 'center' }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/BookSession/BookSession.styles.ts
+  4:32  error  'moderateScale' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/BookingSuccessful/BookingSuccessful.screen.tsx
+    2:10  error    'Pressable' is defined but never used                         @typescript-eslint/no-unused-vars
+   66:5   error    'handleBackHome' is assigned a value but never used           @typescript-eslint/no-unused-vars
+   81:78  warning  Inline style: { fontWeight: '700' }                           react-native/no-inline-styles
+   94:82  warning  Inline style: { fontWeight: '700', fontSize: 10 }             react-native/no-inline-styles
+   97:72  warning  Inline style: { fontWeight: '700', marginTop: 2 }             react-native/no-inline-styles
+  104:23  warning  Inline style: { position: 'relative' }                        react-native/no-inline-styles
+  111:27  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }  react-native/no-inline-styles
+  113:84  warning  Inline style: { fontWeight: '700' }                           react-native/no-inline-styles
+  117:71  warning  Inline style: { fontWeight: '600' }                           react-native/no-inline-styles
+  123:27  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }  react-native/no-inline-styles
+  125:84  warning  Inline style: { fontWeight: '700' }                           react-native/no-inline-styles
+  129:71  warning  Inline style: { fontWeight: '600' }                           react-native/no-inline-styles
+  135:27  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }  react-native/no-inline-styles
+  137:84  warning  Inline style: { fontWeight: '700' }                           react-native/no-inline-styles
+  141:71  warning  Inline style: { fontWeight: '600' }                           react-native/no-inline-styles
+  147:27  warning  Inline style: { flexDirection: 'row', alignItems: 'center' }  react-native/no-inline-styles
+  149:84  warning  Inline style: { fontWeight: '700' }                           react-native/no-inline-styles
+  153:71  warning  Inline style: { fontWeight: '600' }                           react-native/no-inline-styles
+  162:77  warning  Inline style: { flex: 1, lineHeight: 18 }                     react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/BookingSuccessful/BookingSuccessful.styles.ts
+  3:32  error  'moderateScale' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/History/History.screen.tsx
+    5:17  error    'verticalScale' is defined but never used                   @typescript-eslint/no-unused-vars
+   58:73  warning  Inline style: { fontWeight: '700' }                         react-native/no-inline-styles
+   62:68  warning  Inline style: { fontWeight: '600' }                         react-native/no-inline-styles
+   84:79  warning  Inline style: { fontWeight: '600' }                         react-native/no-inline-styles
+   93:61  warning  Inline style: { fontWeight: '700', textTransform: 'none' }  react-native/no-inline-styles
+  104:69  warning  Inline style: { fontWeight: '700' }                         react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/HomeBookingStatus/HomeBookingStatus.screen.tsx
+  9:10  error  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/HomeBookingStatus/useHomeBookingStatus.ts
+   1:10  error  'useState' is defined but never used  @typescript-eslint/no-unused-vars
+  25:14  error  'e' is defined but never used         @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/MyBookings/MyBookings.screen.tsx
+    9:10  error    'Box' is defined but never used      @typescript-eslint/no-unused-vars
+  173:73  warning  Inline style: { fontWeight: '700' }  react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/MyBookings/useMyBookings.ts
+  26:9   error  'formatTimeStr' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  31:14  error  'e' is defined but never used                       @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/Profile/Profile.screen.tsx
+   9:10  error    'scale' is defined but never used                         @typescript-eslint/no-unused-vars
+  47:71  warning  Inline style: { fontWeight: '700', textAlign: 'center' }  react-native/no-inline-styles
+  50:75  warning  Inline style: { textAlign: 'center' }                     react-native/no-inline-styles
+  57:80  warning  Inline style: { fontWeight: '700' }                       react-native/no-inline-styles
+  60:69  warning  Inline style: { fontWeight: '600' }                       react-native/no-inline-styles
+  68:80  warning  Inline style: { fontWeight: '700' }                       react-native/no-inline-styles
+  71:69  warning  Inline style: { fontWeight: '600' }                       react-native/no-inline-styles
+  79:80  warning  Inline style: { fontWeight: '700' }                       react-native/no-inline-styles
+  82:66  warning  Inline style: { fontWeight: '700' }                       react-native/no-inline-styles
+
+/Users/unknown_server/Documents/projects/maharajJI/src/screens/User/Profile/Profile.styles.ts
+  3:32  error  'moderateScale' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/unknown_server/Documents/projects/maharajJI/src/serviceManager/axiosClient.ts
+  22:22  warning  ["Authorization"] is better written in dot notation  dot-notation
+
+✖ 230 problems (65 errors, 165 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

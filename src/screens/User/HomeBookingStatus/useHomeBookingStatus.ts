@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useCallback, useMemo, useEffect } from 'react';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { BookingStateMode, SessionCardUI } from './types.d';
 import { format, parse } from 'date-fns';
@@ -22,7 +22,7 @@ export const useHomeBookingStatus = () => {
     try {
       const d = parse(timeStr, 'HH:mm:ss', new Date());
       return format(d, 'hh:mm a');
-    } catch (e) {
+    } catch {
       return timeStr;
     }
   };

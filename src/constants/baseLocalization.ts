@@ -3,7 +3,8 @@ export const en = {
     confirm: "Confirm",
     cancel: "Cancel",
     delete: "Delete",
-    back: "Back"
+    back: "Back",
+    all_day: "All Day"
   },
   admin: {
     dashboard_home: {
@@ -37,7 +38,7 @@ export const en = {
     session_attendees: {
       title: 'Session Attendees',
       search_placeholder: 'Search by name...',
-      filled: '{{filled}} / {{total}} Filled',
+      filled: '{{filled}} / {{total}} Persons',
       waitlisted: 'Waitlisted',
       person: '{{count}} Person',
       people: '{{count}} People',
@@ -46,7 +47,12 @@ export const en = {
     },
     manage_users: {
       empty_title: "No Customers Found",
-      empty_desc: "Add a customer to see them listed here."
+      empty_desc: "Add a customer to see them listed here.",
+      alphabetical: "Alphabetical",
+      recently_added: "Recently Added",
+      more_filters: "More Filters",
+      delete_title: "Delete Customer",
+      delete_confirm: "Are you sure you want to delete this customer? This action cannot be undone."
     },
     add_new_customer: {
       back_to_customers: "Back to Customers",

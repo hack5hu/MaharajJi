@@ -4,18 +4,24 @@ import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import { CalendarPlus } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
-import { scale, verticalScale } from '@/styles/scaling';
+import { scale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { ManageBookingsTemplate } from '@/components/templates/ManageBookingsTemplate';
 import { SessionCard } from '@/components/molecules/SessionCard';
 import { Chip } from '@/components/atoms/Chip';
-import { Typography } from '@/components/atoms/Typography';
-import { Box } from '@/components/atoms/Box';
 import { ConfirmationModal } from '@/components/organisms/ConfirmationModal';
 import { useManageBookings } from './useManageBookings';
 import { SessionData, SessionFilter } from './types.d';
-import { ScreenContainer, EmptyStateContainer, EmptyIconWrapper } from './ManageBookings.styles';
+import {
+  ScreenContainer,
+  StyledEmptyStateContainer,
+  EmptyIconWrapper,
+  ListContainer,
+  FooterContainer,
+  EmptyStateTitle,
+  EmptyStateDesc,
+} from './ManageBookings.styles';
 
 export const ManageBookings = React.memo(() => {
   const theme = useTheme() as ThemeType;
@@ -34,7 +40,6 @@ export const ManageBookings = React.memo(() => {
     filteredSessions,
     handleLoadMore,
     isFetchingMore,
-    hasMore,
   } = useManageBookings();
 
   const handleTabChange = useCallback((tab: any) => {
@@ -85,30 +90,30 @@ export const ManageBookings = React.memo(() => {
         totalTokens: item.originalData.totalTokens
       })}
     />
-  ), [onViewSession]);
+  ), [onViewSession, navigation, setSessionToCancel]);
 
   const renderFooter = () => {
     return (
-      <Box>
+      <ListContainer>
         {isFetchingMore && (
-          <Box style={{ padding: scale(16), alignItems: 'center' }}>
+          <FooterContainer>
             <ActivityIndicator size="small" color={theme.colors.primary as string} />
-          </Box>
+          </FooterContainer>
         )}
         <Pressable onPress={onCreateSessionPress}>
-          <EmptyStateContainer style={{ marginBottom: verticalScale(140) }}>
+          <StyledEmptyStateContainer>
             <EmptyIconWrapper>
               <CalendarPlus color={theme.colors.primary as string} size={scale(24)} />
             </EmptyIconWrapper>
-            <Typography variant="headline_md" color="on_surface_variant" style={{ fontWeight: '700' }}>
+            <EmptyStateTitle variant="headline_md" color="on_surface_variant">
               {t('admin.manage_sessions.schedule_title')}
-            </Typography>
-            <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: 4, textAlign: 'center' }}>
+            </EmptyStateTitle>
+            <EmptyStateDesc variant="body_sm" color="on_surface_variant">
               {t('admin.manage_sessions.schedule_desc')}
-            </Typography>
-          </EmptyStateContainer>
+            </EmptyStateDesc>
+          </StyledEmptyStateContainer>
         </Pressable>
-      </Box>
+      </ListContainer>
     );
   };
 
@@ -123,7 +128,7 @@ export const ManageBookings = React.memo(() => {
         activeTab={activeTab}
         onTabChange={handleTabChange}
         listContent={
-          <Box style={{ flex: 1 }}>
+          <ListContainer>
             <FlashList
               data={filteredSessions}
               renderItem={renderItem}
@@ -134,7 +139,7 @@ export const ManageBookings = React.memo(() => {
               onEndReachedThreshold={0.5}
               ListFooterComponent={renderFooter}
             />
-          </Box>
+          </ListContainer>
         }
       />
       <ConfirmationModal

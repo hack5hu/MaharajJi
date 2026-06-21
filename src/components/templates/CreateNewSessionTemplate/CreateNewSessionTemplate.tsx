@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AdminHeader } from '@/components/organisms/AdminHeader';
 import { Typography } from '@/components/atoms/Typography';
 import { 
   Container, HeaderWrapper, MainContent, 

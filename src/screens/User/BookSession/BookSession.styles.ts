@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { Box } from '@/components/atoms/Box';
 import { Typography } from '@/components/atoms/Typography';
-import { scale, verticalScale, moderateScale } from '@/styles/scaling';
+import { scale, verticalScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
 import FastImage from 'react-native-fast-image';
 

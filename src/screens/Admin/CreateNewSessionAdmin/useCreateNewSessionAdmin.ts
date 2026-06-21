@@ -5,13 +5,10 @@ import { addDays } from 'date-fns';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '@/navigation/types.d';
-import { launchImageLibrary } from 'react-native-image-picker';
 import { useApi } from '@/hooks/useApi';
 import { SessionService } from '@/serviceManager';
-import { useLocale } from '@/hooks/useLocale';
-import { NotificationType } from '@/constants/enums';
 import { CreateSessionRequest, LocationData } from '@/serviceManager/types.d';
-import React, { useMemo, useEffect, useState } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 
 const sessionSchema = z.object({
   title: z.string().min(1, 'admin.create_session.error_title_req'),
@@ -61,7 +58,6 @@ export const useCreateNewSessionAdmin = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'CreateNewSessionAdmin'>>();
   const editSession = route.params?.session;
   
-  const { t } = useLocale();
   const { execute: createSession, isLoading: isCreating } = useApi(SessionService.createSession);
   const { execute: fetchLocations, isLoading: isLocationsLoading } = useApi(SessionService.getLocations);
 
@@ -74,7 +70,13 @@ export const useCreateNewSessionAdmin = () => {
         setLocations(result.data.filter(loc => loc.active));
       } else {
         // Fallback if API fails or returns empty
-        setLocations([{ id: '1', name: 'Main Hall', active: true }]);
+        setLocations([{ 
+          id: '1', 
+          name: 'Main Hall', 
+          active: true, 
+          description: '', 
+          createdAt: new Date().toISOString() 
+        }]);
       }
     };
     loadLocations();
@@ -123,24 +125,26 @@ export const useCreateNewSessionAdmin = () => {
     defaultValues,
   });
 
-  const watchedDate = useWatch({ control: form.control, name: 'date' });
-  const watchedBookingOpenTime = useWatch({ control: form.control, name: 'bookingOpenTime' });
+  const { control, setValue } = form;
+
+  const watchedDate = useWatch({ control, name: 'date' });
+  const watchedBookingOpenTime = useWatch({ control, name: 'bookingOpenTime' });
 
   // Sync bookingOpenDate to be 1 day before selected date
   useEffect(() => {
     if (watchedDate && !editSession) {
-      form.setValue('bookingOpenDate', addDays(watchedDate, -1), { shouldValidate: true });
+      setValue('bookingOpenDate', addDays(watchedDate, -1), { shouldValidate: true });
     }
-  }, [watchedDate, form.setValue, editSession]);
+  }, [watchedDate, setValue, editSession]);
 
   // Sync bookingCloseTime when bookingOpenTime changes
   useEffect(() => {
     if (watchedBookingOpenTime && !editSession) {
       const newCloseTime = new Date(watchedBookingOpenTime);
       newCloseTime.setHours(newCloseTime.getHours() + 1);
-      form.setValue('bookingCloseTime', newCloseTime, { shouldValidate: true });
+      setValue('bookingCloseTime', newCloseTime, { shouldValidate: true });
     }
-  }, [watchedBookingOpenTime, form.setValue, editSession]);
+  }, [watchedBookingOpenTime, setValue, editSession]);
 
   const onSubmit = form.handleSubmit(async (data) => {
     const payload: CreateSessionRequest = {

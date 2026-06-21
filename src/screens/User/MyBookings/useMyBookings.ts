@@ -5,7 +5,6 @@ import { ActiveBooking, BookingItem } from './types.d';
 import { useApi } from '@/hooks/useApi';
 import { SessionService } from '@/serviceManager/SessionService';
 import { useIsFocused } from '@react-navigation/native';
-import { format, parse } from 'date-fns';
 import { Logger } from '@/utils/logger';
 
 export const useMyBookings = () => {
@@ -22,16 +21,6 @@ export const useMyBookings = () => {
   }, []);
 
   const { execute: fetchMyBookings, isLoading } = useApi(fetchMethod);
-
-  const formatTimeStr = (timeStr?: string) => {
-    if (!timeStr) return '';
-    try {
-      const d = parse(timeStr, 'HH:mm:ss', new Date());
-      return format(d, 'hh:mm a');
-    } catch (e) {
-      return timeStr;
-    }
-  };
 
   const loadBookings = useCallback(async () => {
     const res = await fetchMyBookings({ page: 0, size: 10 });

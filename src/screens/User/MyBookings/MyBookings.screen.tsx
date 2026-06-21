@@ -2,13 +2,10 @@ import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { MapPin, Calendar, CheckCircle2 } from 'lucide-react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import { ThemeType } from '@/theme/theme';
-import { scale, verticalScale } from '@/styles/scaling';
+import { scale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
-import { Button } from '@/components/atoms/Button';
-import { Box } from '@/components/atoms/Box';
 import { MyBookingsTemplate } from '@/components/templates/MyBookingsTemplate';
 import { ConfirmationModal } from '@/components/organisms/ConfirmationModal';
 import { useMyBookings } from './useMyBookings';
@@ -17,6 +14,7 @@ import {
   SectionContainer,
   HeaderLabelContainer,
   StatusTag,
+  ConfirmedStatusText,
   ActiveCard,
   ActiveImageContainer,
   CardBannerImage,
@@ -25,20 +23,30 @@ import {
   DetailsGrid,
   GridRow,
   GridCol,
+  DetailsLabelText,
+  DetailsValueText,
+  LocationRow,
+  LocationText,
   QRWrapper,
   QRCodeImage,
   ScanText,
-  LocationRow,
   ActionButtonsWrapper,
+  StyledButton,
+  SuccessBanner,
+  SuccessBannerText,
   EmptyStateWrapper,
   EmptyIconCircle,
+  EmptyStateTitle,
+  EmptyStateDesc,
   LoadingOverlay,
+  GradientOverlay,
+  OverlayTagText,
+  OverlayTitleText,
 } from './MyBookings.styles';
 
 export const MyBookings = React.memo(() => {
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
-
   const {
     activeBooking,
     showCancelModal,
@@ -60,12 +68,12 @@ export const MyBookings = React.memo(() => {
           <EmptyIconCircle>
             <Calendar color={theme.colors.outline as string} size={scale(28)} />
           </EmptyIconCircle>
-          <Typography variant="headline_md" color="on_surface" style={{ fontWeight: '700' }}>
+          <EmptyStateTitle variant="headline_md" color="on_surface">
             {t('user.my_bookings.no_active_booking')}
-          </Typography>
-          <Typography variant="body_sm" color="on_surface_variant" style={{ textAlign: 'center', lineHeight: 20 }}>
+          </EmptyStateTitle>
+          <EmptyStateDesc variant="body_sm" color="on_surface_variant">
             {t('user.my_bookings.empty_desc')}
-          </Typography>
+          </EmptyStateDesc>
         </EmptyStateWrapper>
       );
     }
@@ -73,83 +81,64 @@ export const MyBookings = React.memo(() => {
     return (
       <ActiveCard>
         <ActiveImageContainer>
-          <CardBannerImage source={{ uri: activeBooking.imageUrl }} />
-          <LinearGradient
-            colors={['transparent', 'rgba(0,0,0,0.7)']}
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: verticalScale(100),
-              justifyContent: 'flex-end',
-              padding: scale(16),
-            }}
-          >
-            <Typography variant="label_caps" style={{ color: '#fff', opacity: 0.9 }}>
+          {activeBooking.imageUrl ? <CardBannerImage source={{ uri: activeBooking.imageUrl }} /> : null}
+          <GradientOverlay colors={['transparent', 'rgba(0,0,0,0.7)']}>
+            <OverlayTagText variant="label_caps">
               {t('user.my_bookings.session_today')}
-            </Typography>
-            <Typography variant="headline_md" style={{ color: '#fff', fontWeight: '700', fontSize: 20 }}>
+            </OverlayTagText>
+            <OverlayTitleText variant="headline_md">
               {activeBooking.title}
-            </Typography>
-          </LinearGradient>
+            </OverlayTitleText>
+          </GradientOverlay>
         </ActiveImageContainer>
         <CardContentBody>
           <ContentSplitRow>
             <DetailsGrid>
               <GridRow>
                 <GridCol>
-                  <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700', marginBottom: 2 }}>
+                  <DetailsLabelText variant="label_caps" color="on_surface_variant">
                     {t('user.my_bookings.time')}
-                  </Typography>
-                  <Typography variant="body_lg" color="on_surface" style={{ fontWeight: '700' }}>
+                  </DetailsLabelText>
+                  <DetailsValueText variant="body_lg" color="on_surface">
                     {activeBooking.time}
-                  </Typography>
+                  </DetailsValueText>
                 </GridCol>
                 <GridCol>
-                  <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700', marginBottom: 2 }}>
+                  <DetailsLabelText variant="label_caps" color="on_surface_variant">
                     {t('user.booking_successful.booking_id_label') || 'Booking ID'}
-                  </Typography>
-                  <Typography variant="body_lg" color="on_surface" style={{ fontWeight: '700' }} numberOfLines={1} ellipsizeMode="tail">
+                  </DetailsLabelText>
+                  <DetailsValueText variant="body_lg" color="on_surface" numberOfLines={1} ellipsizeMode="tail">
                     {activeBooking.id}
-                  </Typography>
+                  </DetailsValueText>
                 </GridCol>
               </GridRow>
               <LocationRow>
                 <MapPin color={theme.colors.primary as string} size={scale(18)} />
-                <Typography variant="body_sm" color="primary" style={{ fontWeight: '500', flex: 1 }}>
+                <LocationText variant="body_sm" color="primary">
                   {activeBooking.location}
-                </Typography>
+                </LocationText>
               </LocationRow>
             </DetailsGrid>
-
-            <QRWrapper>
-              <QRCodeImage source={{ uri: activeBooking.qrCodeUrl }} />
-              <ScanText>{t('user.my_bookings.scan_at_entry')}</ScanText>
-            </QRWrapper>
+            {activeBooking.qrCodeUrl ? (
+              <QRWrapper>
+                <QRCodeImage source={{ uri: activeBooking.qrCodeUrl }} />
+                <ScanText>{t('user.my_bookings.scan_at_entry')}</ScanText>
+              </QRWrapper>
+            ) : null}
           </ContentSplitRow>
         </CardContentBody>
         <ActionButtonsWrapper>
-          <Button
+          <StyledButton
             label={t('user.my_bookings.get_directions')}
             onPress={handleDirectionsPress}
             variant="primary"
             fullWidth
-            style={{
-              backgroundColor: theme.colors.primary,
-              borderRadius: theme.rounded.lg,
-              paddingVertical: verticalScale(14),
-            }}
           />
-          <Button
+          <StyledButton
             label={t('user.my_bookings.cancel_booking')}
             onPress={handleCancelPress}
             variant="outline"
             fullWidth
-            style={{
-              borderRadius: theme.rounded.lg,
-              paddingVertical: verticalScale(14),
-            }}
           />
         </ActionButtonsWrapper>
       </ActiveCard>
@@ -166,23 +155,12 @@ export const MyBookings = React.memo(() => {
         onTabChange={handleTabChange}
       >
         {successMessage ? (
-          <Box
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: '#E8F5E9',
-              paddingHorizontal: scale(16),
-              paddingVertical: verticalScale(12),
-              borderRadius: theme.rounded.md,
-              marginBottom: verticalScale(16),
-              gap: scale(10),
-            }}
-          >
+          <SuccessBanner>
             <CheckCircle2 color="#2E7D32" size={scale(20)} />
-            <Typography variant="body_sm" style={{ color: '#2E7D32', fontWeight: '600', flex: 1 }}>
+            <SuccessBannerText variant="body_sm">
               {t('user.my_bookings.cancel_success')}
-            </Typography>
-          </Box>
+            </SuccessBannerText>
+          </SuccessBanner>
         ) : null}
 
         <SectionContainer>
@@ -192,9 +170,9 @@ export const MyBookings = React.memo(() => {
             </Typography>
             {activeBooking ? (
               <StatusTag isConfirmed>
-                <Typography variant="label_caps" style={{ color: '#2E7D32', fontWeight: '700', textTransform: 'none' }}>
+                <ConfirmedStatusText variant="label_caps">
                   {t('user.my_bookings.status_confirmed')}
-                </Typography>
+                </ConfirmedStatusText>
               </StatusTag>
             ) : null}
           </HeaderLabelContainer>

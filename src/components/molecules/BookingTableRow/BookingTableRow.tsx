@@ -2,8 +2,6 @@ import React from 'react';
 import { ViewStyle } from 'react-native';
 import { Typography } from '@/components/atoms/Typography';
 import { StatusBadge } from '@/components/atoms/StatusBadge';
-import { ThemeType } from '@/theme/theme';
-import { useTheme } from 'styled-components/native';
 import { 
   RowContainer, CustomerCell, AvatarContainer, 
   ServiceCell, DateCell, StatusCell 
@@ -23,7 +21,6 @@ export interface BookingTableRowProps {
 export const BookingTableRow = React.memo(({ 
   initials, avatarBgColor, avatarTextColor, customerName, service, date, status, style 
 }: BookingTableRowProps) => {
-  const theme = useTheme() as ThemeType;
 
   return (
     <RowContainer style={style}>

@@ -1,8 +1,33 @@
 import styled from 'styled-components/native';
 import { Box } from '@/components/atoms/Box';
+import { Typography } from '@/components/atoms/Typography';
+import { EmptyStateContainer as BaseEmptyStateContainer } from '../ManageBookings/ManageBookings.styles';
+import { scale, verticalScale } from '@/styles/scaling';
 
-// This file is currently empty but serves as a placeholder for any screen-specific styles
-// that cannot be handled by the Template or Atoms directly.
 export const ScreenWrapper = styled(Box)`
   flex: 1;
+`;
+
+export const StyledEmptyStateContainer = styled(BaseEmptyStateContainer)`
+  margin-top: ${verticalScale(40)}px;
+`;
+
+export const EmptyStateTitle = styled(Typography)`
+  font-weight: 700;
+  margin-top: ${scale(16)}px;
+`;
+
+export const EmptyStateDesc = styled(Typography)`
+  margin-top: ${verticalScale(4)}px;
+  text-align: center;
+`;
+
+export const ListContainer = styled(Box)`
+  flex: 1;
+  padding-bottom: ${verticalScale(120)}px;
+`;
+
+export const FooterContainer = styled(Box)`
+  padding: ${scale(16)}px;
+  align-items: center;
 `;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { TextInput, ScrollView } from 'react-native';
-import { ArrowRight, Info, Phone, Landmark } from 'lucide-react-native';
+import { TextInput } from 'react-native';
+import { Info, Landmark } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { scale, verticalScale } from '@/styles/scaling';

@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { View, TouchableOpacity } from 'react-native';
-import { scale, verticalScale } from '@/styles/scaling';
+import { verticalScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
 
 export const GridContainer = styled(View)`

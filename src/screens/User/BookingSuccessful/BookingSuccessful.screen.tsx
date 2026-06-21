@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Pressable, BackHandler } from 'react-native';
+import { BackHandler } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { useRoute } from '@react-navigation/native';
 import { Check, Calendar, Clock, Users, MapPin, Info } from 'lucide-react-native';
@@ -63,7 +63,6 @@ export const BookingSuccessful = React.memo(() => {
   const {
     handleAddCalendar,
     handleViewAllBookings,
-    handleBackHome,
   } = useBookingSuccessful(bookingId);
 
   return (

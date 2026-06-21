@@ -3,7 +3,7 @@ import { Home, Calendar, History, User } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { Typography } from '@/components/atoms/Typography';
-import { scale, moderateScale } from '@/styles/scaling';
+import { moderateScale } from '@/styles/scaling';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NavContainer, TabPressable, IconContainer } from './CustomerBottomNav.styles';
 import { CustomerBottomNavProps } from './types.d';
