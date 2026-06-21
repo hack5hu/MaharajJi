@@ -43,29 +43,6 @@ export const ManageBookingsTemplate = React.memo(({
       </HeaderWrapper>
 
       <ContentContainer>
-        <TitleAndButtonRow>
-          <TitleWrapper>
-            <Typography variant="headline_lg" color="on_surface" style={{ fontWeight: '700' }}>
-              {t('admin.manage_sessions.title')}
-            </Typography>
-            <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: 2 }}>
-              {t('admin.manage_sessions.subtitle')}
-            </Typography>
-          </TitleWrapper>
-          <Button
-            label={t('admin.manage_sessions.create_button')}
-            onPress={onCreateSessionPress}
-            variant="primary"
-            style={{ 
-              height: scale(40), 
-              paddingVertical: 0, 
-              paddingHorizontal: scale(12),
-              borderRadius: theme.rounded.lg,
-              backgroundColor: theme.colors.primary_container,
-            }}
-          />
-        </TitleAndButtonRow>
-
         <FiltersWrapper>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: scale(8), paddingBottom: scale(4) }}>
             {filtersContent}
@@ -76,13 +53,6 @@ export const ManageBookingsTemplate = React.memo(({
           {listContent}
         </ListContainer>
       </ContentContainer>
-
-      {/* Floating Action Button (FAB) for creating new sessions as well */}
-      <FAB
-        icon={<Plus color={theme.colors.on_primary as string} size={scale(24)} />}
-        onPress={onCreateSessionPress}
-        bottom={scale(96) + insets.bottom}
-      />
 
       <AdminBottomNav activeTab={activeTab} onTabChange={onTabChange} />
     </TemplateContainer>

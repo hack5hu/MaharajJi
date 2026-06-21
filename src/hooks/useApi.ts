@@ -22,7 +22,7 @@ export function useApi<TRequest, TResponse>(
       setError(null);
       try {
         const response = await serviceMethod(payload);
-        setData(response.data);
+        setData(response.data ?? null);
         setIsLoading(false);
         return { success: true, data: response.data };
       } catch (err: unknown) {

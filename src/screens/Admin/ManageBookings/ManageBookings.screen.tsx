@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Pressable } from 'react-native';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
-import { Plus, CalendarPlus } from 'lucide-react-native';
+import { CalendarPlus } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { scale, verticalScale } from '@/styles/scaling';
@@ -26,7 +26,6 @@ export const ManageBookings = React.memo(() => {
     activeFilter,
     handleFilterChange,
     onCreateSessionPress,
-    onEditSession,
     onDeleteSession,
     onViewSession,
     onMenuPress,
@@ -69,11 +68,10 @@ export const ManageBookings = React.memo(() => {
       date={item.date}
       time={item.time}
       publishedBy={item.publishedBy}
-      onEditPress={() => onEditSession(item.id)}
       onDeletePress={() => onDeleteSession(item.id)}
       onViewPress={() => onViewSession(item.id)}
     />
-  ), [onEditSession, onDeleteSession, onViewSession]);
+  ), [onDeleteSession, onViewSession]);
 
   const renderFooter = () => {
     return (

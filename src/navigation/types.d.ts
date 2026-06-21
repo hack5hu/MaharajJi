@@ -1,8 +1,9 @@
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AdminSession } from '@/serviceManager/types.d';
 
 export type RootStackParamList = {
   AdminDashboardHome: undefined;
-  CreateNewSessionAdmin: undefined;
+  CreateNewSessionAdmin: { session?: AdminSession } | undefined;
   ManageUsersAdmin: undefined;
   AddNewCustomerAdmin: undefined;
   ManageBookings: undefined;

@@ -9,18 +9,21 @@ import { Box } from '@/components/atoms/Box';
 import { CreateNewSessionTemplate } from '@/components/templates/CreateNewSessionTemplate';
 import { DaySelector } from '@/components/molecules/DaySelector';
 import { TimePickerField } from '@/components/atoms/TimePickerField';
-import { ImageUploaderPlaceholder } from '@/components/molecules/ImageUploaderPlaceholder';
+// Removed raw DropdownField import; using StyledDropdownField from styles
 import { useCreateNewSessionAdmin } from './useCreateNewSessionAdmin';
-import { FormRow, FormFieldContainer, StyledInput, ToggleContainer } from './CreateNewSessionAdmin.styles';
+import { FormRow, FormFieldContainer, StyledInput, ToggleContainer, StyledButtonWrapper, StyledDropdownField } from './CreateNewSessionAdmin.styles';
 
 export const CreateNewSessionAdmin = React.memo(() => {
   const theme = useTheme() as ThemeType;
-  const { form, onSubmit, onSaveDraft, onMenuPress, onSelectImage } = useCreateNewSessionAdmin();
+  const { form, onSubmit, onSaveDraft, onMenuPress, isLoading, locations } = useCreateNewSessionAdmin();
   const { control, formState: { errors } } = form;
 
   const watchedDate = useWatch({ control, name: 'date' });
   const watchedStartTime = useWatch({ control, name: 'startTime' });
-  const watchedCoverImage = useWatch({ control, name: 'coverImage' });
+
+  const locationOptions = React.useMemo(() => {
+    return locations.map(loc => ({ label: loc.name, value: loc.name }));
+  }, [locations]);
 
   return (
     <CreateNewSessionTemplate
@@ -31,18 +34,23 @@ export const CreateNewSessionAdmin = React.memo(() => {
       subtitle="Configure details for your community spiritual gathering."
       actions={
         <>
-          <Button 
-            onPress={onSubmit} 
-            variant="primary" 
-            label="Create & Publish"
-            style={{ width: '100%', marginBottom: 8 }}
-          />
-          <Button 
-            onPress={onSaveDraft} 
-            variant="outline" 
-            label="Save as Draft"
-            style={{ width: '100%' }}
-          />
+          <StyledButtonWrapper>
+            <Button 
+              onPress={onSubmit} 
+              variant="primary" 
+              label={isLoading ? "Publishing..." : "Create & Publish"}
+              loading={isLoading}
+              disabled={isLoading}
+            />
+          </StyledButtonWrapper>
+          <StyledButtonWrapper>
+            <Button 
+              onPress={onSaveDraft} 
+              variant="outline" 
+              label="Save as Draft"
+              disabled={isLoading}
+            />
+          </StyledButtonWrapper>
         </>
       }
     >
@@ -131,31 +139,27 @@ export const CreateNewSessionAdmin = React.memo(() => {
         </FormFieldContainer>
       </FormRow>
 
-      {/* Location & Tokens */}
-      <FormRow>
-        <FormFieldContainer flex={2}>
-          <Typography variant="label_caps" color="outline" style={{ marginBottom: 4 }}>
-            Location
-          </Typography>
+      {/* Location */}
+      <FormFieldContainer>
           <Controller
             control={control}
             name="location"
             render={({ field: { onChange, value } }) => (
-              <StyledInput
+              <StyledDropdownField
+                label="LOCATION"
                 value={value}
-                onChangeText={onChange}
-                placeholder="Main Sanctuary"
-                placeholderTextColor={theme.colors.outline_variant}
+                options={locationOptions}
+                onSelect={onChange}
                 isError={!!errors.location}
+                errorMessage={errors.location?.message}
+                placeholder={isLoading ? "Loading..." : "Select location"}
               />
             )}
           />
-          {errors.location && (
-            <Typography variant="body_sm" color="error" style={{ marginTop: 4 }}>
-              {errors.location.message}
-            </Typography>
-          )}
-        </FormFieldContainer>
+      </FormFieldContainer>
+
+      {/* Seats & Max Users */}
+      <FormRow>
         <FormFieldContainer flex={1}>
           <Typography variant="label_caps" color="outline" style={{ marginBottom: 4 }}>
             SEATS
@@ -175,6 +179,29 @@ export const CreateNewSessionAdmin = React.memo(() => {
           {errors.tokens && (
             <Typography variant="body_sm" color="error" style={{ marginTop: 4 }}>
               {errors.tokens.message}
+            </Typography>
+          )}
+        </FormFieldContainer>
+
+        <FormFieldContainer flex={1}>
+          <Typography variant="label_caps" color="outline" style={{ marginBottom: 4 }}>
+            MAX/USER
+          </Typography>
+          <Controller
+            control={control}
+            name="maxPeoplePerToken"
+            render={({ field: { onChange, value } }) => (
+              <StyledInput
+                value={String(value)}
+                onChangeText={(text) => onChange(Number(text))}
+                keyboardType="numeric"
+                isError={!!errors.maxPeoplePerToken}
+              />
+            )}
+          />
+          {errors.maxPeoplePerToken && (
+            <Typography variant="body_sm" color="error" style={{ marginTop: 4 }}>
+              {errors.maxPeoplePerToken.message}
             </Typography>
           )}
         </FormFieldContainer>
@@ -208,44 +235,6 @@ export const CreateNewSessionAdmin = React.memo(() => {
         )}
       </FormFieldContainer>
 
-      <FormFieldContainer>
-        <Typography variant="label_caps" color="outline" style={{ marginBottom: 4 }}>
-          Cover Image
-        </Typography>
-        <ImageUploaderPlaceholder 
-          onPress={onSelectImage} 
-          imageUri={watchedCoverImage} 
-        />
-        {errors.coverImage && (
-          <Typography variant="body_sm" color="error" style={{ marginTop: 4 }}>
-            {errors.coverImage.message}
-          </Typography>
-        )}
-      </FormFieldContainer>
-
-      {/* Publish Immediately Toggle */}
-      <Controller
-        control={control}
-        name="publishImmediately"
-        render={({ field: { onChange, value } }) => (
-          <ToggleContainer>
-            <Box>
-              <Typography variant="body_lg" color="on_surface" style={{ fontWeight: '700' }}>
-                Publish Immediately
-              </Typography>
-              <Typography variant="body_sm" color="on_surface_variant">
-                Live to community upon creation
-              </Typography>
-            </Box>
-            <Switch
-              value={value}
-              onValueChange={onChange}
-              trackColor={{ false: theme.colors.surface_container_highest, true: theme.colors.primary_container }}
-              thumbColor={theme.colors.surface}
-            />
-          </ToggleContainer>
-        )}
-      />
 
     </CreateNewSessionTemplate>
   );

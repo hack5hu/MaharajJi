@@ -7,11 +7,11 @@ export interface DayOption {
 }
 
 /**
- * Gets the next 14 days starting from today.
+ * Gets the next 7 days starting from today.
  */
-export const getNext14Days = (): DayOption[] => {
+export const getNext7Days = (): DayOption[] => {
   const today = new Date();
-  return Array.from({ length: 14 }).map((_, i) => {
+  return Array.from({ length: 7 }).map((_, i) => {
     const date = addDays(today, i);
     return {
       date,

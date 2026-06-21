@@ -34,7 +34,7 @@ export const TimePickerField = React.memo(({ label, value, onConfirm, isError, e
         activeOpacity={0.7}
       >
         <Typography variant="body_lg" color="on_surface">
-          {format(value, 'HH:mm')}
+          {format(value, 'hh:mm a')}
         </Typography>
       </PickerButton>
 
@@ -44,20 +44,23 @@ export const TimePickerField = React.memo(({ label, value, onConfirm, isError, e
         </Typography>
       )}
 
-      <DatePicker
-        modal
-        open={open}
-        date={value}
-        mode="time"
-        minimumDate={minimumDate}
-        onConfirm={(date) => {
-          setOpen(false);
-          onConfirm(date);
-        }}
-        onCancel={() => {
-          setOpen(false);
-        }}
-      />
+      {open && (
+        <DatePicker
+          modal
+          open={open}
+          date={value}
+          mode="time"
+          locale="en-US"
+          minimumDate={minimumDate}
+          onConfirm={(date) => {
+            setOpen(false);
+            onConfirm(date);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        />
+      )}
     </FieldWrapper>
   );
 });

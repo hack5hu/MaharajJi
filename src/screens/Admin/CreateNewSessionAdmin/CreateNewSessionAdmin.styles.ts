@@ -3,6 +3,7 @@ import { Box } from '@/components/atoms/Box';
 import { TextInput } from 'react-native';
 import { scale, verticalScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
+import { DropdownField } from '@/components/atoms/DropdownField';
 
 export const FormRow = styled(Box)`
   flex-direction: row;
@@ -17,10 +18,10 @@ export const FormFieldContainer = styled(Box)<{ flex?: number }>`
 export const StyledInput = styled(TextInput)<{ isError?: boolean; isTextArea?: boolean }>`
   width: 100%;
   padding: ${scale(16)}px;
+  background-color: ${({ theme, isError }: { theme: ThemeType, isError?: boolean }) => isError ? theme.colors.error_container : theme.colors.surface};
   border-width: 1px;
   border-color: ${({ theme, isError }: { theme: ThemeType, isError?: boolean }) => isError ? theme.colors.error : theme.colors.outline_variant};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.DEFAULT}px;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
   color: ${({ theme }: { theme: ThemeType }) => theme.colors.on_surface};
   font-family: 'Inter';
   font-size: 16px;
@@ -34,4 +35,14 @@ export const ToggleContainer = styled(Box)`
   padding: ${scale(16)}px;
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
+`;
+
+export const StyledButtonWrapper = styled(Box)`
+  width: 100%;
+  margin-top: ${verticalScale(8)}px;
+`;
+
+
+export const StyledDropdownField = styled(DropdownField)`
+  width: 100%;
 `;

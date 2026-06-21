@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { isSameDay } from 'date-fns';
 import { Typography } from '@/components/atoms/Typography';
-import { getNext14Days } from '@/utils/dateHelpers';
+import { getNext7Days } from '@/utils/dateHelpers';
 import { verticalScale } from '@/styles/scaling';
 import { GridContainer, DayButton } from './DaySelector.styles';
 
@@ -11,7 +11,7 @@ export interface DaySelectorProps {
 }
 
 export const DaySelector = React.memo(({ selectedDate, onSelectDate }: DaySelectorProps) => {
-  const days = useMemo(() => getNext14Days(), []);
+  const days = useMemo(() => getNext7Days(), []);
 
   return (
     <GridContainer>

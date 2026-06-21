@@ -1,7 +1,8 @@
 export interface ApiResponse<T> {
   success: boolean;
-  data: T;
+  data?: T;
   message?: string;
+  error?: string;
 }
 
 export interface ApiError {
@@ -33,4 +34,42 @@ export interface VerifyOtpResponse {
   refreshToken: string;
   userId: string;
   role: string;
+}
+
+export interface CreateSessionRequest {
+  title: string;
+  description: string;
+  sessionDate: string; // YYYY-MM-DD
+  startTime: string; // HH:mm:ss
+  endTime: string; // HH:mm:ss
+  location: string;
+  totalTokens: number;
+  maxPeoplePerToken: number;
+}
+
+export interface LocationData {
+  id: string;
+  name: string;
+  description: string;
+  active: boolean;
+  createdAt: string;
+}
+
+export interface AdminSession {
+  id: string;
+  title: string;
+  description: string;
+  sessionDate: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  totalTokens: number;
+  maxPeoplePerToken: number;
+  confirmedBookings: number;
+  availableTokens: number;
+  totalPeopleBooked: number;
+  status: string;
+  createdByAdminId: string;
+  createdByAdminName: string;
+  createdAt: string;
 }
