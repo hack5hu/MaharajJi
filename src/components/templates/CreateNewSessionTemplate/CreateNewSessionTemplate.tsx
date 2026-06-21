@@ -7,7 +7,14 @@ import {
   TitleContainer, FormContainer, 
   ActionsContainer 
 } from './CreateNewSessionTemplate.styles';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { Pressable } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { ArrowLeft } from 'lucide-react-native';
+import { Box } from '@/components/atoms/Box';
+import { useLocale } from '@/hooks/useLocale';
+import { useTheme } from 'styled-components/native';
+import { ThemeType } from '@/theme/theme';
+import { scale, verticalScale } from '@/styles/scaling';
 
 export interface CreateNewSessionTemplateProps {
   headerTitle: string;
@@ -17,6 +24,7 @@ export interface CreateNewSessionTemplateProps {
   subtitle: string;
   children: React.ReactNode;
   actions: React.ReactNode;
+  onCancelPress: () => void;
 }
 
 export const CreateNewSessionTemplate = React.memo(({
@@ -26,19 +34,35 @@ export const CreateNewSessionTemplate = React.memo(({
   title,
   subtitle,
   children,
-  actions
+  actions,
+  onCancelPress
 }: CreateNewSessionTemplateProps) => {
   const insets = useSafeAreaInsets();
+  const theme = useTheme() as ThemeType;
+  const { t } = useLocale();
 
   return (
     <Container>
       <HeaderWrapper paddingTop={insets.top}>
         <AdminHeader title={headerTitle} avatarUrl={avatarUrl as string} onMenuPress={onMenuPress} />
+        <Box style={{ paddingHorizontal: scale(20), paddingTop: verticalScale(12), paddingBottom: verticalScale(4), backgroundColor: theme.colors.surface as string }}>
+          <Pressable 
+            onPress={onCancelPress}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: scale(6) }}
+          >
+            <ArrowLeft color={theme.colors.primary as string} size={scale(18)} />
+            <Typography variant="label_caps" color="primary">
+              {t('common.back', { defaultValue: 'GO BACK' })}
+            </Typography>
+          </Pressable>
+        </Box>
       </HeaderWrapper>
       <KeyboardAwareScrollView 
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
-        bottomOffset={120}
+        enableOnAndroid={true}
+        extraScrollHeight={verticalScale(40)}
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ 
           flexGrow: 1,
         }}

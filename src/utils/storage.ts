@@ -1,4 +1,5 @@
 import { createMMKV } from 'react-native-mmkv';
+import { StateStorage } from 'zustand/middleware';
 
 export const storage = createMMKV({
   id: 'maharajji-app-storage',
@@ -12,7 +13,6 @@ export const StorageKeys = {
   USER_ID: 'user_id',
 } as const;
 
-import { StateStorage } from 'zustand/middleware';
 
 export const zustandMMKVStorage: StateStorage = {
   setItem: (name, value) => {

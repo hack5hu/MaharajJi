@@ -1,8 +1,12 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import { format } from 'date-fns';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { UserData, FilterOption } from './types.d';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
+import { useUserStore } from '@/stores/useUserStore';
+import { useApi } from '@/hooks/useApi';
+import { UserService } from '@/serviceManager/UserService';
 
 export const useManageUsersAdmin = () => {
   const navigation = useAppNavigation();
@@ -11,45 +15,38 @@ export const useManageUsersAdmin = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterOption>('Alphabetical');
 
-  // Mock data based on the HTML design
-  const allUsers: UserData[] = useMemo(() => [
-    {
-      id: '1',
-      initials: 'AS',
-      name: 'Aditi Sharma',
-      phone: '+91 98765 43210',
-      status: 'Premium',
-      lastVisit: '2 days ago',
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [customerToDelete, setCustomerToDelete] = useState<string | null>(null);
+
+  const customers = useUserStore(state => state.customers);
+  const isFetching = useUserStore(state => state.isFetching);
+  const fetchCustomers = useUserStore(state => state.fetchCustomers);
+  const removeCustomerLocally = useUserStore(state => state.removeCustomerLocally);
+  const fetchNextPageCustomers = useUserStore(state => state.fetchNextPageCustomers);
+  const isFetchingNextPage = useUserStore(state => state.isFetchingNextPage);
+  const hasMore = useUserStore(state => state.hasMore);
+
+  const { execute: deleteCustomer, isLoading: isDeleting } = useApi(UserService.deleteCustomer);
+
+  useEffect(() => {
+    fetchCustomers(true);
+  }, [fetchCustomers]);
+
+  const handleLoadMore = useCallback(() => {
+    fetchNextPageCustomers();
+  }, [fetchNextPageCustomers]);
+
+  const allUsers: UserData[] = useMemo(() => {
+    return (customers || []).map((c) => ({
+      id: c.phoneNumber, // Using phone as unique ID
+      initials: c.name ? c.name.substring(0, 2).toUpperCase() : 'CU',
+      name: c.name,
+      phone: c.phoneNumber,
+      status: (c.status === 'Premium' ? 'Premium' : 'Regular') as 'Premium' | 'Regular',
+      lastVisit: c.createdAt ? format(new Date(c.createdAt), 'dd MMM yyyy, hh:mm a') : 'Just now',
       avatarColorHex: theme.colors.primary_fixed as string,
-    },
-    {
-      id: '2',
-      initials: 'RK',
-      name: 'Rahul Kapoor',
-      phone: '+91 87654 32109',
-      status: 'Regular',
-      lastVisit: '1 week ago',
-      avatarColorHex: theme.colors.tertiary_container as string,
-    },
-    {
-      id: '3',
-      initials: 'PM',
-      name: 'Priya Mehta',
-      phone: '+91 76543 21098',
-      status: 'Premium',
-      lastVisit: 'Today',
-      avatarColorHex: theme.colors.primary_fixed_dim as string,
-    },
-    {
-      id: '4',
-      initials: 'VN',
-      name: 'Vikram Nair',
-      phone: '+91 91234 56789',
-      status: 'Regular',
-      lastVisit: '3 weeks ago',
-      avatarColorHex: theme.colors.secondary_fixed as string,
-    },
-  ], [theme]);
+    }));
+  }, [customers, theme]);
 
   // Handlers
   const handleSearchChange = useCallback((query: string) => {
@@ -69,7 +66,29 @@ export const useManageUsersAdmin = () => {
   }, []);
 
   const handleDeleteCustomer = useCallback((id: string) => {
-    console.log('Delete customer', id);
+    setCustomerToDelete(id);
+    setShowDeleteModal(true);
+  }, []);
+
+  const confirmDeleteCustomer = useCallback(async () => {
+    if (!customerToDelete) return;
+    const phone = customerToDelete;
+    
+    // Optimistic delete
+    removeCustomerLocally(phone);
+    setShowDeleteModal(false);
+    setCustomerToDelete(null);
+
+    const res = await deleteCustomer(phone);
+    if (!res.success) {
+      // Refresh on fail
+      fetchCustomers();
+    }
+  }, [customerToDelete, removeCustomerLocally, deleteCustomer, fetchCustomers]);
+
+  const cancelDeleteCustomer = useCallback(() => {
+    setShowDeleteModal(false);
+    setCustomerToDelete(null);
   }, []);
 
   const handleMenuPress = useCallback(() => {
@@ -84,7 +103,6 @@ export const useManageUsersAdmin = () => {
   const filteredUsers = useMemo(() => {
     let result = allUsers;
     
-    // Simple search filtering
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       result = result.filter(u => 
@@ -93,14 +111,12 @@ export const useManageUsersAdmin = () => {
       );
     }
 
-    // Filter toggles
     if (activeFilter === 'Premium Only') {
       result = result.filter(u => u.status === 'Premium');
     } else if (activeFilter === 'Regular Only') {
       result = result.filter(u => u.status === 'Regular');
     }
 
-    // Sorting (alphabetical is default in our mock list, but let's implement it for completeness)
     if (activeFilter === 'Alphabetical') {
       result = [...result].sort((a, b) => a.name.localeCompare(b.name));
     }
@@ -119,5 +135,13 @@ export const useManageUsersAdmin = () => {
     handleDeleteCustomer,
     handleMenuPress,
     handleUserPress,
+    showDeleteModal,
+    confirmDeleteCustomer,
+    cancelDeleteCustomer,
+    isDeleting,
+    isLoading: isFetching,
+    handleLoadMore,
+    isFetchingMore: isFetchingNextPage,
+    hasMore,
   };
 };

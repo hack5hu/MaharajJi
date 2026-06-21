@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { useLocale } from '@/hooks/useLocale';
-
+import { UserService } from '@/serviceManager/UserService';
+import { useUserStore } from '@/stores/useUserStore';
+import { Logger } from '@/utils/logger';
 export const useAddNewCustomerAdmin = () => {
   const navigation = useAppNavigation();
   const { t } = useLocale();
@@ -38,7 +40,7 @@ export const useAddNewCustomerAdmin = () => {
     navigation.goBack();
   }, [navigation]);
 
-  const handleAddPress = useCallback(() => {
+  const handleAddPress = useCallback(async () => {
     let isValid = true;
 
     if (!fullName.trim()) {
@@ -58,21 +60,31 @@ export const useAddNewCustomerAdmin = () => {
 
     if (!isValid) return;
 
-    // Simulate API flow matching the HTML mockup animation
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+    
+    // The endpoint expects phoneNumber, name, location
+    const res = await UserService.addCustomer({
+      phoneNumber: phoneNumber,
+      name: fullName.trim(),
+      location: 'Unknown', // Required by payload schema
+    });
+
+    setIsLoading(false);
+
+    if (res.success && res.data) {
+      useUserStore.getState().fetchCustomers(true);
       setIsSuccess(true);
       
       setTimeout(() => {
         setIsSuccess(false);
-        // Clear fields
         setFullName('');
         setPhoneNumber('');
-        // Navigate back to the customer list
         navigation.goBack();
-      }, 2000);
-    }, 1500);
+      }, 500);
+    } else {
+      // In a real app we'd show a toast/notification here based on res.error
+      Logger.error('Failed to add customer', res.error);
+    }
   }, [fullName, phoneNumber, navigation, t]);
 
   return {

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, ActivityIndicator } from 'react-native';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import { CalendarPlus } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
@@ -12,6 +12,7 @@ import { SessionCard } from '@/components/molecules/SessionCard';
 import { Chip } from '@/components/atoms/Chip';
 import { Typography } from '@/components/atoms/Typography';
 import { Box } from '@/components/atoms/Box';
+import { ConfirmationModal } from '@/components/organisms/ConfirmationModal';
 import { useManageBookings } from './useManageBookings';
 import { SessionData, SessionFilter } from './types.d';
 import { ScreenContainer, EmptyStateContainer, EmptyIconWrapper } from './ManageBookings.styles';
@@ -21,6 +22,7 @@ export const ManageBookings = React.memo(() => {
   const navigation = useAppNavigation();
   const { t } = useLocale();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'bookings' | 'customers' | 'settings'>('bookings');
+  const [sessionToCancel, setSessionToCancel] = useState<string | null>(null);
 
   const {
     activeFilter,
@@ -30,6 +32,9 @@ export const ManageBookings = React.memo(() => {
     onViewSession,
     onMenuPress,
     filteredSessions,
+    handleLoadMore,
+    isFetchingMore,
+    hasMore,
   } = useManageBookings();
 
   const handleTabChange = useCallback((tab: any) => {
@@ -68,26 +73,33 @@ export const ManageBookings = React.memo(() => {
       date={item.date}
       time={item.time}
       publishedBy={item.publishedBy}
-      onDeletePress={() => onDeleteSession(item.id)}
+      onDeletePress={() => setSessionToCancel(item.id)}
       onViewPress={() => onViewSession(item.id)}
     />
-  ), [onDeleteSession, onViewSession]);
+  ), [onViewSession]);
 
   const renderFooter = () => {
     return (
-      <Pressable onPress={onCreateSessionPress}>
-        <EmptyStateContainer style={{ marginBottom: verticalScale(140) }}>
-          <EmptyIconWrapper>
-            <CalendarPlus color={theme.colors.primary as string} size={scale(24)} />
-          </EmptyIconWrapper>
-          <Typography variant="headline_md" color="on_surface_variant" style={{ fontWeight: '700' }}>
-            {t('admin.manage_sessions.schedule_title')}
-          </Typography>
-          <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: 4, textAlign: 'center' }}>
-            {t('admin.manage_sessions.schedule_desc')}
-          </Typography>
-        </EmptyStateContainer>
-      </Pressable>
+      <Box>
+        {isFetchingMore && (
+          <Box style={{ padding: scale(16), alignItems: 'center' }}>
+            <ActivityIndicator size="small" color={theme.colors.primary as string} />
+          </Box>
+        )}
+        <Pressable onPress={onCreateSessionPress}>
+          <EmptyStateContainer style={{ marginBottom: verticalScale(140) }}>
+            <EmptyIconWrapper>
+              <CalendarPlus color={theme.colors.primary as string} size={scale(24)} />
+            </EmptyIconWrapper>
+            <Typography variant="headline_md" color="on_surface_variant" style={{ fontWeight: '700' }}>
+              {t('admin.manage_sessions.schedule_title')}
+            </Typography>
+            <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: 4, textAlign: 'center' }}>
+              {t('admin.manage_sessions.schedule_desc')}
+            </Typography>
+          </EmptyStateContainer>
+        </Pressable>
+      </Box>
     );
   };
 
@@ -109,10 +121,26 @@ export const ManageBookings = React.memo(() => {
               // @ts-expect-error estimatedItemSize is required but TS definition fails
               estimatedItemSize={140}
               showsVerticalScrollIndicator={false}
+              onEndReached={handleLoadMore}
+              onEndReachedThreshold={0.5}
               ListFooterComponent={renderFooter}
             />
           </Box>
         }
+      />
+      <ConfirmationModal
+        visible={!!sessionToCancel}
+        title={t('admin.manage_sessions.cancel_title', { defaultValue: 'Cancel Session' })}
+        message={t('admin.manage_sessions.cancel_desc', { defaultValue: 'Are you sure you want to cancel this session? This action cannot be undone.' })}
+        onConfirm={() => {
+          if (sessionToCancel) {
+            onDeleteSession(sessionToCancel);
+            setSessionToCancel(null);
+          }
+        }}
+        onDismiss={() => setSessionToCancel(null)}
+        confirmLabel={t('common.confirm', { defaultValue: 'Confirm' })}
+        cancelLabel={t('common.cancel', { defaultValue: 'Back' })}
       />
     </ScreenContainer>
   );

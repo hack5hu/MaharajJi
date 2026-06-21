@@ -5,6 +5,12 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
+export interface PagedResponse<T> {
+  totalPages: number;
+  last: boolean;
+  content: T[];
+}
+
 export interface ApiError {
   success: boolean;
   status: number;
@@ -72,4 +78,19 @@ export interface AdminSession {
   createdByAdminId: string;
   createdByAdminName: string;
   createdAt: string;
+}
+
+export interface AddCustomerRequest {
+  phoneNumber: string;
+  name: string;
+  location: string;
+}
+
+export interface AdminCustomer {
+  id?: string;
+  phoneNumber: string;
+  name: string;
+  location?: string;
+  status?: string;
+  createdAt?: string;
 }

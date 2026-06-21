@@ -1,4 +1,10 @@
 export const en = {
+  common: {
+    confirm: "Confirm",
+    cancel: "Cancel",
+    delete: "Delete",
+    back: "Back"
+  },
   admin: {
     dashboard_home: {
       booking_system: "BOOKING SYSTEM",
@@ -28,6 +34,10 @@ export const en = {
       nav_customers: "Customers",
       nav_settings: "Settings"
     },
+    manage_users: {
+      empty_title: "No Customers Found",
+      empty_desc: "Add a customer to see them listed here."
+    },
     add_new_customer: {
       back_to_customers: "Back to Customers",
       add_new_member: "Add New Member",
@@ -54,7 +64,9 @@ export const en = {
       filter_past: "PAST",
       published_by: "PUBLISHED BY",
       schedule_title: "Schedule Future Event",
-      schedule_desc: "Add a new recurring or one-time session to the calendar."
+      schedule_desc: "Add a new recurring or one-time session to the calendar.",
+      cancel_title: "Cancel Session",
+      cancel_desc: "Are you sure you want to cancel this session? This action cannot be undone."
     }
   },
   user: {

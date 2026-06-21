@@ -5,4 +5,7 @@ export interface LoginTemplateProps {
   onHelpPress: () => void;
   isLoading: boolean;
   error?: string;
+  handleTruecallerLogin?: () => void;
+  handleInputFocus?: () => void;
+  isTruecallerActive?: boolean;
 }

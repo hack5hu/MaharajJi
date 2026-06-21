@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@ajitpatel28/react-native-truecaller@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@ajitpatel28/react-native-truecaller/-/react-native-truecaller-0.9.0.tgz#58d06f23759ba6a58d3ccd90a384abe0d1a3c514"
+  integrity sha512-Ad7c9x1QDzc0Yr3+NHcrLF2HhAXcH34wt+4GT1UtihvAYrVxiXM3OovgWUylciznkHx0ZjEKAVOnHq6zZ7wPNw==
+  dependencies:
+    axios "^1.7.7"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.29.0", "@babel/code-frame@^7.29.7":
   version "7.29.7"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.29.7.tgz#f2fbbfea87c44a21590ec515b778b2c26d8866e7"
@@ -1373,6 +1380,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@msg91comm/sendotp-react-native@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@msg91comm/sendotp-react-native/-/sendotp-react-native-2.1.0.tgz#699726c5077b8ecfbbde6a60f58c0d29973c7bf4"
+  integrity sha512-Y2jvewF7iAseChAC2ONvczmGuTnEuKN5KDTqIogTZGHNPMBIF7Ledxbt8m27CDYb56h9AkybZr/+VmysDrmMdw==
+
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/eslint-scope-5-internals/-/eslint-scope-5-internals-5.1.1-v1.tgz#dbf733a965ca47b1973177dc0bb6c889edcfb129"
@@ -2299,7 +2311,7 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-axios@^1.18.0:
+axios@^1.18.0, axios@^1.7.7:
   version "1.18.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.18.0.tgz#8a7f8854af280fcaae063272df2ed9f3837d2398"
   integrity sha512-E32NzpYKp++W7XRe52rHiXV2ehxmh3wbdgO7MHeFM+vqxLBYHzt0ElkiImtOBxtOmyp0yoC8C6uESVV84Y2/hw==
@@ -4027,6 +4039,11 @@ image-size@^1.0.2:
   integrity sha512-rH+46sQJ2dlwfjfhCyNx5thzrv+dtmBIhPHk0zgRUukHzZ/kRueTJXoYYsclBaKcSMBWuGbOFXtioLpzTb5euw==
   dependencies:
     queue "6.0.2"
+
+immer@^11.1.8:
+  version "11.1.8"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-11.1.8.tgz#08a6426f7019dbce8d6dff8c4a43bb25c550a575"
+  integrity sha512-/tbkHMW7y10Lx6i1crLjD4/OhNkRG+Fo7byZHtah0547nIeXYcpIXaUh0IAQY6gO5459qpGGYapcEOHtFXkIuA==
 
 import-fresh@^3.2.1, import-fresh@^3.3.0:
   version "3.3.1"

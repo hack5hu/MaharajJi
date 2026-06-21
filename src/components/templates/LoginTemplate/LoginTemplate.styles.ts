@@ -96,7 +96,26 @@ export const InfoSection = styled(Box)`
   padding: ${scale(12)}px;
 `;
 
-export const HelpButton = styled.Pressable`
+export const HelpButton = styled.TouchableOpacity`
   align-self: center;
-  padding-vertical: ${verticalScale(8)}px;
+  padding: ${verticalScale(4)}px;
+  margin-top: ${verticalScale(8)}px;
+`;
+
+export const InputTapOverlay = styled.Pressable`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+`;
+
+export const TruecallerRow = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: ${verticalScale(12)}px;
+  margin-bottom: ${verticalScale(4)}px;
+  gap: ${scale(4)}px;
 `;

@@ -21,6 +21,8 @@ import {
   CountryCode,
   InfoSection,
   HelpButton,
+  TruecallerRow,
+  InputTapOverlay,
 } from './LoginTemplate.styles';
 import { LoginTemplateProps } from './types.d';
 
@@ -31,6 +33,9 @@ export const LoginTemplate = React.memo(({
   onHelpPress,
   isLoading,
   error,
+  handleTruecallerLogin,
+  handleInputFocus,
+  isTruecallerActive,
 }: LoginTemplateProps) => {
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
@@ -81,7 +86,10 @@ export const LoginTemplate = React.memo(({
               <Typography variant="label_caps" color={error ? 'error' : 'outline'} style={{ fontWeight: '600', letterSpacing: 1.5 }}>
                 {t('user.login.phone_label')}
               </Typography>
-              <PhoneInputWrapper isError={!!error} disabled={isLoading}>
+              <PhoneInputWrapper isError={!!error} disabled={isLoading || isTruecallerActive}>
+                {isTruecallerActive && handleInputFocus && (
+                  <InputTapOverlay onPress={handleInputFocus} />
+                )}
                 <CountryCode>
                   <Typography variant="body_lg" color="outline" style={{ fontWeight: '600' }}>
                     +91
@@ -100,9 +108,22 @@ export const LoginTemplate = React.memo(({
                     fontSize: scale(16),
                     fontFamily: 'Inter',
                   }}
-                  editable={!isLoading}
+                  editable={!isLoading && !isTruecallerActive}
+                  showSoftInputOnFocus={!isTruecallerActive}
                 />
               </PhoneInputWrapper>
+              {handleTruecallerLogin && isTruecallerActive && (
+                <TruecallerRow onPress={handleTruecallerLogin}>
+                  <Typography variant="body_sm" color="on_surface">
+                    {t('user.login.truecaller_prefix', { defaultValue: 'Or continue with' })}
+                  </Typography>
+                  <Box style={{ paddingHorizontal: scale(4), paddingVertical: verticalScale(2), borderRadius: scale(4), backgroundColor: theme.colors.truecaller }}>
+                    <Typography variant="body_sm" style={{ fontWeight: '700', color: '#FFF' }}>
+                      Truecaller
+                    </Typography>
+                  </Box>
+                </TruecallerRow>
+              )}
               {error && (
                 <Typography variant="body_sm" color="error">
                   {error}

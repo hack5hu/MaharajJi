@@ -46,7 +46,8 @@ export const theme = {
     primary_fixed: "#ffdcc2",
     background: "#fbf9f9",
     secondary_fixed_dim: "#bdc2ff",
-    inverse_surface: "#303031"
+    inverse_surface: "#303031",
+    truecaller: "#0052ff"
   },
   typography: {
     headline_lg_mobile: {

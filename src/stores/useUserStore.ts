@@ -2,51 +2,51 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { zustandMMKVStorage } from '@/utils/storage';
-import { AdminSession } from '@/serviceManager/types.d';
-import { SessionService } from '@/serviceManager/SessionService';
+import { AdminCustomer } from '@/serviceManager/types.d';
+import { UserService } from '@/serviceManager/UserService';
 import { Logger } from '@/utils/logger';
 
-interface SessionStoreState {
-  sessions: AdminSession[];
+interface UserStoreState {
+  customers: AdminCustomer[];
   isFetching: boolean;
   currentPage: number;
   hasMore: boolean;
   isFetchingNextPage: boolean;
 }
 
-interface SessionStoreActions {
-  fetchSessions: (reset?: boolean) => Promise<void>;
-  fetchNextPageSessions: () => Promise<void>;
-  setSessions: (sessions: AdminSession[]) => void;
-  removeSession: (id: string) => void;
+interface UserStoreActions {
+  fetchCustomers: (reset?: boolean) => Promise<void>;
+  fetchNextPageCustomers: () => Promise<void>;
+  addCustomerLocally: (customer: AdminCustomer) => void;
+  removeCustomerLocally: (phoneNumber: string) => void;
 }
 
-export type SessionStore = SessionStoreState & SessionStoreActions;
+export type UserStore = UserStoreState & UserStoreActions;
 
-const initialState: SessionStoreState = {
-  sessions: [],
+const initialState: UserStoreState = {
+  customers: [],
   isFetching: false,
   currentPage: 0,
   hasMore: true,
   isFetchingNextPage: false,
 };
 
-export const useSessionStore = create<SessionStore>()(
+export const useUserStore = create<UserStore>()(
   persist(
     immer((set, get) => ({
       ...initialState,
 
-      setSessions: (sessions) =>
+      addCustomerLocally: (customer) =>
         set((state) => {
-          state.sessions = sessions;
+          state.customers.unshift(customer);
         }),
 
-      removeSession: (id) =>
+      removeCustomerLocally: (phoneNumber) =>
         set((state) => {
-          state.sessions = state.sessions.filter((s: AdminSession) => s.id !== id);
+          state.customers = state.customers.filter((c: AdminCustomer) => c.phoneNumber !== phoneNumber);
         }),
 
-      fetchSessions: async (reset = true) => {
+      fetchCustomers: async (reset = true) => {
         if (reset) {
           set((state) => {
             state.isFetching = true;
@@ -57,48 +57,48 @@ export const useSessionStore = create<SessionStore>()(
           set((state) => { state.isFetching = true; });
         }
         try {
-          const res = await SessionService.fetchAllAdminSessions(0, 10);
+          const res = await UserService.fetchAllCustomers(0, 20);
           if (res.success && res.data) {
             set((state) => {
               const isArray = Array.isArray(res.data);
-              state.sessions = isArray ? (res.data as any) : (res.data!.content || []);
+              state.customers = isArray ? (res.data as any) : (res.data!.content || []);
               state.hasMore = isArray ? false : !res.data!.last;
               state.currentPage = 0;
             });
           }
         } catch (error) {
-          Logger.error("Failed to fetch sessions", error);
+          Logger.error("Failed to fetch customers", error);
         } finally {
           set((state) => { state.isFetching = false; });
         }
       },
 
-      fetchNextPageSessions: async () => {
+      fetchNextPageCustomers: async () => {
         const state = get();
         if (state.isFetchingNextPage || !state.hasMore) return;
 
         set((s) => { s.isFetchingNextPage = true; });
         try {
           const nextPage = state.currentPage + 1;
-          const res = await SessionService.fetchAllAdminSessions(nextPage, 10);
+          const res = await UserService.fetchAllCustomers(nextPage, 20);
           if (res.success && res.data) {
             set((s) => {
               const isArray = Array.isArray(res.data);
               const newItems = isArray ? (res.data as any) : (res.data!.content || []);
-              s.sessions = [...(s.sessions || []), ...newItems];
+              s.customers = [...(s.customers || []), ...newItems];
               s.hasMore = isArray ? false : !res.data!.last;
               s.currentPage = nextPage;
             });
           }
         } catch (error) {
-          Logger.error("Failed to fetch next page of sessions", error);
+          Logger.error("Failed to fetch next page of customers", error);
         } finally {
           set((s) => { s.isFetchingNextPage = false; });
         }
       },
     })),
     { 
-      name: 'session-store', 
+      name: 'user-store', 
       storage: createJSONStorage(() => zustandMMKVStorage) 
     },
   ),

@@ -3,6 +3,7 @@ import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { useLocale } from '@/hooks/useLocale';
 import { useApi } from '@/hooks/useApi';
 import { AuthService } from '@/serviceManager/AuthService';
+import { useTruecallerLogin } from './useTruecallerLogin';
 
 export const useLogin = () => {
   const navigation = useAppNavigation();
@@ -10,8 +11,22 @@ export const useLogin = () => {
 
   const [phone, setPhone] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
+  const [isTruecallerLoading, setIsTruecallerLoading] = useState(false);
 
-  const { execute, isLoading } = useApi(AuthService.login);
+  const { execute, isLoading: isApiLoading } = useApi(AuthService.login);
+  
+  const {
+    isTruecallerSupported,
+    hasDismissedTruecaller,
+    handleTruecallerLogin,
+    handleInputFocus,
+  } = useTruecallerLogin({
+    setLoading: setIsTruecallerLoading,
+    setError,
+  });
+
+  const isLoading = isApiLoading || isTruecallerLoading;
+  const isTruecallerActive = isTruecallerSupported && !hasDismissedTruecaller;
 
   const onPhoneChange = useCallback((text: string) => {
     // Only allow numeric input
@@ -52,5 +67,8 @@ export const useLogin = () => {
     onHelpPress,
     isLoading,
     error,
+    handleTruecallerLogin,
+    handleInputFocus,
+    isTruecallerActive,
   };
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ArrowLeft, Info, ChevronDown, UserPlus, CheckCircle2 } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
@@ -45,31 +45,33 @@ export const AddNewCustomerTemplate = React.memo(({
   return (
     <TemplateContainer>
       <HeaderWrapper paddingTop={insets.top}>
-        {/* We keep this clean, top header bar isn't needed if we have back navigation inside the main scroll view, 
-            but a simple top offset is good */}
+        <Box style={{ paddingHorizontal: scale(20), paddingTop: verticalScale(16), backgroundColor: theme.colors.surface as string }}>
+          <Pressable 
+            onPress={onCancelPress}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: scale(6) }}
+          >
+            <ArrowLeft color={theme.colors.primary as string} size={scale(18)} />
+            <Typography variant="label_caps" color="primary">
+              {t('admin.add_new_customer.back_to_customers')}
+            </Typography>
+          </Pressable>
+        </Box>
       </HeaderWrapper>
 
       <KeyboardAwareScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
-        bottomOffset={40}
+        enableOnAndroid={true}
+        extraScrollHeight={verticalScale(40)}
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           flexGrow: 1,
           paddingBottom: Math.max(insets.bottom, verticalScale(20)) + verticalScale(20),
         }}
       >
         <ContentContainer>
-          {/* Back button and title */}
+          {/* Title */}
           <Box style={{ marginBottom: verticalScale(24), gap: verticalScale(8) }}>
-            <Pressable 
-              onPress={onCancelPress}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: scale(6) }}
-            >
-              <ArrowLeft color={theme.colors.primary as string} size={scale(18)} />
-              <Typography variant="label_caps" color="primary">
-                {t('admin.add_new_customer.back_to_customers')}
-              </Typography>
-            </Pressable>
 
             <Typography variant="headline_lg" color="primary" style={{ fontWeight: '700', marginTop: verticalScale(8) }}>
               {t('admin.add_new_customer.add_new_member')}

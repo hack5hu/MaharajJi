@@ -15,7 +15,7 @@ import { FormRow, FormFieldContainer, StyledInput, ToggleContainer, StyledButton
 
 export const CreateNewSessionAdmin = React.memo(() => {
   const theme = useTheme() as ThemeType;
-  const { form, onSubmit, onSaveDraft, onMenuPress, isLoading, locations } = useCreateNewSessionAdmin();
+  const { form, onSubmit, onSaveDraft, onMenuPress, isLoading, locations, navigation } = useCreateNewSessionAdmin();
   const { control, formState: { errors } } = form;
 
   const watchedDate = useWatch({ control, name: 'date' });
@@ -32,6 +32,7 @@ export const CreateNewSessionAdmin = React.memo(() => {
       onMenuPress={onMenuPress}
       title="Create New Session"
       subtitle="Configure details for your community spiritual gathering."
+      onCancelPress={() => navigation.goBack()}
       actions={
         <>
           <StyledButtonWrapper>

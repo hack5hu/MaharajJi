@@ -1,6 +1,6 @@
 import { axiosClient } from './axiosClient';
 import { ApiEndpoint } from './endpoints';
-import { CreateSessionRequest, AdminSession, ApiResponse, LocationData } from './types.d';
+import { CreateSessionRequest, AdminSession, ApiResponse, LocationData, PagedResponse } from './types.d';
 
 export const SessionService = {
   createSession: async (payload: CreateSessionRequest): Promise<ApiResponse<AdminSession>> => {
@@ -15,9 +15,36 @@ export const SessionService = {
     }
   },
 
-  fetchAllAdminSessions: async (): Promise<ApiResponse<AdminSession[]>> => {
+  fetchAllAdminSessions: async (page?: number, size?: number): Promise<ApiResponse<PagedResponse<AdminSession>>> => {
     try {
-      const response = await axiosClient.get<AdminSession[]>(ApiEndpoint.ADMIN_ALL_SESSIONS);
+      const params = new URLSearchParams();
+      if (page !== undefined) params.append('page', page.toString());
+      if (size !== undefined) params.append('size', size.toString());
+      
+      const url = params.toString() ? `${ApiEndpoint.ADMIN_ALL_SESSIONS}?${params.toString()}` : ApiEndpoint.ADMIN_ALL_SESSIONS;
+      
+      const response = await axiosClient.get<PagedResponse<AdminSession>>(url);
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.message,
+      } as any;
+    }
+  },
+
+  getMyBookings: async (page?: number, size?: number): Promise<ApiResponse<PagedResponse<AdminSession>>> => {
+    try {
+      const params = new URLSearchParams();
+      if (page !== undefined) params.append('page', page.toString());
+      if (size !== undefined) params.append('size', size.toString());
+      
+      const url = params.toString() ? `${ApiEndpoint.MY_BOOKINGS}?${params.toString()}` : ApiEndpoint.MY_BOOKINGS;
+      
+      const response = await axiosClient.get<PagedResponse<AdminSession>>(url);
       return {
         success: true,
         data: response.data,

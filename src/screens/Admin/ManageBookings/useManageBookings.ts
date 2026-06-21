@@ -14,16 +14,23 @@ export const useManageBookings = () => {
   const isFetching = useSessionStore(state => state.isFetching);
   const fetchSessions = useSessionStore(state => state.fetchSessions);
   const removeSessionFromStore = useSessionStore(state => state.removeSession);
+  const fetchNextPageSessions = useSessionStore(state => state.fetchNextPageSessions);
+  const isFetchingNextPage = useSessionStore(state => state.isFetchingNextPage);
+  const hasMore = useSessionStore(state => state.hasMore);
 
   const { execute: cancelSession, isLoading: isCancelling } = useApi(SessionService.cancelSession);
 
   useEffect(() => {
     // Call API in the background on mount
-    fetchSessions();
+    fetchSessions(true);
   }, [fetchSessions]);
 
+  const handleLoadMore = useCallback(() => {
+    fetchNextPageSessions();
+  }, [fetchNextPageSessions]);
+
   const allSessions: SessionData[] = useMemo(() => {
-    return sessions.map((s) => {
+    return (sessions || []).map((s) => {
       // Map API status to UI status
       let uiStatus: SessionData['status'] = 'active';
       if (s.status === 'PUBLISHED') uiStatus = 'active';
@@ -86,5 +93,8 @@ export const useManageBookings = () => {
     onMenuPress: handleMenuPress,
     filteredSessions,
     isLoading: isFetching || isCancelling,
+    handleLoadMore,
+    isFetchingMore: isFetchingNextPage,
+    hasMore,
   };
 };
