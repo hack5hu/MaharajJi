@@ -12,6 +12,8 @@ interface SessionStoreState {
   currentPage: number;
   hasMore: boolean;
   isFetchingNextPage: boolean;
+  customerSessions: AdminSession[];
+  isFetchingCustomerSessions: boolean;
 }
 
 interface SessionStoreActions {
@@ -19,6 +21,8 @@ interface SessionStoreActions {
   fetchNextPageSessions: () => Promise<void>;
   setSessions: (sessions: AdminSession[]) => void;
   removeSession: (id: string) => void;
+  updateSessionStatus: (id: string, status: string) => void;
+  fetchCustomerSessions: () => Promise<void>;
 }
 
 export type SessionStore = SessionStoreState & SessionStoreActions;
@@ -29,6 +33,8 @@ const initialState: SessionStoreState = {
   currentPage: 0,
   hasMore: true,
   isFetchingNextPage: false,
+  customerSessions: [],
+  isFetchingCustomerSessions: false,
 };
 
 export const useSessionStore = create<SessionStore>()(
@@ -44,6 +50,14 @@ export const useSessionStore = create<SessionStore>()(
       removeSession: (id) =>
         set((state) => {
           state.sessions = state.sessions.filter((s: AdminSession) => s.id !== id);
+        }),
+
+      updateSessionStatus: (id, status) =>
+        set((state) => {
+          const session = state.sessions.find((s) => s.id === id);
+          if (session) {
+            session.status = status;
+          }
         }),
 
       fetchSessions: async (reset = true) => {
@@ -94,6 +108,22 @@ export const useSessionStore = create<SessionStore>()(
           Logger.error("Failed to fetch next page of sessions", error);
         } finally {
           set((s) => { s.isFetchingNextPage = false; });
+        }
+      },
+
+      fetchCustomerSessions: async () => {
+        set((state) => { state.isFetchingCustomerSessions = true; });
+        try {
+          const res = await SessionService.getCustomerSessions();
+          if (res.success && res.data) {
+            set((state) => {
+              state.customerSessions = res.data || [];
+            });
+          }
+        } catch (error) {
+          Logger.error("Failed to fetch customer sessions", error);
+        } finally {
+          set((state) => { state.isFetchingCustomerSessions = false; });
         }
       },
     })),

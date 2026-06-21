@@ -57,6 +57,9 @@ export const en = {
     manage_sessions: {
       title: "Manage Sessions",
       subtitle: "Oversee and organize the spiritual calendar.",
+      session_date: "Session Date",
+      booking_date: "Booking Date",
+      booking_time: "Booking Time",
       create_button: "CREATE NEW SESSION",
       filter_all: "ALL SESSIONS",
       filter_active: "ACTIVE",
@@ -67,6 +70,31 @@ export const en = {
       schedule_desc: "Add a new recurring or one-time session to the calendar.",
       cancel_title: "Cancel Session",
       cancel_desc: "Are you sure you want to cancel this session? This action cannot be undone."
+    },
+    create_session: {
+      title: "Create New Session",
+      subtitle: "Configure details for your community spiritual gathering.",
+      publish_loading: "Publishing...",
+      publish_btn: "Create & Publish",
+      save_draft_btn: "Save as Draft",
+      session_title_label: "Session Title",
+      session_title_placeholder: "e.g., Wednesday Evening Meditation",
+      event_day_label: "Event Day (Session Date)",
+      event_day_desc: "When the actual spiritual gathering will take place.",
+      location_label: "LOCATION",
+      location_loading: "Loading...",
+      location_placeholder: "Select location",
+      seats_label: "SEATS",
+      max_user_label: "MAX/USER",
+      booking_open_label: "Booking Window Open Date",
+      booking_open_desc: "When users can start booking seats. Must be strictly before the Event Day.",
+      booking_start_time: "Booking Start Time",
+      booking_end_time: "Booking End Time",
+      error_title_req: "Session Title is required",
+      error_location_req: "Location is required",
+      error_tokens_min: "Tokens must be at least 1",
+      error_max_users_min: "Max users per booking must be at least 1",
+      error_time_gap: "End time must be at least 1 hour after start time."
     }
   },
   user: {

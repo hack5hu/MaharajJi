@@ -61,6 +61,7 @@ export const HomeBookingStatus = React.memo(() => {
   }, [navigation]);
 
   const renderAvailableState = () => {
+    if (!activeSession) return null;
     const progress = activeSession.slotsLeft / activeSession.totalSlots;
 
     return (
@@ -197,11 +198,6 @@ export const HomeBookingStatus = React.memo(() => {
 
         {mode === 'available' ? renderAvailableState() : renderEmptyState()}
       </HomeBookingStatusTemplate>
-
-      {/* Mode State Switcher for Visual Testing */}
-      <ToggleFloatingButton onPress={toggleMode}>
-        <RefreshCw color={theme.colors.on_secondary_container as string} size={scale(20)} />
-      </ToggleFloatingButton>
     </ScreenContainer>
   );
 });

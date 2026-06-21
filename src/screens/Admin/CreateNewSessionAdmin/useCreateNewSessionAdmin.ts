@@ -1,7 +1,7 @@
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { validateStartTime, validateEndTime } from '@/utils/dateHelpers';
+import { addDays } from 'date-fns';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '@/navigation/types.d';
@@ -14,31 +14,22 @@ import { CreateSessionRequest, LocationData } from '@/serviceManager/types.d';
 import React, { useMemo, useEffect, useState } from 'react';
 
 const sessionSchema = z.object({
-  title: z.string().min(1, 'Session Title is required'),
+  title: z.string().min(1, 'admin.create_session.error_title_req'),
   date: z.date(),
-  startTime: z.date(),
-  endTime: z.date(),
-  location: z.string().min(1, 'Location is required'),
-  tokens: z.number().min(1, 'Tokens must be at least 1'),
-  maxPeoplePerToken: z.number().min(1, 'Max users per booking must be at least 1'),
-  description: z.string().min(1, 'Description is required'),
-  publishImmediately: z.boolean(),
+  location: z.string().min(1, 'admin.create_session.error_location_req'),
+  tokens: z.number().min(1, 'admin.create_session.error_tokens_min'),
+  maxPeoplePerToken: z.number().min(1, 'admin.create_session.error_max_users_min'),
+  bookingOpenDate: z.date(),
+  bookingOpenTime: z.date(),
+  bookingCloseTime: z.date(),
 }).superRefine((data, ctx) => {
-  // 1. If today, start time must be > now + 1 hour
-  if (!validateStartTime(data.date, data.startTime)) {
+  // Booking close time must be at least 1 hour after booking open time
+  const diffInMinutes = (data.bookingCloseTime.getTime() - data.bookingOpenTime.getTime()) / (1000 * 60);
+  if (diffInMinutes < 60) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: 'Start time must be at least 1 hour from now for today.',
-      path: ['startTime']
-    });
-  }
-
-  // 2. End time must be strictly after start time
-  if (!validateEndTime(data.startTime, data.endTime)) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'End time must be after start time.',
-      path: ['endTime']
+      message: 'admin.create_session.error_time_gap',
+      path: ['bookingCloseTime']
     });
   }
 });
@@ -79,8 +70,11 @@ export const useCreateNewSessionAdmin = () => {
   useEffect(() => {
     const loadLocations = async () => {
       const result = await fetchLocations(undefined);
-      if (result.success && result.data) {
+      if (result.success && result.data && result.data.length > 0) {
         setLocations(result.data.filter(loc => loc.active));
+      } else {
+        // Fallback if API fails or returns empty
+        setLocations([{ id: '1', name: 'Main Hall', active: true }]);
       }
     };
     loadLocations();
@@ -91,38 +85,36 @@ export const useCreateNewSessionAdmin = () => {
     
     if (editSession) {
       const parsedDate = parseDateString(editSession.sessionDate);
-      const parsedStartTime = parseTimeString(parsedDate, editSession.startTime);
-      const parsedEndTime = parseTimeString(parsedDate, editSession.endTime);
+      const parsedStartTime = parseTimeString(parsedDate, editSession.bookingOpenTime || '09:00:00');
+      const parsedEndTime = parseTimeString(parsedDate, editSession.bookingCloseTime || '10:00:00');
       
       return {
         title: editSession.title || '',
         date: parsedDate,
-        startTime: parsedStartTime,
-        endTime: parsedEndTime,
         location: editSession.location || 'Main Hall',
         tokens: editSession.totalTokens || 25,
         maxPeoplePerToken: editSession.maxPeoplePerToken || 4,
-        description: editSession.description || '',
-        publishImmediately: editSession.status === 'PUBLISHED',
+        bookingOpenDate: editSession.bookingOpenDate ? parseDateString(editSession.bookingOpenDate) : addDays(parsedDate, -1),
+        bookingOpenTime: parsedStartTime,
+        bookingCloseTime: parsedEndTime,
       };
     }
 
-    const defaultStartTime = new Date();
-    defaultStartTime.setHours(18, 0, 0, 0); // 18:00
-    
-    const defaultEndTime = new Date();
-    defaultEndTime.setHours(19, 30, 0, 0); // 19:30
+    const defaultBookingOpenTime = new Date();
+    defaultBookingOpenTime.setHours(9, 0, 0, 0); // 09:00 AM
+
+    const defaultBookingCloseTime = new Date();
+    defaultBookingCloseTime.setHours(10, 0, 0, 0); // 10:00 AM
 
     return {
       title: '',
-      date: today,
-      startTime: defaultStartTime,
-      endTime: defaultEndTime,
+      date: addDays(today, 2),
       location: 'Main Hall',
       tokens: 25,
       maxPeoplePerToken: 4,
-      description: '',
-      publishImmediately: true,
+      bookingOpenDate: addDays(today, 1),
+      bookingOpenTime: defaultBookingOpenTime,
+      bookingCloseTime: defaultBookingCloseTime,
     };
   }, [editSession]);
 
@@ -131,29 +123,36 @@ export const useCreateNewSessionAdmin = () => {
     defaultValues,
   });
 
-  const watchedStartTime = useWatch({ control: form.control, name: 'startTime' });
+  const watchedDate = useWatch({ control: form.control, name: 'date' });
+  const watchedBookingOpenTime = useWatch({ control: form.control, name: 'bookingOpenTime' });
 
+  // Sync bookingOpenDate to be 1 day before selected date
   useEffect(() => {
-    if (watchedStartTime && !editSession) {
-      const newEndTime = new Date(watchedStartTime);
-      newEndTime.setHours(newEndTime.getHours() + 1);
-      form.setValue('endTime', newEndTime, { shouldValidate: true });
+    if (watchedDate && !editSession) {
+      form.setValue('bookingOpenDate', addDays(watchedDate, -1), { shouldValidate: true });
     }
-  }, [watchedStartTime, form.setValue, editSession]);
+  }, [watchedDate, form.setValue, editSession]);
+
+  // Sync bookingCloseTime when bookingOpenTime changes
+  useEffect(() => {
+    if (watchedBookingOpenTime && !editSession) {
+      const newCloseTime = new Date(watchedBookingOpenTime);
+      newCloseTime.setHours(newCloseTime.getHours() + 1);
+      form.setValue('bookingCloseTime', newCloseTime, { shouldValidate: true });
+    }
+  }, [watchedBookingOpenTime, form.setValue, editSession]);
 
   const onSubmit = form.handleSubmit(async (data) => {
-    // If editing, you might need a separate API call like SessionService.updateSession
-    // Since the API wasn't provided, I will just call createSession or log it.
-    // Assuming for now createSession handles it or we only create.
     const payload: CreateSessionRequest = {
       title: data.title,
-      description: data.description,
+      description: '', // Hardcoded as requested
       sessionDate: formatDateLocal(data.date),
-      startTime: formatTimeLocal(data.startTime),
-      endTime: formatTimeLocal(data.endTime),
       location: data.location,
       totalTokens: data.tokens,
       maxPeoplePerToken: data.maxPeoplePerToken,
+      bookingOpenDate: formatDateLocal(data.bookingOpenDate),
+      bookingOpenTime: formatTimeLocal(data.bookingOpenTime),
+      bookingCloseTime: formatTimeLocal(data.bookingCloseTime),
     };
 
     const result = await createSession(payload);

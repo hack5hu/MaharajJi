@@ -4,6 +4,8 @@ import { useLocale } from '@/hooks/useLocale';
 import { useApi } from '@/hooks/useApi';
 import { AuthService } from '@/serviceManager/AuthService';
 import { useTruecallerLogin } from './useTruecallerLogin';
+import { OTPWidget } from '@msg91comm/sendotp-react-native';
+import { Logger } from '@/utils/logger';
 
 export const useLogin = () => {
   const navigation = useAppNavigation();
@@ -46,13 +48,31 @@ export const useLogin = () => {
 
     setError(undefined);
 
-    const result = await execute({ phoneNumber: phone });
-    if (result.success) {
+    try {
+      // 1. Call backend API for login (to ensure backend state is ready/record user)
+      const beResult = await execute({ phoneNumber: phone });
+      
+      if (!beResult.success) {
+        Logger.error('Backend login error', beResult.error);
+        setError(beResult.error?.message || t('user.errors.server_error'));
+        return;
+      }
+
+      // 2. Trigger MSG91 sendOTP
+      Logger.log('MSG91 sendOTP Request', { identifier: '91' + phone });
+      const response = await OTPWidget.sendOTP({ identifier: '91' + phone });
+      Logger.log('MSG91 sendOTP Response', response);
+      
       const isAdmin = phone === '1212121212';
-      // Navigate to OTP Verification screen and pass phone details + flow
-      navigation.navigate('OTPVerification', { phoneNumber: '+91 ' + phone, isAdmin });
-    } else if (result.error) {
-      setError(result.error.message || t('user.errors.server_error'));
+      // Msg91 sendOTP response might contain the reqId inside message or data
+      navigation.navigate('OTPVerification', { 
+        phoneNumber: '+91 ' + phone, 
+        isAdmin, 
+        reqId: response?.message 
+      });
+    } catch (e: any) {
+      Logger.error('MSG91 sendOTP Error', e);
+      setError(e?.message || t('user.errors.server_error'));
     }
   }, [phone, navigation, t, execute]);
 

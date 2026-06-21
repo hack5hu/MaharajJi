@@ -5,15 +5,17 @@ import { useLocale } from '@/hooks/useLocale';
 import { storage, StorageKeys } from '@/utils/storage';
 import { useApi } from '@/hooks/useApi';
 import { AuthService } from '@/serviceManager/AuthService';
+import { OTPWidget } from '@msg91comm/sendotp-react-native';
+import { Logger } from '@/utils/logger';
 
-export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string) => {
+export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqId?: string) => {
   const navigation = useAppNavigation();
   const { t } = useLocale();
 
   const otpRef = useRef<OtpInputRef>(null);
   const [otp, setOtp] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
-  const [resendTimer, setResendTimer] = useState(30);
+  const [resendTimer, setResendTimer] = useState(90);
 
   const { execute, isLoading } = useApi(AuthService.verifyOtp);
 
@@ -45,45 +47,65 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string) => {
 
     const cleanPhone = phoneNumber ? phoneNumber.replace('+91 ', '').trim() : '';
 
-    const result = await execute({
-      phoneNumber: cleanPhone,
-      otp: currentOtp,
-    });
+    try {
+      // 1. Verify with MSG91 SDK
+      Logger.log('MSG91 verifyOTP Request', { reqId, otp: currentOtp });
+      const verifyResp = await OTPWidget.verifyOTP({ reqId, otp: currentOtp });
+      Logger.log('MSG91 verifyOTP Response', verifyResp);
 
-    if (result.success && result.data) {
-      const responseData = result.data;
+      // 2. Obtain token from backend
+      const result = await execute({
+        phoneNumber: cleanPhone,
+        otp: currentOtp,
+      });
 
-      // Store tokens and user details
-      storage.set(StorageKeys.AUTH_TOKEN, responseData.token);
-      storage.set(StorageKeys.REFRESH_TOKEN, responseData.refreshToken);
-      storage.set(StorageKeys.USER_ROLE, responseData.role);
-      storage.set(StorageKeys.USER_ID, responseData.userId);
+      if (result.success && result.data) {
+        const responseData = result.data;
 
-      // Save profile info in MMKV
-      const isUserAdmin = responseData.role === 'ADMIN' || responseData.role === 'SUPER_ADMIN';
-      const profile = {
-        name: isUserAdmin ? 'Admin User' : 'Brother John',
-        phone: cleanPhone,
-      };
-      storage.set(StorageKeys.USER_PROFILE, JSON.stringify(profile));
+        // Store tokens and user details
+        storage.set(StorageKeys.AUTH_TOKEN, responseData.token);
+        storage.set(StorageKeys.REFRESH_TOKEN, responseData.refreshToken);
+        storage.set(StorageKeys.USER_ROLE, responseData.role);
+        storage.set(StorageKeys.USER_ID, responseData.userId);
 
-      if (isUserAdmin) {
-        navigation.navigate('AdminDashboardHome');
-      } else {
-        navigation.navigate('HomeBookingStatus');
+        // Save profile info in MMKV
+        const isUserAdmin = responseData.role === 'ADMIN' || responseData.role === 'SUPER_ADMIN';
+        const profile = {
+          name: isUserAdmin ? 'Admin User' : 'Brother John',
+          phone: cleanPhone,
+        };
+        storage.set(StorageKeys.USER_PROFILE, JSON.stringify(profile));
+
+        if (isUserAdmin) {
+          navigation.navigate('AdminDashboardHome');
+        } else {
+          navigation.navigate('HomeBookingStatus');
+        }
+      } else if (result.error) {
+        setError(result.error.message || t('user.errors.server_error'));
       }
-    } else if (result.error) {
-      setError(result.error.message || t('user.errors.server_error'));
+    } catch (e: any) {
+      Logger.error('MSG91 verifyOTP Error', e);
+      setError(e?.message || t('user.otp_verification.error_otp'));
     }
-  }, [otp, phoneNumber, execute, navigation, t]);
+  }, [otp, phoneNumber, execute, navigation, t, reqId]);
 
-  const onResendPress = useCallback(() => {
-    setResendTimer(30);
-    setOtp('');
-    setError(undefined);
-    // Clear the OTP input boxes via ref
-    otpRef.current?.clear();
-  }, []);
+  const onResendPress = useCallback(async () => {
+    try {
+      Logger.log('MSG91 retryOTP Request', { reqId, channel: 1 });
+      const retryResp = await OTPWidget.retryOTP({ reqId, channel: 1 }); // channel 1 = SMS
+      Logger.log('MSG91 retryOTP Response', retryResp);
+      
+      setResendTimer(90);
+      setOtp('');
+      setError(undefined);
+      // Clear the OTP input boxes via ref
+      otpRef.current?.clear();
+    } catch (e: any) {
+      Logger.error('MSG91 retryOTP Error', e);
+      setError(e?.message || t('user.errors.server_error'));
+    }
+  }, [reqId, t]);
 
   return {
     otpRef,

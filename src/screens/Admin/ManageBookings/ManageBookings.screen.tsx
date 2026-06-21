@@ -70,8 +70,10 @@ export const ManageBookings = React.memo(() => {
     <SessionCard
       title={item.title}
       status={item.status}
-      date={item.date}
-      time={item.time}
+      sessionDate={item.sessionDate}
+      bookingDate={item.bookingDate}
+      bookingStartTime={item.bookingStartTime}
+      bookingEndTime={item.bookingEndTime}
       publishedBy={item.publishedBy}
       onDeletePress={() => setSessionToCancel(item.id)}
       onViewPress={() => onViewSession(item.id)}

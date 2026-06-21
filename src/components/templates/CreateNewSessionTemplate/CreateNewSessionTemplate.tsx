@@ -17,9 +17,6 @@ import { ThemeType } from '@/theme/theme';
 import { scale, verticalScale } from '@/styles/scaling';
 
 export interface CreateNewSessionTemplateProps {
-  headerTitle: string;
-  avatarUrl?: string;
-  onMenuPress: () => void;
   title: string;
   subtitle: string;
   children: React.ReactNode;
@@ -28,9 +25,6 @@ export interface CreateNewSessionTemplateProps {
 }
 
 export const CreateNewSessionTemplate = React.memo(({
-  headerTitle,
-  avatarUrl,
-  onMenuPress,
   title,
   subtitle,
   children,
@@ -44,7 +38,6 @@ export const CreateNewSessionTemplate = React.memo(({
   return (
     <Container>
       <HeaderWrapper paddingTop={insets.top}>
-        <AdminHeader title={headerTitle} avatarUrl={avatarUrl as string} onMenuPress={onMenuPress} />
         <Box style={{ paddingHorizontal: scale(20), paddingTop: verticalScale(12), paddingBottom: verticalScale(4), backgroundColor: theme.colors.surface as string }}>
           <Pressable 
             onPress={onCancelPress}

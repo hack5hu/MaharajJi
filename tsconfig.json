@@ -3,6 +3,7 @@
   "compilerOptions": {
     "types": ["jest"],
     "baseUrl": ".",
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["src/*"]
     }

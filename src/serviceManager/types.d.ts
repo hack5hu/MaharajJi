@@ -6,6 +6,9 @@ export interface ApiResponse<T> {
 }
 
 export interface PagedResponse<T> {
+  page: number;
+  size: number;
+  totalElements: number;
   totalPages: number;
   last: boolean;
   content: T[];
@@ -45,12 +48,13 @@ export interface VerifyOtpResponse {
 export interface CreateSessionRequest {
   title: string;
   description: string;
-  sessionDate: string; // YYYY-MM-DD
-  startTime: string; // HH:mm:ss
-  endTime: string; // HH:mm:ss
+  sessionDate: string; 
   location: string;
   totalTokens: number;
   maxPeoplePerToken: number;
+  bookingOpenDate: string;
+  bookingOpenTime: string;
+  bookingCloseTime: string;
 }
 
 export interface LocationData {
@@ -66,15 +70,17 @@ export interface AdminSession {
   title: string;
   description: string;
   sessionDate: string;
-  startTime: string;
-  endTime: string;
   location: string;
+  bookingOpenDate?: string;
+  bookingOpenTime?: string;
+  bookingCloseTime?: string;
   totalTokens: number;
   maxPeoplePerToken: number;
   confirmedBookings: number;
   availableTokens: number;
   totalPeopleBooked: number;
   status: string;
+  sessionState?: string | null;
   createdByAdminId: string;
   createdByAdminName: string;
   createdAt: string;

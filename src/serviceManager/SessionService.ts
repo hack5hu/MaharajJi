@@ -87,4 +87,19 @@ export const SessionService = {
       };
     }
   },
+
+  getCustomerSessions: async (): Promise<ApiResponse<AdminSession[]>> => {
+    try {
+      const response = await axiosClient.get<AdminSession[]>(ApiEndpoint.CUSTOMER_SESSIONS);
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.message,
+      };
+    }
+  },
 };

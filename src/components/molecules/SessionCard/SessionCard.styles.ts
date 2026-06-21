@@ -56,10 +56,16 @@ export const SessionTitle = styled(Box)`
 `;
 
 export const DetailsContainer = styled(Box)`
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${scale(8)}px;
+  margin-bottom: ${verticalScale(16)}px;
+`;
+
+export const DetailsRow = styled(Box)`
   flex-direction: row;
   align-items: center;
   gap: ${scale(6)}px;
-  margin-bottom: ${verticalScale(16)}px;
 `;
 
 export const Divider = styled(Box)`

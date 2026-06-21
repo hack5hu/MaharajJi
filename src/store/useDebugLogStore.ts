@@ -5,6 +5,8 @@ export interface ApiLog {
   timestamp: string;
   method: string;
   url: string;
+  fullUrl?: string;
+  headers?: Record<string, string>;
   requestData?: any;
   status?: number;
   responseData?: any;

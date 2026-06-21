@@ -30,6 +30,10 @@ import { OTPVerification } from './src/screens/Auth/OTPVerification';
 import { ApiDebugger } from './src/components/organisms/ApiDebugger';
 import type { RootStackParamList } from './src/navigation/types';
 import { storage, StorageKeys } from './src/utils/storage';
+import { OTPWidget } from '@msg91comm/sendotp-react-native';
+import { MSG91_WIDGET_ID, MSG91_TOKEN_AUTH } from '@env';
+
+OTPWidget.initializeWidget(MSG91_WIDGET_ID, MSG91_TOKEN_AUTH);
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

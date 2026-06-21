@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import { Terminal, Bug, ChevronDown, ChevronUp, Trash2, X } from 'lucide-react-native';
+import { Terminal, Bug, ChevronDown, ChevronUp, Trash2, X, Copy } from 'lucide-react-native';
+import { TouchableOpacity, Alert } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { scale } from '@/styles/scaling';
@@ -62,6 +64,37 @@ export const ApiDebugger = React.memo(() => {
     }
   };
 
+  const handleCopyCurl = useCallback((log: ApiLog) => {
+    const url = log.fullUrl || log.url;
+    let curl = `curl --location '${url}'`;
+    
+    if (log.method && log.method.toUpperCase() !== 'GET') {
+      curl += ` \\\n--request ${log.method.toUpperCase()}`;
+    }
+
+    if (log.headers) {
+      Object.entries(log.headers).forEach(([key, value]) => {
+        const lowerKey = key.toLowerCase();
+        if (['common', 'delete', 'get', 'head', 'post', 'put', 'patch'].includes(lowerKey)) return;
+        if (typeof value === 'string') {
+          curl += ` \\\n--header '${key}: ${value}'`;
+        }
+      });
+    }
+
+    if (log.requestData) {
+      const dataStr = typeof log.requestData === 'string' ? log.requestData : JSON.stringify(log.requestData);
+      curl += ` \\\n--data '${dataStr}'`;
+    }
+
+    try {
+      Clipboard.setString(curl);
+      // Optional: Add a subtle toast or alert if you want, but user said "don't show me popup for anything"
+    } catch (e) {
+      console.log('Failed to copy', e);
+    }
+  }, []);
+
   const renderLogItem = useCallback((log: ApiLog) => {
     const isExpanded = expandedId === log.id;
     const statusText = log.status ? String(log.status) : 'PENDING';
@@ -95,7 +128,12 @@ export const ApiDebugger = React.memo(() => {
           </LogInfo>
 
           {isExpanded ? (
-            <ChevronUp color={theme.colors.on_surface_variant as string} size={scale(20)} />
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(8) }}>
+              <TouchableOpacity onPress={() => handleCopyCurl(log)} hitSlop={10}>
+                <Copy color={theme.colors.on_surface_variant as string} size={scale(18)} />
+              </TouchableOpacity>
+              <ChevronUp color={theme.colors.on_surface_variant as string} size={scale(20)} />
+            </Box>
           ) : (
             <ChevronDown color={theme.colors.on_surface_variant as string} size={scale(20)} />
           )}

@@ -13,6 +13,7 @@
     "@ajitpatel28/react-native-truecaller": "^0.9.0",
     "@hookform/resolvers": "3.9.0",
     "@msg91comm/sendotp-react-native": "^2.1.0",
+    "@react-native-clipboard/clipboard": "^1.16.3",
     "@react-native/new-app-screen": "0.86.0",
     "@react-navigation/native": "^7.3.3",
     "@react-navigation/native-stack": "^7.17.5",
@@ -63,6 +64,7 @@
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
     "prettier": "2.8.8",
+    "react-native-dotenv": "^3.4.11",
     "react-test-renderer": "19.2.3",
     "typescript": "^5.8.3"
   },

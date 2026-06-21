@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
+import { format, parse } from 'date-fns';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { SessionData, SessionFilter } from './types.d';
 import { useApi } from '@/hooks/useApi';
@@ -13,7 +14,7 @@ export const useManageBookings = () => {
   const sessions = useSessionStore(state => state.sessions);
   const isFetching = useSessionStore(state => state.isFetching);
   const fetchSessions = useSessionStore(state => state.fetchSessions);
-  const removeSessionFromStore = useSessionStore(state => state.removeSession);
+  const updateSessionStatus = useSessionStore(state => state.updateSessionStatus);
   const fetchNextPageSessions = useSessionStore(state => state.fetchNextPageSessions);
   const isFetchingNextPage = useSessionStore(state => state.isFetchingNextPage);
   const hasMore = useSessionStore(state => state.hasMore);
@@ -29,6 +30,17 @@ export const useManageBookings = () => {
     fetchNextPageSessions();
   }, [fetchNextPageSessions]);
 
+  const formatTimeStr = (timeStr?: string) => {
+    if (!timeStr) return '';
+    try {
+      // 'HH:mm:ss' to 'hh:mm a'
+      const d = parse(timeStr, 'HH:mm:ss', new Date());
+      return format(d, 'hh:mm a');
+    } catch (e) {
+      return timeStr;
+    }
+  };
+
   const allSessions: SessionData[] = useMemo(() => {
     return (sessions || []).map((s) => {
       // Map API status to UI status
@@ -41,8 +53,10 @@ export const useManageBookings = () => {
         id: s.id,
         title: s.title,
         status: uiStatus,
-        date: s.sessionDate,
-        time: s.startTime,
+        sessionDate: s.sessionDate ? s.sessionDate.split('-').reverse().join('-') : '',
+        bookingDate: s.bookingOpenDate ? s.bookingOpenDate.split('-').reverse().join('-') : '',
+        bookingStartTime: formatTimeStr(s.bookingOpenTime),
+        bookingEndTime: formatTimeStr(s.bookingCloseTime),
         publishedBy: {
           name: s.createdByAdminName,
         },
@@ -61,14 +75,14 @@ export const useManageBookings = () => {
   }, [navigation]);
 
   const handleDeleteSession = useCallback(async (id: string) => {
-    // Optimistic update locally
-    removeSessionFromStore(id);
+    // Optimistic update locally: mark as CANCELLED
+    updateSessionStatus(id, 'CANCELLED');
     const res = await cancelSession(id);
     if (!res.success) {
-      // If it fails, refresh the list to restore the session
+      // If it fails, refresh the list to restore the previous status
       fetchSessions();
     }
-  }, [cancelSession, removeSessionFromStore, fetchSessions]);
+  }, [cancelSession, updateSessionStatus, fetchSessions]);
 
   const handleViewSession = useCallback((id: string) => {
     console.log('View session clicked', id);

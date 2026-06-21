@@ -23,7 +23,7 @@ export type RootStackParamList = {
   };
   Profile: undefined;
   Login: undefined;
-  OTPVerification: { phoneNumber: string; isAdmin: boolean };
+  OTPVerification: { phoneNumber: string; isAdmin: boolean; reqId?: string };
 };
 
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;

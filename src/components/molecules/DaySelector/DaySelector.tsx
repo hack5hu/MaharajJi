@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { isSameDay } from 'date-fns';
+import { isSameDay, isBefore, startOfDay } from 'date-fns';
 import { Typography } from '@/components/atoms/Typography';
 import { getNext7Days } from '@/utils/dateHelpers';
 import { verticalScale } from '@/styles/scaling';
@@ -8,10 +8,19 @@ import { GridContainer, DayButton } from './DaySelector.styles';
 export interface DaySelectorProps {
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
+  startDate?: Date;
+  maxDate?: Date;
 }
 
-export const DaySelector = React.memo(({ selectedDate, onSelectDate }: DaySelectorProps) => {
-  const days = useMemo(() => getNext7Days(), []);
+export const DaySelector = React.memo(({ selectedDate, onSelectDate, startDate = new Date(), maxDate }: DaySelectorProps) => {
+  const days = useMemo(() => {
+    let generated = getNext7Days(startDate);
+    if (maxDate) {
+      const maxStart = startOfDay(maxDate);
+      generated = generated.filter((d) => isBefore(startOfDay(d.date), maxStart));
+    }
+    return generated;
+  }, [startDate, maxDate]);
 
   return (
     <GridContainer>

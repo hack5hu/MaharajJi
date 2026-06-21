@@ -13,7 +13,7 @@ import {
   TagText,
   SessionTitle,
   DetailsContainer,
-  Divider,
+  DetailsRow,
   CardFooter,
   AuthorContainer,
   AvatarImage,
@@ -26,8 +26,10 @@ import { SessionCardProps } from './types.d';
 export const SessionCard = React.memo(({
   title,
   status,
-  date,
-  time,
+  sessionDate,
+  bookingDate,
+  bookingStartTime,
+  bookingEndTime,
   publishedBy,
   onEditPress,
   onDeletePress,
@@ -61,19 +63,26 @@ export const SessionCard = React.memo(({
       </SessionTitle>
 
       <DetailsContainer>
-        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
+        <DetailsRow>
           <CalendarIcon color={theme.colors.on_surface_variant as string} size={scale(16)} />
           <Typography variant="body_sm" color="on_surface_variant">
-            {date}
+            {t('admin.manage_sessions.session_date') || 'Session Date'}: {sessionDate}
           </Typography>
-        </Box>
-        <Divider />
-        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
+        </DetailsRow>
+        
+        <DetailsRow>
+          <CalendarIcon color={theme.colors.on_surface_variant as string} size={scale(16)} />
+          <Typography variant="body_sm" color="on_surface_variant">
+            {t('admin.manage_sessions.booking_date') || 'Booking Date'}: {bookingDate}
+          </Typography>
+        </DetailsRow>
+
+        <DetailsRow>
           <ClockIcon color={theme.colors.on_surface_variant as string} size={scale(16)} />
           <Typography variant="body_sm" color="on_surface_variant">
-            {time}
+            {t('admin.manage_sessions.booking_time') || 'Booking Time'}: {bookingStartTime} - {bookingEndTime}
           </Typography>
-        </Box>
+        </DetailsRow>
       </DetailsContainer>
 
       <CardFooter>

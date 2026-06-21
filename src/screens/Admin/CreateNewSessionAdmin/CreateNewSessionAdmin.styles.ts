@@ -11,8 +11,9 @@ export const FormRow = styled(Box)`
   gap: ${scale(16)}px;
 `;
 
-export const FormFieldContainer = styled(Box)<{ flex?: number }>`
+export const FormFieldContainer = styled(Box)<{ flex?: number; mb?: number }>`
   ${({ flex }) => flex ? `flex: ${flex};` : 'width: 100%;'}
+  ${({ mb }) => mb ? `margin-bottom: ${verticalScale(mb)}px;` : ''}
 `;
 
 export const StyledInput = styled(TextInput)<{ isError?: boolean; isTextArea?: boolean }>`

@@ -23,9 +23,14 @@ axiosClient.interceptors.request.use(
     }
 
     const startTime = Date.now();
+    const fullUrl = `${config.baseURL || ''}${config.url || ''}`;
+    const headers = config.headers as Record<string, string>;
+
     const logId = useDebugLogStore.getState().addLog({
       method: config.method?.toUpperCase() || 'GET',
       url: config.url || '',
+      fullUrl,
+      headers,
       requestData: config.data,
     });
 
