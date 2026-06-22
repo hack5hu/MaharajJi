@@ -4,9 +4,8 @@ import { Typography } from '@/components/atoms/Typography';
 import { 
   Container, HeaderWrapper, MainContent, 
   TitleContainer, FormContainer, 
-  ActionsContainer 
+  ActionsContainer, HeaderContent, BackPressable 
 } from './CreateNewSessionTemplate.styles';
-import { Pressable } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ArrowLeft } from 'lucide-react-native';
 import { Box } from '@/components/atoms/Box';
@@ -37,24 +36,21 @@ export const CreateNewSessionTemplate = React.memo(({
   return (
     <Container>
       <HeaderWrapper paddingTop={insets.top}>
-        <Box style={{ paddingHorizontal: scale(20), paddingTop: verticalScale(12), paddingBottom: verticalScale(4), backgroundColor: theme.colors.surface as string }}>
-          <Pressable 
-            onPress={onCancelPress}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: scale(6) }}
-          >
+        <HeaderContent>
+          <BackPressable onPress={onCancelPress}>
             <ArrowLeft color={theme.colors.primary as string} size={scale(18)} />
             <Typography variant="label_caps" color="primary">
               {t('common.back', { defaultValue: 'GO BACK' })}
             </Typography>
-          </Pressable>
-        </Box>
+          </BackPressable>
+        </HeaderContent>
       </HeaderWrapper>
       <KeyboardAwareScrollView 
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
         enableOnAndroid={true}
         extraScrollHeight={verticalScale(40)}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         contentContainerStyle={{ 
           flexGrow: 1,
         }}

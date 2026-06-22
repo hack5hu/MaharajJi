@@ -20,7 +20,7 @@ export const Button = React.memo(({ label, onPress, variant = 'primary', fullWid
 
   const getBackgroundColor = () => {
     if (disabled) return theme.colors.surface_dim;
-    return variant === 'primary' ? theme.colors.primary : 'transparent';
+    return variant === 'primary' ? theme.colors.primary : theme.colors.surface_container;
   };
 
   const getTextColor = (): keyof ThemeType['colors'] => {
@@ -38,8 +38,6 @@ export const Button = React.memo(({ label, onPress, variant = 'primary', fullWid
       onPress={disabled || loading ? undefined : onPress}
       style={({ pressed }) => [{
         backgroundColor: getBackgroundColor(),
-        borderColor: getBorderColor(),
-        borderWidth: variant === 'outline' ? 1 : 0,
         paddingVertical: verticalScale(12),
         paddingHorizontal: scale(24),
         borderRadius: moderateScale(12),

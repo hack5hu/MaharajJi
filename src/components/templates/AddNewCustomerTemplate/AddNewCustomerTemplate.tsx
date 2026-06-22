@@ -141,7 +141,7 @@ export const AddNewCustomerTemplate = React.memo(({
             </FieldGroup>
 
             {/* Info Message */}
-            <InfoContainer>
+            {/* <InfoContainer>
               <Info 
                 color={theme.colors.tertiary as string} 
                 size={scale(20)} 
@@ -150,7 +150,7 @@ export const AddNewCustomerTemplate = React.memo(({
               <Typography variant="body_sm" color="on_tertiary_fixed_variant" style={{ flex: 1 }}>
                 {t('admin.add_new_customer.info_text')}
               </Typography>
-            </InfoContainer>
+            </InfoContainer> */}
 
             {/* Action Buttons */}
             <ButtonContainer>

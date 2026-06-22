@@ -18,14 +18,12 @@ export const MainContent = styled(Box)`
 
 export const SummaryCard = styled(Box)`
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   padding: ${scale(24)}px;
   margin-bottom: ${verticalScale(24)}px;
-  shadow-color: #000;
+  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
   shadow-offset: 0px 4px;
-  shadow-opacity: 0.05;
+  shadow-opacity: 0.06;
   shadow-radius: 12px;
   elevation: 2;
 `;
@@ -75,18 +73,11 @@ export const ProgressFill = styled(Box)<{ widthPercent: number }>`
 export const SearchContainer = styled(Box)`
   flex-direction: row;
   align-items: center;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   padding-horizontal: ${scale(16)}px;
   height: ${verticalScale(48)}px;
   margin-bottom: ${verticalScale(24)}px;
-  shadow-color: #000;
-  shadow-offset: 0px 2px;
-  shadow-opacity: 0.05;
-  shadow-radius: 6px;
-  elevation: 1;
 `;
 
 export const ListHeader = styled(Box)`

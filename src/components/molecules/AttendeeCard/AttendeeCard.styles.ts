@@ -6,8 +6,6 @@ import { ThemeType } from '@/theme/theme';
 
 export const AttendeeCardContainer = styled.Pressable<{ isWaitlisted?: boolean }>`
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   padding: ${scale(16)}px;
   flex-direction: row;
@@ -15,11 +13,11 @@ export const AttendeeCardContainer = styled.Pressable<{ isWaitlisted?: boolean }
   justify-content: space-between;
   margin-bottom: ${verticalScale(16)}px;
   opacity: ${({ isWaitlisted }) => (isWaitlisted ? 0.75 : 1)};
-  shadow-color: #000;
+  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
   shadow-offset: 0px 2px;
   shadow-opacity: 0.05;
   shadow-radius: 6px;
-  elevation: 1;
+  elevation: 2;
 `;
 
 export const AttendeeInfo = styled(Box)`

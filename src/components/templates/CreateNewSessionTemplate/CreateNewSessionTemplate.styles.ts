@@ -14,6 +14,19 @@ export const HeaderWrapper = styled(Box)<{ paddingTop: number }>`
   z-index: 50;
 `;
 
+export const HeaderContent = styled(Box)`
+  padding-horizontal: ${scale(20)}px;
+  padding-top: ${verticalScale(12)}px;
+  padding-bottom: ${verticalScale(4)}px;
+  background-color: ${({ theme }) => theme.colors.surface};
+`;
+
+export const BackPressable = styled.Pressable`
+  flex-direction: row;
+  align-items: center;
+  gap: ${scale(6)}px;
+`;
+
 
 
 export const MainContent = styled(Box)`

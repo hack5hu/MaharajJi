@@ -7,10 +7,12 @@ import { moderateScale } from '@/styles/scaling';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NavContainer, TabPressable, IconContainer } from './CustomerBottomNav.styles';
 import { CustomerBottomNavProps } from './types.d';
+import { useLocale } from '@/hooks/useLocale';
 
 export const CustomerBottomNav = React.memo(({ activeTab, onTabChange, style }: CustomerBottomNavProps) => {
   const theme = useTheme() as ThemeType;
   const insets = useSafeAreaInsets();
+  const { t } = useLocale();
 
   const getIcon = (id: string, color: string, size: number) => {
     switch (id) {
@@ -44,10 +46,10 @@ export const CustomerBottomNav = React.memo(({ activeTab, onTabChange, style }: 
 
   return (
     <NavContainer insetsBottom={insets.bottom} style={style}>
-      {renderTab('home', 'Home')}
-      {renderTab('bookings', 'Bookings')}
-      {renderTab('history', 'History')}
-      {renderTab('profile', 'Profile')}
+      {renderTab('home', t('common.nav_home'))}
+      {renderTab('bookings', t('common.nav_bookings'))}
+      {renderTab('history', t('common.nav_history'))}
+      {renderTab('profile', t('common.nav_profile'))}
     </NavContainer>
   );
 });

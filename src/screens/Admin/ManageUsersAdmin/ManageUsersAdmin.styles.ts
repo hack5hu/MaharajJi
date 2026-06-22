@@ -24,7 +24,7 @@ export const EmptyStateDesc = styled(Typography)`
 
 export const ListContainer = styled(Box)`
   flex: 1;
-  padding-bottom: ${verticalScale(120)}px;
+  padding-horizontal: ${scale(16)}px;
 `;
 
 export const FooterContainer = styled(Box)`
@@ -35,6 +35,11 @@ export const FooterContainer = styled(Box)`
 export const SearchAndFilterWrapper = styled(Box)`
   margin-top: ${verticalScale(8)}px;
   margin-bottom: ${verticalScale(16)}px;
+  padding-horizontal: ${scale(16)}px;
   gap: ${scale(12)}px;
 `;
 
+export const ScreenTitleWrapper = styled(Box)`
+  padding-horizontal: ${scale(16)}px;
+  margin-bottom: ${verticalScale(16)}px;
+`;

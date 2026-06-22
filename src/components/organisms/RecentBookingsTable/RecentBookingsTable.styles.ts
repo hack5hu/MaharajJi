@@ -5,8 +5,11 @@ import { scale, verticalScale, moderateScale } from '@/styles/scaling';
 export const TableContainer = styled(Box)`
   background-color: ${({ theme }) => theme.colors.surface_container_lowest};
   border-radius: ${moderateScale(12)}px;
-  border-width: 1px;
-  border-color: ${({ theme }) => theme.colors.outline_variant};
+  shadow-color: ${({ theme }) => theme.colors.primary};
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.05;
+  shadow-radius: 8px;
+  elevation: 2;
   overflow: hidden;
 `;
 
@@ -16,8 +19,7 @@ export const TableHeaderContainer = styled(Box)`
   align-items: center;
   padding-horizontal: ${scale(16)}px;
   padding-vertical: ${verticalScale(16)}px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }) => theme.colors.outline_variant};
+  background-color: ${({ theme }) => theme.colors.surface_container_low};
 `;
 
 export const TableColumnsContainer = styled(Box)`
@@ -25,8 +27,6 @@ export const TableColumnsContainer = styled(Box)`
   background-color: ${({ theme }) => theme.colors.surface_container};
   padding-horizontal: ${scale(16)}px;
   padding-vertical: ${verticalScale(12)}px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }) => theme.colors.outline_variant};
 `;
 
 export const ScrollContentContainer = styled(Box)`

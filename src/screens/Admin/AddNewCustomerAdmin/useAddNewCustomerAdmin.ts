@@ -82,7 +82,7 @@ export const useAddNewCustomerAdmin = () => {
         navigation.goBack();
       }, 500);
     } else {
-      // In a real app we'd show a toast/notification here based on res.error
+      setPhoneError(res.error || t('errors.server_error'));
       Logger.error('Failed to add customer', res.error);
     }
   }, [fullName, phoneNumber, navigation, t]);

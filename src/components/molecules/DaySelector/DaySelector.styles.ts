@@ -15,8 +15,6 @@ export const DayButton = styled(TouchableOpacity)<{ isSelected: boolean }>`
   justify-content: center;
   padding-vertical: ${verticalScale(8)}px;
   width: 18%;
-  border-width: 1px;
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.DEFAULT}px;
-  background-color: ${({ theme, isSelected }: { theme: ThemeType, isSelected: boolean }) => isSelected ? theme.colors.primary_container : theme.colors.surface};
-  border-color: ${({ theme, isSelected }: { theme: ThemeType, isSelected: boolean }) => isSelected ? theme.colors.primary_container : theme.colors.outline_variant};
+  background-color: ${({ theme, isSelected }: { theme: ThemeType, isSelected: boolean }) => isSelected ? theme.colors.primary_container : theme.colors.surface_container_low};
 `;

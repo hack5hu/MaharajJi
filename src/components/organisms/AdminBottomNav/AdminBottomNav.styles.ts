@@ -9,9 +9,12 @@ export const NavContainer = styled(Box)<{ insetsBottom: number }>`
   padding-horizontal: ${scale(16)}px;
   padding-top: ${verticalScale(8)}px;
   padding-bottom: ${({ insetsBottom }) => Math.max(insetsBottom, verticalScale(8))}px;
-  background-color: ${({ theme }) => theme.colors.surface};
-  border-top-width: 1px;
-  border-top-color: ${({ theme }) => theme.colors.outline_variant};
+  background-color: ${({ theme }) => theme.colors.surface_container_lowest};
+  shadow-color: ${({ theme }) => theme.colors.primary};
+  shadow-offset: 0px -2px;
+  shadow-opacity: 0.06;
+  shadow-radius: 8px;
+  elevation: 4;
 `;
 
 export const TabPressable = styled.Pressable`

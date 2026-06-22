@@ -32,7 +32,6 @@ export const AppTitle = styled(Typography)`
 
 export const ContentContainer = styled(Box)`
   flex: 1;
-  padding-horizontal: ${scale(20)}px;
 `;
 
 export const StyledScrollView = styled.ScrollView`

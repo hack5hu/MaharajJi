@@ -12,8 +12,8 @@ import { Chip } from '@/components/atoms/Chip';
 import { useManageUsersAdmin } from './useManageUsersAdmin';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import { UserData } from './types.d';
-import { SortAsc, Clock, Filter } from 'lucide-react-native';
-import { scale } from '@/styles/scaling';
+import { SortAsc, Clock, Filter, Plus, Calendar } from 'lucide-react-native';
+import { scale, verticalScale } from '@/styles/scaling';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
@@ -26,7 +26,9 @@ import {
   ListContainer,
   FooterContainer,
   SearchAndFilterWrapper,
+  ScreenTitleWrapper,
 } from './ManageUsersAdmin.styles';
+import { Typography } from '@/components/atoms/Typography';
 
 export const ManageUsersAdmin = React.memo(() => {
   const theme = useTheme() as ThemeType;
@@ -51,6 +53,7 @@ export const ManageUsersAdmin = React.memo(() => {
     handleLoadMore,
     isFetchingMore,
     isLoading,
+    totalElements,
   } = useManageUsersAdmin();
 
   const handleTabChange = useCallback((tab: any) => {
@@ -68,22 +71,24 @@ export const ManageUsersAdmin = React.memo(() => {
     return (
       <>
         <Chip
-          label={t('admin.manage_users.alphabetical')}
-          icon={<SortAsc color={activeFilter === 'Alphabetical' ? theme.colors.on_primary as string : theme.colors.on_surface_variant as string} size={scale(18)} />}
+          label="All Members"
           isActive={activeFilter === 'Alphabetical'}
           onPress={() => handleFilterPress('Alphabetical')}
         />
         <Chip
-          label={t('admin.manage_users.recently_added')}
-          icon={<Clock color={activeFilter === 'Recently Added' ? theme.colors.on_primary as string : theme.colors.on_surface_variant as string} size={scale(18)} />}
+          label="Recent"
           isActive={activeFilter === 'Recently Added'}
           onPress={() => handleFilterPress('Recently Added')}
         />
         <Chip
-          label={t('admin.manage_users.more_filters')}
-          icon={<Filter color={theme.colors.on_surface_variant as string} size={scale(18)} />}
+          label="Frequent"
           isActive={false}
-          onPress={() => console.log('Open more filters modal')}
+          onPress={() => console.log('Frequent')}
+        />
+        <Chip
+          label="Needs Outreach"
+          isActive={false}
+          onPress={() => console.log('Needs Outreach')}
         />
       </>
     );
@@ -98,7 +103,6 @@ export const ManageUsersAdmin = React.memo(() => {
       lastVisit={item.lastVisit}
       avatarColorHex={item.avatarColorHex}
       onPress={() => handleUserPress(item.id)}
-      onEditPress={() => handleEditCustomer(item.id)}
       onDeletePress={() => handleDeleteCustomer(item.id)}
     />
   ), [handleUserPress, handleEditCustomer, handleDeleteCustomer]);
@@ -123,21 +127,33 @@ export const ManageUsersAdmin = React.memo(() => {
   return (
     <>
       <AppLayoutTemplate
-        headerTitle="MaharajJi"
+        headerTitle=""
         role="admin"
         activeTab={activeTab}
         onTabChange={handleTabChange}
         scrollable={false}
+        hideHeader={true}
         filtersContent={renderFilterChips()}
       >
+        <ScreenTitleWrapper style={{ paddingTop: useSafeAreaInsets().top }}>
+          <Typography variant="headline_lg_mobile" color="on_surface" style={{ fontWeight: '700' }}>
+            Community Members
+          </Typography>
+          <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: verticalScale(4) }}>
+            Manage and connect with your spiritual circle.
+          </Typography>
+        </ScreenTitleWrapper>
+
         <SearchAndFilterWrapper>
           <Input 
             value={searchQuery}
             onChangeText={handleSearchChange}
-            placeholder="Search by name or phone..."
+            placeholder="Search members..."
             leftIcon={<Search color={theme.colors.outline as string} size={scale(20)} />}
           />
         </SearchAndFilterWrapper>
+
+
 
         <ListContainer>
           <FlashList
@@ -146,6 +162,7 @@ export const ManageUsersAdmin = React.memo(() => {
             // @ts-expect-error estimatedItemSize is required but TS definition fails
             estimatedItemSize={120}
             showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: verticalScale(120) }}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5}
             ListEmptyComponent={renderEmpty}
@@ -160,8 +177,7 @@ export const ManageUsersAdmin = React.memo(() => {
         </ListContainer>
       </AppLayoutTemplate>
       <FAB 
-        icon={<UserPlus color={theme.colors.on_primary_container as string} size={scale(24)} />}
-        label="Add Customer"
+        icon={<Plus color={theme.colors.on_primary_container as string} size={scale(24)} />}
         onPress={handleAddCustomer}
         bottom={scale(96) + useSafeAreaInsets().bottom}
       />

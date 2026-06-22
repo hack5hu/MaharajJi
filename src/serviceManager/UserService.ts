@@ -5,11 +5,11 @@ import { ApiResponse, AdminCustomer, AddCustomerRequest, PagedResponse } from '.
 export const UserService = {
   fetchAllCustomers: async (page?: number, size?: number): Promise<ApiResponse<PagedResponse<AdminCustomer>>> => {
     try {
-      const params = new URLSearchParams();
-      if (page !== undefined) params.append('page', page.toString());
-      if (size !== undefined) params.append('size', size.toString());
+      const pageParam = page !== undefined ? `page=${page}` : '';
+      const sizeParam = size !== undefined ? `size=${size}` : '';
+      const queryParams = [pageParam, sizeParam].filter(Boolean).join('&');
       
-      const url = params.toString() ? `${ApiEndpoint.ADMIN_CUSTOMERS}?${params.toString()}` : ApiEndpoint.ADMIN_CUSTOMERS;
+      const url = queryParams ? `${ApiEndpoint.ADMIN_CUSTOMERS}?${queryParams}` : ApiEndpoint.ADMIN_CUSTOMERS;
       
       const response = await axiosClient.get<PagedResponse<AdminCustomer>>(url);
       return {
@@ -19,7 +19,7 @@ export const UserService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       } as any;
     }
   },
@@ -37,7 +37,7 @@ export const UserService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       } as any;
     }
   },
@@ -52,7 +52,7 @@ export const UserService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       } as any;
     }
   },

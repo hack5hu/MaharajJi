@@ -6,10 +6,7 @@ import { ThemeType } from '@/theme/theme';
 export const UploadContainer = styled(TouchableOpacity)`
   width: 100%;
   height: ${verticalScale(160)}px;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
-  border-width: 1px;
-  border-style: dashed;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_high};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   align-items: center;
   justify-content: center;

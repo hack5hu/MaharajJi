@@ -6,8 +6,11 @@ export const CardContainer = styled(Box)<{ highlight?: boolean }>`
   background-color: ${({ theme, highlight }) => highlight ? theme.colors.primary_container : theme.colors.surface_container_low};
   padding: ${moderateScale(16)}px;
   border-radius: ${moderateScale(12)}px;
-  border-width: 1px;
-  border-color: ${({ theme, highlight }) => highlight ? `${theme.colors.primary as string}33` : theme.colors.outline_variant};
+  shadow-color: ${({ theme }) => theme.colors.primary};
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.05;
+  shadow-radius: 8px;
+  elevation: 2;
   justify-content: space-between;
   flex: 1;
 `;

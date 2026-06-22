@@ -6,10 +6,8 @@ import { ThemeType } from '@/theme/theme';
 export const PickerButton = styled(TouchableOpacity)<{ isError?: boolean }>`
   width: 100%;
   padding: ${scale(16)}px;
-  border-width: 1px;
-  border-color: ${({ theme, isError }: { theme: ThemeType, isError?: boolean }) => isError ? theme.colors.error : theme.colors.outline_variant};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.DEFAULT}px;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
+  background-color: ${({ theme, isError }: { theme: ThemeType, isError?: boolean }) => isError ? theme.colors.error_container : theme.colors.surface_container_low};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

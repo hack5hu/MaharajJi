@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AdminHeader } from '@/components/organisms/AdminHeader';
 import { CustomerBottomNav } from '@/components/organisms/CustomerBottomNav';
@@ -14,70 +14,70 @@ import {
 } from './AppLayoutTemplate.styles';
 import { AppLayoutTemplateProps } from './types.d';
 
-export const AppLayoutTemplate = React.memo(({
-  headerTitle,
-  role,
-  activeTab,
-  onTabChange,
-  children,
-  scrollable = true,
-  showBackButton = false,
-  onBackPress,
-  filtersContent,
-}: AppLayoutTemplateProps) => {
-  const insets = useSafeAreaInsets();
+export const AppLayoutTemplate = React.memo(
+  ({
+    headerTitle,
+    role,
+    activeTab,
+    onTabChange,
+    children,
+    scrollable = true,
+    showBackButton = false,
+    onBackPress,
+    filtersContent,
+    hideHeader = false,
+  }: AppLayoutTemplateProps) => {
+    const insets = useSafeAreaInsets();
 
-  const renderContent = () => {
+    const renderContent = () => {
+      return (
+        <ContentContainer>
+          {children}
+        </ContentContainer>
+      );
+    };
+
     return (
-      <ContentContainer>
-        {filtersContent && (
-          <FiltersWrapper>
-            <ScrollView 
-              horizontal 
-              showsHorizontalScrollIndicator={false} 
-              contentContainerStyle={{ gap: scale(8), paddingBottom: scale(4) }} 
-              keyboardShouldPersistTaps="handled"
-            >
-              {filtersContent}
-            </ScrollView>
-          </FiltersWrapper>
+      <TemplateContainer>
+        {!hideHeader && (
+          <HeaderWrapper paddingTop={insets.top}>
+            <AdminHeader
+              title={headerTitle}
+              showBackButton={showBackButton}
+              onBackPress={onBackPress}
+            />
+          </HeaderWrapper>
         )}
-        {children}
-      </ContentContainer>
+
+        {scrollable ? (
+          <StyledScrollView
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{
+              paddingBottom:
+                Platform.OS === 'ios' ? verticalScale(120) : verticalScale(100),
+            }}
+          >
+            {renderContent()}
+          </StyledScrollView>
+        ) : (
+          renderContent()
+        )}
+
+        {role === 'user' ? (
+          <CustomerBottomNav
+            activeTab={activeTab as any}
+            onTabChange={onTabChange}
+          />
+        ) : (
+          <AdminBottomNav
+            activeTab={activeTab as any}
+            onTabChange={onTabChange}
+          />
+        )}
+      </TemplateContainer>
     );
-  };
-
-  return (
-    <TemplateContainer>
-      <HeaderWrapper paddingTop={insets.top}>
-        <AdminHeader 
-          title={headerTitle} 
-          showBackButton={showBackButton}
-          onBackPress={onBackPress}
-        />
-      </HeaderWrapper>
-
-      {scrollable ? (
-        <StyledScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: Math.max(insets.bottom, verticalScale(20)) + verticalScale(100),
-          }}
-          keyboardShouldPersistTaps="handled"
-        >
-          {renderContent()}
-        </StyledScrollView>
-      ) : (
-        renderContent()
-      )}
-
-      {role === 'user' ? (
-        <CustomerBottomNav activeTab={activeTab as any} onTabChange={onTabChange} />
-      ) : (
-        <AdminBottomNav activeTab={activeTab as any} onTabChange={onTabChange} />
-      )}
-    </TemplateContainer>
-  );
-});
+  },
+);
 
 AppLayoutTemplate.displayName = 'AppLayoutTemplate';

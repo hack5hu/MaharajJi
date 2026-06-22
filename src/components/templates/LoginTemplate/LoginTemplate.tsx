@@ -1,9 +1,9 @@
 import React from 'react';
-import { TextInput } from 'react-native';
-import { Landmark, Lock } from 'lucide-react-native';
+import { Lock } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
-import { scale, verticalScale } from '@/styles/scaling';
+import { scale, verticalScale, responsiveFont } from '@/styles/scaling';
+import { TextInput } from 'react-native';
 import { Typography } from '@/components/atoms/Typography';
 import { Button } from '@/components/atoms/Button';
 import { Box } from '@/components/atoms/Box';
@@ -23,6 +23,7 @@ import {
   HelpButton,
   TruecallerRow,
   InputTapOverlay,
+  DecorationCircle,
 } from './LoginTemplate.styles';
 import { LoginTemplateProps } from './types.d';
 
@@ -55,17 +56,16 @@ export const LoginTemplate = React.memo(({
   return (
     <TemplateContainer>
       <BackgroundDecorations>
-        {/* Animated background shape placeholders */}
-        <Box style={{ width: scale(200), height: scale(200), borderRadius: 999, backgroundColor: theme.colors.primary_fixed, opacity: 0.1, position: 'absolute', top: -scale(50), left: -scale(50) }} />
-        <Box style={{ width: scale(250), height: scale(250), borderRadius: 999, backgroundColor: theme.colors.secondary_fixed, opacity: 0.1, position: 'absolute', bottom: -scale(50), right: -scale(50) }} />
+        <DecorationCircle size={200} posTop={-50} posLeft={-50} />
+        <DecorationCircle size={250} posBottom={-50} posRight={-50} />
       </BackgroundDecorations>
 
       <KeyboardAwareScrollView
         style={{ flex: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: verticalScale(40) }}
+        keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: verticalScale(40) }}
-        bottomOffset={verticalScale(220)}
-       keyboardShouldPersistTaps="handled">
+        bottomOffset={verticalScale(220)}>
         <InnerWrapper>
           {/* Login Card */}
           <FormCard>
@@ -73,7 +73,9 @@ export const LoginTemplate = React.memo(({
             <BrandSection>
               <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(8) }}>
                 <LogoCircle>
-                  <Landmark color={theme.colors.on_primary as string} size={scale(20)} />
+                  <Typography variant="headline_md" color="on_primary" style={{ fontSize: responsiveFont(20) }}>
+                    🙏
+                  </Typography>
                 </LogoCircle>
                 <Typography variant="headline_lg" color="on_surface" style={{ fontWeight: '800' }}>
                   {t('user.login.welcome_back')}
@@ -140,7 +142,7 @@ export const LoginTemplate = React.memo(({
               <Box style={{ padding: scale(8), backgroundColor: theme.colors.surface_container_low, borderRadius: 999 }}>
                 <Lock color={theme.colors.primary as string} size={scale(16)} />
               </Box>
-              <Typography variant="body_sm" color="on_surface_variant" style={{ flex: 1, lineHeight: 18 }}>
+              <Typography variant="body_sm" color="on_surface_variant" style={{ flex: 1, lineHeight: verticalScale(18) }}>
                 {t('user.login.restriction_info')}
               </Typography>
             </InfoSection>

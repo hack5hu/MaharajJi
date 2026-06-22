@@ -7,11 +7,14 @@ export const HeroContainer = styled(Box)`
 `;
 
 export const StatusCard = styled(Box)`
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: ${({ theme }) => theme.colors.surface_container_lowest};
   padding: ${moderateScale(24)}px;
   border-radius: ${moderateScale(12)}px;
-  border-width: 1px;
-  border-color: ${({ theme }) => theme.colors.outline_variant};
+  shadow-color: ${({ theme }) => theme.colors.primary};
+  shadow-offset: 0px 4px;
+  shadow-opacity: 0.06;
+  shadow-radius: 12px;
+  elevation: 3;
   margin-bottom: ${verticalScale(16)}px;
 `;
 
@@ -40,11 +43,14 @@ export const ToggleButton = styled.Pressable`
 `;
 
 export const QuickActionsCard = styled(Box)`
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: ${({ theme }) => theme.colors.surface_container_lowest};
   padding: ${moderateScale(24)}px;
   border-radius: ${moderateScale(12)}px;
-  border-width: 1px;
-  border-color: ${({ theme }) => theme.colors.outline_variant};
+  shadow-color: ${({ theme }) => theme.colors.primary};
+  shadow-offset: 0px 4px;
+  shadow-opacity: 0.06;
+  shadow-radius: 12px;
+  elevation: 3;
 `;
 
 export const PrimaryActionButton = styled.Pressable`
@@ -67,8 +73,6 @@ export const SecondaryActionButton = styled.Pressable<{ isLeft?: boolean }>`
   background-color: ${({ theme }) => theme.colors.surface_container_high};
   padding-vertical: ${verticalScale(12)}px;
   border-radius: ${moderateScale(8)}px;
-  border-width: 1px;
-  border-color: ${({ theme }) => theme.colors.outline_variant};
   align-items: center;
   margin-right: ${({ isLeft }) => isLeft ? scale(8) : 0}px;
   margin-left: ${({ isLeft }) => isLeft ? 0 : scale(8)}px;

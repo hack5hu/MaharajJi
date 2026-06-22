@@ -59,7 +59,7 @@ function App() {
     <SafeAreaProvider>
       <KeyboardProvider>
         <ThemeProvider theme={theme}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <StatusBar barStyle={ 'dark-content'} translucent />
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRoute}>
               <Stack.Screen name="Login" component={Login} />

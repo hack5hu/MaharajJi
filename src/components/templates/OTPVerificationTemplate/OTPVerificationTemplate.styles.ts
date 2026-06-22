@@ -37,22 +37,22 @@ export const LogoCircle = styled(Box)`
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary_container};
   align-items: center;
   justify-content: center;
-  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
-  shadow-offset: 0px 4px;
-  shadow-opacity: 0.2;
-  shadow-radius: 8px;
-  elevation: 4;
+  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary_container};
+  shadow-offset: 0px 6px;
+  shadow-opacity: 0.35;
+  shadow-radius: 12px;
+  elevation: 6;
 `;
 
 export const FormCard = styled(Box)`
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   padding: ${scale(24)}px;
-  shadow-color: #000;
-  shadow-offset: 0px 4px;
-  shadow-opacity: 0.05;
-  shadow-radius: 12px;
+  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
+  shadow-offset: 0px 6px;
+  shadow-opacity: 0.06;
+  shadow-radius: 16px;
   elevation: 3;
   gap: ${verticalScale(20)}px;
 `;
@@ -72,4 +72,17 @@ export const ResendPressable = styled.Pressable<{ disabled?: boolean }>`
   padding-vertical: ${verticalScale(4)}px;
   padding-horizontal: ${scale(8)}px;
   opacity: ${({ disabled }) => disabled ? 0.5 : 1};
+`;
+
+export const DecorationCircle = styled(Box)<{ size: number; posTop?: number; posLeft?: number; posBottom?: number; posRight?: number }>`
+  width: ${({ size }) => scale(size)}px;
+  height: ${({ size }) => scale(size)}px;
+  border-radius: 999px;
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary_fixed};
+  opacity: 0.12;
+  position: absolute;
+  top: ${({ posTop }) => posTop !== undefined ? scale(posTop) : 'auto'}px;
+  left: ${({ posLeft }) => posLeft !== undefined ? scale(posLeft) : 'auto'}px;
+  bottom: ${({ posBottom }) => posBottom !== undefined ? scale(posBottom) : 'auto'}px;
+  right: ${({ posRight }) => posRight !== undefined ? scale(posRight) : 'auto'}px;
 `;

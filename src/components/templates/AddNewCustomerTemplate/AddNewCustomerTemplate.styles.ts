@@ -22,13 +22,11 @@ export const ContentContainer = styled(Box)`
 
 export const FormCard = styled(Box)`
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.lg}px;
   padding: ${scale(20)}px;
-  shadow-color: #000;
+  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
   shadow-offset: 0px 4px;
-  shadow-opacity: 0.05;
+  shadow-opacity: 0.06;
   shadow-radius: 12px;
   elevation: 2;
   gap: ${verticalScale(20)}px;
@@ -51,10 +49,8 @@ export const CountryCodeSelector = styled.Pressable`
   justify-content: space-between;
   width: ${scale(80)}px;
   height: ${scale(56)}px;
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
   padding-horizontal: ${scale(12)}px;
 `;
 

@@ -25,6 +25,7 @@ export const useManageUsersAdmin = () => {
   const fetchNextPageCustomers = useUserStore(state => state.fetchNextPageCustomers);
   const isFetchingNextPage = useUserStore(state => state.isFetchingNextPage);
   const hasMore = useUserStore(state => state.hasMore);
+  const totalElements = useUserStore(state => state.totalElements);
 
   const { execute: deleteCustomer, isLoading: isDeleting } = useApi(UserService.deleteCustomer);
 
@@ -43,7 +44,7 @@ export const useManageUsersAdmin = () => {
       name: c.name,
       phone: c.phoneNumber,
       status: (c.status === 'Premium' ? 'Premium' : 'Regular') as 'Premium' | 'Regular',
-      lastVisit: c.createdAt ? format(new Date(c.createdAt), 'dd MMM yyyy, hh:mm a') : 'Just now',
+      lastVisit: c.createdAt ? format(new Date(c.createdAt), 'dd MMM yyyy') : 'Just now',
       avatarColorHex: theme.colors.primary_fixed as string,
     }));
   }, [customers, theme]);
@@ -143,5 +144,6 @@ export const useManageUsersAdmin = () => {
     handleLoadMore,
     isFetchingMore: isFetchingNextPage,
     hasMore,
+    totalElements,
   };
 };

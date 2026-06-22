@@ -8,14 +8,12 @@ import { ThemeType } from '@/theme/theme';
 
 export const BentoCardContainer = styled(Box)`
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   overflow: hidden;
   margin-bottom: ${verticalScale(16)}px;
-  shadow-color: #000;
+  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
   shadow-offset: 0px 4px;
-  shadow-opacity: 0.05;
+  shadow-opacity: 0.06;
   shadow-radius: 12px;
   elevation: 3;
 `;

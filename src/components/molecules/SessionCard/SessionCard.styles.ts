@@ -5,13 +5,13 @@ import { ThemeType } from '@/theme/theme';
 import FastImage from 'react-native-fast-image';
 
 export const CardContainer = styled.Pressable<{ isPast?: boolean }>`
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   padding: ${scale(16)}px;
   margin-bottom: ${verticalScale(16)}px;
-  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.on_surface};
+  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
   shadow-offset: 0px 4px;
-  shadow-opacity: 0.04;
+  shadow-opacity: 0.06;
   shadow-radius: 12px;
   elevation: 3;
   opacity: ${({ isPast }) => isPast ? 0.65 : 1};
@@ -59,7 +59,7 @@ export const DetailsContainer = styled(Box)`
   align-items: flex-start;
   gap: ${scale(8)}px;
   margin-bottom: ${verticalScale(16)}px;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container};
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
   padding: ${scale(12)}px;
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.md}px;
 `;

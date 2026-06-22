@@ -106,3 +106,35 @@ export const PageTitle = styled(Typography)`
   font-weight: 700;
   margin-bottom: ${verticalScale(20)}px;
 `;
+
+export const SessionTitle = styled(Typography)`
+  font-weight: 700;
+`;
+
+export const SlotsText = styled(Typography)`
+  font-weight: 600;
+`;
+
+export const CounterTextGroup = styled(Box)`
+  flex: 1;
+  margin-right: ${scale(16)}px;
+`;
+
+export const SelectSeatsTitle = styled(Typography)`
+  font-weight: 600;
+`;
+
+export const SelectSeatsDesc = styled(Typography)`
+  margin-top: ${scale(2)}px;
+`;
+
+export const CounterNumber = styled(Typography)`
+  font-weight: 700;
+  min-width: ${scale(24)}px;
+  text-align: center;
+`;
+
+export const DisclaimerText = styled(Typography)`
+  font-style: italic;
+  text-align: center;
+`;

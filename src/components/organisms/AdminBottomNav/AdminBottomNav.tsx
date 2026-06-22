@@ -7,6 +7,7 @@ import { moderateScale } from '@/styles/scaling';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LayoutDashboard, Users, Calendar, Settings } from 'lucide-react-native';
 import { NavContainer, TabPressable, IconContainer } from './AdminBottomNav.styles';
+import { useLocale } from '@/hooks/useLocale';
 
 export interface AdminBottomNavProps {
   activeTab: 'dashboard' | 'bookings' | 'customers' | 'settings';
@@ -17,6 +18,7 @@ export interface AdminBottomNavProps {
 export const AdminBottomNav = React.memo(({ activeTab, onTabChange, style }: AdminBottomNavProps) => {
   const theme = useTheme() as ThemeType;
   const insets = useSafeAreaInsets();
+  const { t } = useLocale();
 
   const getIcon = (id: string, color: string, size: number) => {
     switch (id) {
@@ -46,14 +48,12 @@ export const AdminBottomNav = React.memo(({ activeTab, onTabChange, style }: Adm
 
   return (
     <NavContainer insetsBottom={insets.bottom} style={style}>
-      {renderTab('dashboard', 'Dashboard')}
-      {renderTab('customers', 'Customers')}
-      {renderTab('bookings', 'Bookings')}
-      {renderTab('settings', 'Settings')}
+      {renderTab('dashboard', t('common.nav_dashboard'))}
+      {renderTab('customers', t('common.nav_customers'))}
+      {renderTab('bookings', t('common.nav_bookings'))}
+      {renderTab('settings', t('common.nav_settings'))}
     </NavContainer>
   );
 });
-
-AdminBottomNav.displayName = 'AdminBottomNav';
 
 AdminBottomNav.displayName = 'AdminBottomNav';

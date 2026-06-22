@@ -23,6 +23,13 @@ import {
   DisclaimerBox,
   ButtonWrapper,
   PageTitle,
+  SessionTitle,
+  SlotsText,
+  CounterTextGroup,
+  SelectSeatsTitle,
+  SelectSeatsDesc,
+  CounterNumber,
+  DisclaimerText,
 } from './BookSession.styles';
 
 export const BookSession = React.memo(() => {
@@ -55,9 +62,9 @@ export const BookSession = React.memo(() => {
             <CardBannerImage source={{ uri: session.imageUrl }} />
           ) : null}
           <SessionCardBody>
-            <Typography variant="headline_md" color="on_surface" style={{ fontWeight: '700' }}>
+            <SessionTitle variant="headline_md" color="on_surface">
               {session?.sessionTitle || ''}
-            </Typography>
+            </SessionTitle>
 
             <DetailsRow>
               <DetailItem>
@@ -75,23 +82,22 @@ export const BookSession = React.memo(() => {
               </DetailItem>
             </DetailsRow>
 
-            <Typography variant="body_sm" color="primary" style={{ fontWeight: '600' }}>
+            <SlotsText variant="body_sm" color="primary">
               {t('user.home_booking_status.slots_left', { count: session?.slotsLeft || 0 })}
-            </Typography>
+            </SlotsText>
           </SessionCardBody>
         </SessionCard>
 
-        {/* Counter Section */}
         <CounterSection>
           <CounterRow>
-            <Box style={{ flex: 1, marginRight: scale(16) }}>
-              <Typography variant="body_lg" color="on_surface" style={{ fontWeight: '600' }}>
+            <CounterTextGroup>
+              <SelectSeatsTitle variant="body_lg" color="on_surface">
                 {t('user.book_session.select_seats')}
-              </Typography>
-              <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: scale(2) }}>
+              </SelectSeatsTitle>
+              <SelectSeatsDesc variant="body_sm" color="on_surface_variant">
                 {t('user.book_session.choose_desc', { max: maxSeats })}
-              </Typography>
-            </Box>
+              </SelectSeatsDesc>
+            </CounterTextGroup>
 
             <CounterControls>
               <CircularButton
@@ -104,9 +110,9 @@ export const BookSession = React.memo(() => {
                 />
               </CircularButton>
 
-              <Typography variant="headline_md" color="on_surface" style={{ fontWeight: '700', minWidth: scale(24), textAlign: 'center' }}>
+              <CounterNumber variant="headline_md" color="on_surface">
                 {seats}
-              </Typography>
+              </CounterNumber>
 
               <CircularButton
                 onPress={handleIncrement}
@@ -123,9 +129,9 @@ export const BookSession = React.memo(() => {
 
         {/* Disclaimer */}
         <DisclaimerBox>
-          <Typography variant="body_sm" color="on_surface_variant" style={{ fontStyle: 'italic', textAlign: 'center' }}>
+          <DisclaimerText variant="body_sm" color="on_surface_variant">
             {t('user.book_session.disclaimer')}
-          </Typography>
+          </DisclaimerText>
         </DisclaimerBox>
 
         {/* Confirmation Button */}

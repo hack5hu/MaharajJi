@@ -4,7 +4,16 @@ export const en = {
     cancel: "Cancel",
     delete: "Delete",
     back: "Back",
-    all_day: "All Day"
+    all_day: "All Day",
+    app_name: "MaharajJi",
+    spiritual_tagline: "🙏 Radhe Radhe",
+    nav_home: "Home",
+    nav_bookings: "Bookings",
+    nav_history: "History",
+    nav_profile: "Profile",
+    nav_dashboard: "Dashboard",
+    nav_customers: "Customers",
+    nav_settings: "Settings"
   },
   admin: {
     dashboard_home: {
@@ -160,10 +169,10 @@ export const en = {
     },
     login: {
       welcome_back: "MaharajJi",
-      phone_subtitle: "Travel together. Save together.",
+      phone_subtitle: "Your path to divine connection",
       phone_label: "PHONE NUMBER",
       phone_placeholder: "1234567890",
-      restriction_info: "By continuing, you agree to the Terms of Service and Privacy Policy of ZyncRide.",
+      restriction_info: "By continuing, you agree to the Terms of Service and Privacy Policy of MaharajJi.",
       login_button: "Continue",
       truecaller_prefix: "Or, Login with",
       need_help: "Need help accessing your account?",
@@ -171,6 +180,8 @@ export const en = {
       sending_otp: "Sending OTP..."
     },
     otp_verification: {
+      brand_title: "MaharajJi",
+      brand_subtitle: "Community Portal",
       title: "Verify Code",
       subtitle: "We've sent a 6-digit verification code to {{phone}}.",
       code_label: "Verification Code",

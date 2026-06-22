@@ -1,9 +1,8 @@
 import React from 'react';
 import { OtpInput } from 'react-native-otp-entry';
-import { Landmark } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
-import { scale, verticalScale } from '@/styles/scaling';
+import { scale, verticalScale, responsiveFont } from '@/styles/scaling';
 import { Typography } from '@/components/atoms/Typography';
 import { Button } from '@/components/atoms/Button';
 import { Box } from '@/components/atoms/Box';
@@ -19,6 +18,7 @@ import {
   FieldGroup,
   TimerRow,
   ResendPressable,
+  DecorationCircle,
 } from './OTPVerificationTemplate.styles';
 import { OTPVerificationTemplateProps } from './types.d';
 
@@ -38,8 +38,8 @@ export const OTPVerificationTemplate = React.memo(({
   return (
     <TemplateContainer>
       <BackgroundDecorations>
-        <Box style={{ width: scale(200), height: scale(200), borderRadius: 999, backgroundColor: theme.colors.primary_fixed, opacity: 0.1, position: 'absolute', top: -scale(50), left: -scale(50) }} />
-        <Box style={{ width: scale(250), height: scale(250), borderRadius: 999, backgroundColor: theme.colors.primary_fixed, opacity: 0.08, position: 'absolute', bottom: -scale(50), right: -scale(50) }} />
+        <DecorationCircle size={200} posTop={-50} posLeft={-50} />
+        <DecorationCircle size={250} posBottom={-50} posRight={-50} />
       </BackgroundDecorations>
 
       <KeyboardAwareScrollView
@@ -47,19 +47,21 @@ export const OTPVerificationTemplate = React.memo(({
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: verticalScale(40) }}
         bottomOffset={verticalScale(180)}
-       keyboardShouldPersistTaps="handled">
+        keyboardShouldPersistTaps="handled">
         <InnerWrapper>
           {/* Brand Identity */}
           <BrandSection>
             <LogoCircle>
-              <Landmark color={theme.colors.on_primary as string} size={scale(32)} />
+              <Typography variant="headline_md" color="on_primary" style={{ fontSize: responsiveFont(28) }}>
+                🙏
+              </Typography>
             </LogoCircle>
             <Box style={{ alignItems: 'center' }}>
               <Typography variant="headline_lg_mobile" color="primary" style={{ fontWeight: '800' }}>
-                Sacred Spaces
+                {t('user.otp_verification.brand_title')}
               </Typography>
               <Typography variant="body_lg" color="on_surface_variant">
-                Mahaji Community Portal
+                {t('user.otp_verification.brand_subtitle')}
               </Typography>
             </Box>
           </BrandSection>
@@ -104,14 +106,14 @@ export const OTPVerificationTemplate = React.memo(({
                     height: scale(52),
                     borderRadius: scale(12),
                     backgroundColor: theme.colors.surface_container_low as string,
-                    borderWidth: 1.5,
-                    borderColor: theme.colors.outline_variant as string,
+                    borderWidth: 0,
+                    borderColor: 'transparent',
                   },
                   focusedPinCodeContainerStyle: {
                     borderColor: theme.colors.primary as string,
                   },
                   filledPinCodeContainerStyle: {
-                    borderColor: theme.colors.primary as string,
+                    backgroundColor: theme.colors.surface_container as string,
                   },
                   pinCodeTextStyle: {
                     color: theme.colors.on_surface as string,

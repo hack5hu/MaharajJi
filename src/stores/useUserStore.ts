@@ -12,6 +12,7 @@ interface UserStoreState {
   currentPage: number;
   hasMore: boolean;
   isFetchingNextPage: boolean;
+  totalElements: number;
 }
 
 interface UserStoreActions {
@@ -29,6 +30,7 @@ const initialState: UserStoreState = {
   currentPage: 0,
   hasMore: true,
   isFetchingNextPage: false,
+  totalElements: 0,
 };
 
 export const useUserStore = create<UserStore>()(
@@ -50,11 +52,12 @@ export const useUserStore = create<UserStore>()(
         if (reset) {
           set((state) => {
             state.isFetching = true;
+            state.isFetchingNextPage = false;
             state.currentPage = 0;
             state.hasMore = true;
           });
         } else {
-          set((state) => { state.isFetching = true; });
+          set((state) => { state.isFetching = true; state.isFetchingNextPage = false; });
         }
         try {
           const res = await UserService.fetchAllCustomers(0, 20);
@@ -64,6 +67,7 @@ export const useUserStore = create<UserStore>()(
               state.customers = isArray ? (res.data as any) : (res.data!.content || []);
               state.hasMore = isArray ? false : !res.data!.last;
               state.currentPage = 0;
+              state.totalElements = isArray ? state.customers.length : (res.data!.totalElements || 0);
             });
           }
         } catch (error) {
@@ -88,6 +92,9 @@ export const useUserStore = create<UserStore>()(
               s.customers = [...(s.customers || []), ...newItems];
               s.hasMore = isArray ? false : !res.data!.last;
               s.currentPage = nextPage;
+              if (!isArray && res.data!.totalElements !== undefined) {
+                s.totalElements = res.data!.totalElements;
+              }
             });
           }
         } catch (error) {
@@ -99,7 +106,13 @@ export const useUserStore = create<UserStore>()(
     })),
     { 
       name: 'user-store', 
-      storage: createJSONStorage(() => zustandMMKVStorage) 
+      storage: createJSONStorage(() => zustandMMKVStorage),
+      partialize: (state) => ({
+        customers: state.customers,
+        currentPage: state.currentPage,
+        hasMore: state.hasMore,
+        totalElements: state.totalElements,
+      }),
     },
   ),
 );

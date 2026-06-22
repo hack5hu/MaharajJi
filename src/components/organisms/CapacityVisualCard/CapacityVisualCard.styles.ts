@@ -28,12 +28,10 @@ export const BadgeContainer = styled(Box)`
   position: absolute;
   top: ${verticalScale(16)}px;
   right: ${scale(16)}px;
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.25);
   padding-horizontal: ${scale(16)}px;
   padding-vertical: ${verticalScale(8)}px;
   border-radius: 999px;
-  border-width: 1px;
-  border-color: rgba(255,255,255,0.3);
 `;
 
 export const ContentContainer = styled(Box)`

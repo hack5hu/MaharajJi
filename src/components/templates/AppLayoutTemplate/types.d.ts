@@ -9,6 +9,6 @@ export interface AppLayoutTemplateProps {
   scrollable?: boolean;
   showBackButton?: boolean;
   onBackPress?: () => void;
-  filtersContent?: React.ReactNode;
   headerRight?: React.ReactNode;
+  hideHeader?: boolean;
 }
