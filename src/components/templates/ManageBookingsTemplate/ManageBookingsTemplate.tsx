@@ -27,7 +27,7 @@ export const ManageBookingsTemplate = React.memo(({
   return (
     <TemplateContainer>
       <HeaderWrapper paddingTop={insets.top}>
-        <AdminHeader title={headerTitle} avatarUrl={avatarUrl as string} onMenuPress={onMenuPress} />
+        <AdminHeader title={'Booking Sreen'} />
       </HeaderWrapper>
 
       <ContentContainer>

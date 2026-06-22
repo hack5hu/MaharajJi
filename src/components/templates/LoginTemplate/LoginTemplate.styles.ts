@@ -25,23 +25,22 @@ export const InnerWrapper = styled(Box)`
 `;
 
 export const BrandSection = styled(Box)`
-  align-items: center;
-  margin-bottom: ${verticalScale(32)}px;
-  gap: ${verticalScale(12)}px;
+  margin-bottom: ${verticalScale(16)}px;
+  gap: ${verticalScale(8)}px;
 `;
 
 export const LogoCircle = styled(Box)`
-  width: ${scale(64)}px;
-  height: ${scale(64)}px;
+  width: ${scale(40)}px;
+  height: ${scale(40)}px;
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary_container};
   align-items: center;
   justify-content: center;
   shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
-  shadow-offset: 0px 4px;
+  shadow-offset: 0px 2px;
   shadow-opacity: 0.2;
-  shadow-radius: 8px;
-  elevation: 4;
+  shadow-radius: 4px;
+  elevation: 2;
 `;
 
 export const FormCard = styled(Box)`
@@ -60,26 +59,24 @@ export const FormCard = styled(Box)`
 `;
 
 export const FieldGroup = styled(Box)`
-  gap: ${verticalScale(8)}px;
+  gap: ${verticalScale(12)}px;
 `;
 
 export const PhoneInputWrapper = styled(Box)<{ isError?: boolean; disabled?: boolean }>`
   flex-direction: row;
   align-items: center;
-  border-width: 1px;
+  border-width: ${({ isError }: { isError?: boolean }) => isError ? 1 : 0}px;
   border-color: ${({ theme, isError }: { theme: ThemeType, isError?: boolean }) => 
-    isError ? theme.colors.error : theme.colors.outline_variant};
-  border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
+    isError ? theme.colors.error : 'transparent'};
+  border-radius: ${scale(12)}px;
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
-  padding-horizontal: ${scale(12)}px;
+  padding-horizontal: ${scale(16)}px;
   height: ${scale(56)}px;
   opacity: ${({ disabled }) => disabled ? 0.5 : 1};
 `;
 
 export const CountryCode = styled(Box)`
   padding-right: ${scale(12)}px;
-  border-right-width: 1px;
-  border-right-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
   margin-right: ${scale(12)}px;
   justify-content: center;
   height: 100%;
@@ -87,13 +84,9 @@ export const CountryCode = styled(Box)`
 
 export const InfoSection = styled(Box)`
   flex-direction: row;
-  align-items: start;
-  gap: ${scale(8)}px;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_high}80; /* opacity 50% */
-  border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.lg}px;
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant}30;
-  padding: ${scale(12)}px;
+  align-items: center;
+  gap: ${scale(12)}px;
+  margin-top: ${verticalScale(8)}px;
 `;
 
 export const HelpButton = styled.TouchableOpacity`

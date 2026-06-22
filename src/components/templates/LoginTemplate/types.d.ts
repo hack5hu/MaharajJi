@@ -7,5 +7,6 @@ export interface LoginTemplateProps {
   error?: string;
   handleTruecallerLogin?: () => void;
   handleInputFocus?: () => void;
-  isTruecallerActive?: boolean;
+  isTruecallerSupported?: boolean;
+  shouldInterceptInput?: boolean;
 }

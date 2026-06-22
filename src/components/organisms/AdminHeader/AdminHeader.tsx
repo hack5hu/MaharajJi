@@ -21,30 +21,12 @@ export const AdminHeader = React.memo(({ title, avatarUrl, onMenuPress, showBack
   return (
     <HeaderContainer insetsTop={insets.top} style={style}>
       <LeftSection>
-        {showBackButton ? (
-          <IconButton 
-            icon="arrow_back" 
-            onPress={onBackPress || onMenuPress} 
-            color="on_surface" 
-            style={{ marginRight: scale(12) }}
-          />
-        ) : (
-          avatarUrl ? (
-            <AvatarImage source={{ uri: avatarUrl }} />
-          ) : null
-        )}
         <Typography variant="headline_md" color="on_surface">
           {title}
         </Typography>
       </LeftSection>
       
-      {!showBackButton && (
-        <IconButton 
-          icon="notifications" 
-          onPress={onMenuPress} 
-          color="on_surface_variant" 
-        />
-      )}
+
     </HeaderContainer>
   );
 });

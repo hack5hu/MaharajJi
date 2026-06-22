@@ -27,9 +27,9 @@ export const AdminDashboardHomeTemplate = React.memo(({
 
   return (
     <TemplateContainer style={style}>
-      <HeaderWrapper paddingTop={insets.top}>
+      {/* <HeaderWrapper paddingTop={insets.top}>
         <AdminHeader title={headerTitle} avatarUrl={avatarUrl as string} onMenuPress={onMenuPress} />
-      </HeaderWrapper>
+      </HeaderWrapper> */}
       
       <StyledScrollView 
         contentContainerStyle={{ paddingBottom: 100 }}

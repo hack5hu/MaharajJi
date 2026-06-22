@@ -8,28 +8,35 @@ import { useTheme } from 'styled-components/native';
 import { moderateScale, scale, verticalScale } from '@/styles/scaling';
 import { Power, PlusCircle } from 'lucide-react-native';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
-import { 
-  HeroContainer, StatusCard, StatusHeader, StatusBadgeContainer, 
-  ToggleButton, QuickActionsCard, PrimaryActionButton, 
-  SecondaryActionsContainer, SecondaryActionButton 
+import {
+  HeroContainer,
+  StatusCard,
+  StatusHeader,
+  StatusBadgeContainer,
+  ToggleButton,
+  QuickActionsCard,
+  PrimaryActionButton,
+  SecondaryActionsContainer,
+  SecondaryActionButton,
 } from './BookingStatusHero.styles';
 
 export interface BookingStatusHeroProps {
   style?: ViewStyle;
 }
 
-export const BookingStatusHero = React.memo(({ style }: BookingStatusHeroProps) => {
-  const { t } = useLocale();
-  const theme = useTheme() as ThemeType;
-  const navigation = useAppNavigation();
-  const [isOpen, setIsOpen] = useState(true);
+export const BookingStatusHero = React.memo(
+  ({ style }: BookingStatusHeroProps) => {
+    const { t } = useLocale();
+    const theme = useTheme() as ThemeType;
+    const navigation = useAppNavigation();
+    const [isOpen, setIsOpen] = useState(true);
 
-  const toggleStatus = () => setIsOpen(!isOpen);
+    const toggleStatus = () => setIsOpen(!isOpen);
 
-  return (
-    <HeroContainer style={style}>
-      {/* Left Card: Status */}
-      <StatusCard>
+    return (
+      <HeroContainer style={style}>
+        {/* Left Card: Status */}
+        {/* <StatusCard>
         <StatusHeader>
           <Box>
             <Typography variant="label_caps" color="on_surface_variant">
@@ -55,35 +62,52 @@ export const BookingStatusHero = React.memo(({ style }: BookingStatusHeroProps) 
             {t('admin.dashboard_home.open_close_booking')}
           </Typography>
         </ToggleButton>
-      </StatusCard>
+      </StatusCard> */}
 
-      {/* Right Card: Quick Actions */}
-      <QuickActionsCard>
-        <PrimaryActionButton 
-          onPress={() => navigation.navigate('CreateNewSessionAdmin')}
-          style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
-        >
-          <PlusCircle color={theme.colors.on_primary_container as string} size={moderateScale(20)} style={{ marginRight: scale(12) }} />
-          <Typography variant="body_lg" color="on_primary_container" style={{ fontWeight: '700' }}>
-            {t('admin.dashboard_home.create_new_booking')}
-          </Typography>
-        </PrimaryActionButton>
-        
-        <SecondaryActionsContainer>
-          <SecondaryActionButton isLeft style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}>
-            <Typography variant="body_sm" color="on_surface" style={{ fontWeight: '700' }}>
-              {t('admin.dashboard_home.broadcast_news')}
+        {/* Right Card: Quick Actions */}
+        <QuickActionsCard>
+          <PrimaryActionButton
+            onPress={() => navigation.navigate('CreateNewSessionAdmin')}
+            style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
+          >
+            <PlusCircle
+              color={theme.colors.on_primary_container as string}
+              size={moderateScale(20)}
+              style={{ marginRight: scale(12) }}
+            />
+            <Typography
+              variant="body_lg"
+              color="on_primary_container"
+              style={{ fontWeight: '700' }}
+            >
+              {t('admin.dashboard_home.create_new_booking')}
             </Typography>
-          </SecondaryActionButton>
-          <SecondaryActionButton style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}>
+          </PrimaryActionButton>
+
+          <SecondaryActionsContainer>
+            <SecondaryActionButton
+              isLeft
+              style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
+              onPress={() => navigation.navigate('AddNewCustomerAdmin')}
+            >
+              <Typography
+                variant="body_sm"
+                color="on_surface"
+                style={{ fontWeight: '700' }}
+              >
+                {t('admin.add_new_customer.add_customer_button')}
+              </Typography>
+            </SecondaryActionButton>
+            {/* <SecondaryActionButton style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}>
             <Typography variant="body_sm" color="on_surface" style={{ fontWeight: '700' }}>
               {t('admin.dashboard_home.export_data')}
             </Typography>
-          </SecondaryActionButton>
-        </SecondaryActionsContainer>
-      </QuickActionsCard>
-    </HeroContainer>
-  );
-});
+          </SecondaryActionButton> */}
+          </SecondaryActionsContainer>
+        </QuickActionsCard>
+      </HeroContainer>
+    );
+  },
+);
 
 BookingStatusHero.displayName = 'BookingStatusHero';

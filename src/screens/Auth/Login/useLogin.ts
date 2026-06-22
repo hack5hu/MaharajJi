@@ -28,7 +28,7 @@ export const useLogin = () => {
   });
 
   const isLoading = isApiLoading || isTruecallerLoading;
-  const isTruecallerActive = isTruecallerSupported && !hasDismissedTruecaller;
+  const shouldInterceptInput = isTruecallerSupported && !hasDismissedTruecaller && !error;
 
   const onPhoneChange = useCallback((text: string) => {
     // Only allow numeric input
@@ -89,6 +89,7 @@ export const useLogin = () => {
     error,
     handleTruecallerLogin,
     handleInputFocus,
-    isTruecallerActive,
+    isTruecallerSupported,
+    shouldInterceptInput,
   };
 };

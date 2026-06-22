@@ -48,7 +48,7 @@ export const ManageUsersTemplate = React.memo(({
   return (
     <TemplateContainer>
       <HeaderWrapper paddingTop={insets.top}>
-        <AdminHeader title={headerTitle} avatarUrl={avatarUrl as string} onMenuPress={onMenuPress} />
+        <AdminHeader title={'Manage User'}  />
       </HeaderWrapper>
 
       <ContentContainer>

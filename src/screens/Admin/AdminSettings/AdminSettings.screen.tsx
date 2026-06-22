@@ -34,8 +34,8 @@ export const AdminSettings = React.memo(() => {
   return (
     <ScreenContainer>
       <AdminSettingsTemplate
-        headerTitle="Sacred Spaces"
-        avatarUrl={avatarUrl}
+        headerTitle="Settting Screen"
+        
         onMenuPress={handleMenuPress}
         activeTab="settings"
         onTabChange={handleTabChange}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { Info, Landmark } from 'lucide-react-native';
+import { Landmark, Lock } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { scale, verticalScale } from '@/styles/scaling';
@@ -35,10 +35,22 @@ export const LoginTemplate = React.memo(({
   error,
   handleTruecallerLogin,
   handleInputFocus,
-  isTruecallerActive,
+  isTruecallerSupported,
+  shouldInterceptInput,
 }: LoginTemplateProps) => {
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
+  const inputRef = React.useRef<TextInput>(null);
+
+  React.useEffect(() => {
+    if (!shouldInterceptInput && !isLoading) {
+      // Small delay to ensure keyboard controller is ready and UI has updated
+      const timeout = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timeout);
+    }
+  }, [shouldInterceptInput, isLoading]);
 
   return (
     <TemplateContainer>
@@ -55,39 +67,30 @@ export const LoginTemplate = React.memo(({
         bottomOffset={verticalScale(220)}
       >
         <InnerWrapper>
-          {/* Brand Identity */}
-          <BrandSection>
-            <LogoCircle>
-              <Landmark color={theme.colors.on_primary as string} size={scale(32)} />
-            </LogoCircle>
-            <Box style={{ alignItems: 'center' }}>
-              <Typography variant="headline_lg_mobile" color="primary" style={{ fontWeight: '800' }}>
-                Sacred Spaces
-              </Typography>
-              <Typography variant="body_lg" color="on_surface_variant">
-                {t('user.home_booking_status.subtitle').split('below')[0]}
-              </Typography>
-            </Box>
-          </BrandSection>
-
           {/* Login Card */}
           <FormCard>
-            <Box style={{ gap: verticalScale(4) }}>
-              <Typography variant="headline_md" color="on_surface" style={{ fontWeight: '700' }}>
-                {t('user.login.welcome_back')}
-              </Typography>
-              <Typography variant="body_sm" color="on_surface_variant">
+            {/* Brand Identity */}
+            <BrandSection>
+              <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(8) }}>
+                <LogoCircle>
+                  <Landmark color={theme.colors.on_primary as string} size={scale(20)} />
+                </LogoCircle>
+                <Typography variant="headline_lg" color="on_surface" style={{ fontWeight: '800' }}>
+                  {t('user.login.welcome_back')}
+                </Typography>
+              </Box>
+              <Typography variant="body_lg" color="on_surface_variant" style={{ fontWeight: '500' }}>
                 {t('user.login.phone_subtitle')}
               </Typography>
-            </Box>
+            </BrandSection>
 
             {/* Input Phone */}
             <FieldGroup>
               <Typography variant="label_caps" color={error ? 'error' : 'outline'} style={{ fontWeight: '600', letterSpacing: 1.5 }}>
                 {t('user.login.phone_label')}
               </Typography>
-              <PhoneInputWrapper isError={!!error} disabled={isLoading || isTruecallerActive}>
-                {isTruecallerActive && handleInputFocus && (
+              <PhoneInputWrapper isError={!!error} disabled={isLoading || shouldInterceptInput}>
+                {shouldInterceptInput && handleInputFocus && (
                   <InputTapOverlay onPress={handleInputFocus} />
                 )}
                 <CountryCode>
@@ -96,10 +99,11 @@ export const LoginTemplate = React.memo(({
                   </Typography>
                 </CountryCode>
                 <TextInput
+                  ref={inputRef}
                   value={phone}
                   onChangeText={onPhoneChange}
-                  placeholder="98765 43210"
-                  placeholderTextColor={theme.colors.outline_variant}
+                  placeholder={t('user.login.phone_placeholder', { defaultValue: '1234567890' })}
+                  placeholderTextColor={theme.colors.outline}
                   keyboardType="phone-pad"
                   maxLength={10}
                   style={{
@@ -108,18 +112,18 @@ export const LoginTemplate = React.memo(({
                     fontSize: scale(16),
                     fontFamily: 'Inter',
                   }}
-                  editable={!isLoading && !isTruecallerActive}
-                  showSoftInputOnFocus={!isTruecallerActive}
+                  editable={!isLoading && !shouldInterceptInput}
+                  showSoftInputOnFocus={!shouldInterceptInput}
                 />
               </PhoneInputWrapper>
-              {handleTruecallerLogin && isTruecallerActive && (
+              {handleTruecallerLogin && isTruecallerSupported && (
                 <TruecallerRow onPress={handleTruecallerLogin}>
-                  <Typography variant="body_sm" color="on_surface">
-                    {t('user.login.truecaller_prefix', { defaultValue: 'Or continue with' })}
+                  <Typography variant="body_lg" color="on_surface_variant">
+                    {t('user.login.truecaller_prefix', { defaultValue: 'Or, Login with' })}
                   </Typography>
-                  <Box style={{ paddingHorizontal: scale(4), paddingVertical: verticalScale(2), borderRadius: scale(4), backgroundColor: theme.colors.truecaller }}>
-                    <Typography variant="body_sm" style={{ fontWeight: '700', color: '#FFF' }}>
-                      Truecaller
+                  <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
+                    <Typography variant="body_lg" color="primary" style={{ fontWeight: '700' }}>
+                      truecaller &gt;
                     </Typography>
                   </Box>
                 </TruecallerRow>
@@ -133,7 +137,9 @@ export const LoginTemplate = React.memo(({
 
             {/* Restriction Info */}
             <InfoSection>
-              <Info color={theme.colors.tertiary as string} size={scale(16)} style={{ marginTop: 2 }} />
+              <Box style={{ padding: scale(8), backgroundColor: theme.colors.surface_container_low, borderRadius: 999 }}>
+                <Lock color={theme.colors.primary as string} size={scale(16)} />
+              </Box>
               <Typography variant="body_sm" color="on_surface_variant" style={{ flex: 1, lineHeight: 18 }}>
                 {t('user.login.restriction_info')}
               </Typography>
@@ -141,7 +147,7 @@ export const LoginTemplate = React.memo(({
 
             {/* Button */}
             <Button
-              label={isLoading ? t('user.login.sending_otp') : t('user.login.login_button')}
+              label={isLoading ? t('user.login.sending_otp') : `${t('user.login.login_button')} →`}
               onPress={onLoginPress}
               variant="primary"
               fullWidth

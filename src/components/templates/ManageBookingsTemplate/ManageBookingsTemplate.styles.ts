@@ -5,18 +5,23 @@ import { ThemeType } from '@/theme/theme';
 
 export const TemplateContainer = styled(Box)`
   flex: 1;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.background};
+  background-color: ${({ theme }: { theme: ThemeType }) =>
+    theme.colors.background};
 `;
 
 export const HeaderWrapper = styled(Box)<{ paddingTop: number }>`
   padding-top: ${({ paddingTop }) => paddingTop}px;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
+  background-color: ${({ theme }: { theme: ThemeType }) =>
+    theme.colors.surface};
   z-index: 40;
+  margin-bottom: 20px;
 `;
 
-export const ContentContainer = styled(Box)`
+export const ContentContainer = styled(Box)<{ paddingTop?: number }>`
   flex: 1;
   padding-horizontal: ${scale(20)}px;
+  ${({ paddingTop }) =>
+    paddingTop ? `padding-top: ${paddingTop + verticalScale(16)}px;` : ''}
 `;
 
 export const TitleAndButtonRow = styled(Box)`

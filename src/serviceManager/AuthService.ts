@@ -37,7 +37,7 @@ export const AuthService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.response?.data || error.message,
       } as any;
     }
   },
