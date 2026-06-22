@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { Box } from '@/components/atoms/Box';
 import { scale, verticalScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
-import FastImage from 'react-native-fast-image';
+import { Typography } from '@/components/atoms/Typography';
 
 export const TemplateContainer = styled(Box)`
   flex: 1;
@@ -13,8 +13,6 @@ export const HeaderWrapper = styled(Box)<{ paddingTop: number }>`
   padding-top: ${({ paddingTop }) => paddingTop}px;
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
   z-index: 40;
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
   height: ${verticalScale(76)}px;
   flex-direction: row;
   align-items: center;
@@ -28,11 +26,8 @@ export const LeftSection = styled(Box)`
   gap: ${scale(12)}px;
 `;
 
-export const HeaderAvatar = styled(FastImage)`
-  width: ${scale(40)}px;
-  height: ${scale(40)}px;
-  border-radius: 999px;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary_fixed};
+export const AppTitle = styled(Typography)`
+  font-weight: 700;
 `;
 
 export const ContentContainer = styled(Box)`
@@ -40,10 +35,10 @@ export const ContentContainer = styled(Box)`
   padding-horizontal: ${scale(20)}px;
 `;
 
-export const HeaderNotificationBtn = styled.Pressable`
-  width: ${scale(40)}px;
-  height: ${scale(40)}px;
-  border-radius: 999px;
-  align-items: center;
-  justify-content: center;
+export const StyledScrollView = styled.ScrollView`
+  flex: 1;
+`;
+
+export const FiltersWrapper = styled(Box)`
+  margin-bottom: ${verticalScale(16)}px;
 `;

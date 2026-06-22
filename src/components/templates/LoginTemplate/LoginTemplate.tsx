@@ -65,7 +65,7 @@ export const LoginTemplate = React.memo(({
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: verticalScale(40) }}
         bottomOffset={verticalScale(220)}
-      >
+       keyboardShouldPersistTaps="handled">
         <InnerWrapper>
           {/* Login Card */}
           <FormCard>

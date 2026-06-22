@@ -2,7 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Users } from 'lucide-react-native';
 import { EmptyIconWrapper } from '../ManageBookings/ManageBookings.styles';
-import { ManageUsersTemplate } from '@/components/templates/ManageUsersTemplate';
+import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
+import { Input } from '@/components/atoms/Input';
+import { FAB } from '@/components/atoms/FAB';
+import { Search, UserPlus } from 'lucide-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CustomerCard } from '@/components/molecules/CustomerCard';
 import { Chip } from '@/components/atoms/Chip';
 import { useManageUsersAdmin } from './useManageUsersAdmin';
@@ -21,6 +25,7 @@ import {
   EmptyStateDesc,
   ListContainer,
   FooterContainer,
+  SearchAndFilterWrapper,
 } from './ManageUsersAdmin.styles';
 
 export const ManageUsersAdmin = React.memo(() => {
@@ -38,7 +43,6 @@ export const ManageUsersAdmin = React.memo(() => {
     handleAddCustomer,
     handleEditCustomer,
     handleDeleteCustomer,
-    handleMenuPress,
     handleUserPress,
     showDeleteModal,
     confirmDeleteCustomer,
@@ -118,37 +122,48 @@ export const ManageUsersAdmin = React.memo(() => {
 
   return (
     <>
-      <ManageUsersTemplate
-        headerTitle="Sacred Spaces"
-        avatarUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuAvrKMK8ktzwlTbPhF8JxOFOUmTEOBpVoIt3kRKpL13cQqEYQHqgxx4Pf28iqQtNf6naYI3E_Vp5f0f0cpXeAKkgSaOh5JDFrJbCb1_rj7M8M-e9sCNrDFcjCGtUWugoaWKFVl4qztRbHKm9DnZD8cdfQ-8mTXllDQRO9uZQP5Dgxp48KiXXHH54fRW-xWVRSwzqMhgJzE7yFkHD9pPKJlpR8O2GiHSZqoLzxxYzby7iHSiThVn1T2hbP3MghyY3bh80oEmekBZ0lk"
-        onMenuPress={handleMenuPress}
-        searchQuery={searchQuery}
-        onSearchChange={handleSearchChange}
-        filtersContent={renderFilterChips()}
-        onAddPress={handleAddCustomer}
+      <AppLayoutTemplate
+        headerTitle="MaharajJi"
+        role="admin"
         activeTab={activeTab}
         onTabChange={handleTabChange}
-        listContent={
-          <ListContainer>
-            <FlashList
-              data={filteredUsers}
-              renderItem={renderItem}
-              // @ts-expect-error estimatedItemSize is required but TS definition fails
-              estimatedItemSize={120}
-              showsVerticalScrollIndicator={false}
-              onEndReached={handleLoadMore}
-              onEndReachedThreshold={0.5}
-              ListEmptyComponent={renderEmpty}
-              ListFooterComponent={
-                isFetchingMore ? (
-                  <FooterContainer>
-                    <ActivityIndicator size="small" color={theme.colors.primary as string} />
-                  </FooterContainer>
-                ) : null
-              }
-            />
-          </ListContainer>
-        }
+        scrollable={false}
+        filtersContent={renderFilterChips()}
+      >
+        <SearchAndFilterWrapper>
+          <Input 
+            value={searchQuery}
+            onChangeText={handleSearchChange}
+            placeholder="Search by name or phone..."
+            leftIcon={<Search color={theme.colors.outline as string} size={scale(20)} />}
+          />
+        </SearchAndFilterWrapper>
+
+        <ListContainer>
+          <FlashList
+            data={filteredUsers}
+            renderItem={renderItem}
+            // @ts-expect-error estimatedItemSize is required but TS definition fails
+            estimatedItemSize={120}
+            showsVerticalScrollIndicator={false}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+            ListEmptyComponent={renderEmpty}
+            ListFooterComponent={
+              isFetchingMore ? (
+                <FooterContainer>
+                  <ActivityIndicator size="small" color={theme.colors.primary as string} />
+                </FooterContainer>
+              ) : null
+            }
+          />
+        </ListContainer>
+      </AppLayoutTemplate>
+      <FAB 
+        icon={<UserPlus color={theme.colors.on_primary_container as string} size={scale(24)} />}
+        label="Add Customer"
+        onPress={handleAddCustomer}
+        bottom={scale(96) + useSafeAreaInsets().bottom}
       />
       <ConfirmationModal
         visible={showDeleteModal}

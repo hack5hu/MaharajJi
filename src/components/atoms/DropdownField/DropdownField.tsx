@@ -66,7 +66,7 @@ export const DropdownField = React.memo(({
 
       {open && (
         <DropdownContainer onStartShouldSetResponder={() => true}>
-          <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled>
+          <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled keyboardShouldPersistTaps="handled">
             {options.map((option) => (
               <OptionItem 
                 key={option.value}

@@ -31,3 +31,10 @@ export const FooterContainer = styled(Box)`
   padding: ${scale(16)}px;
   align-items: center;
 `;
+
+export const SearchAndFilterWrapper = styled(Box)`
+  margin-top: ${verticalScale(8)}px;
+  margin-bottom: ${verticalScale(16)}px;
+  gap: ${scale(12)}px;
+`;
+

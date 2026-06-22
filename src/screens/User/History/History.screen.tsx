@@ -5,7 +5,7 @@ import { ThemeType } from '@/theme/theme';
 import { scale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
-import { HistoryTemplate } from '@/components/templates/HistoryTemplate';
+import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
 import { useHistory } from './useHistory';
 import { BookingStatus } from '@/constants/enums';
 import {
@@ -30,7 +30,6 @@ export const History = React.memo(() => {
     pastBookings,
     handleFilterPress,
     handleLoadMore,
-    handleMenuPress,
     handleTabChange,
   } = useHistory();
 
@@ -46,10 +45,9 @@ export const History = React.memo(() => {
 
   return (
     <ScreenContainer>
-      <HistoryTemplate
-        headerTitle="Sacred Spaces"
-        avatarUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuB3Zgwf2YtZKTGT-ftE3Y8GCAzU-nxvKaWAyEqKxcIzAxcdA-qebz1eIqbuscjt-SeC5H5vKCmNnQtdFdTorLCQpEq-ygKuOFSsIPc7UYRUCeXUVvyd2DRRZLn-w5nyM9tCZqX5d4Y0ooDR6bM4jkHn4uzL6XCp_Utggmb1YR4nhKna8ckn5hukC46LjZgGZkkRmuPmqXSaRP1ri7DTcURSLXHlRlDMzz1YGGcCF2yWUSwhegWo8xgBUgprZf-yE16mzQ72aNF5B6g"
-        onMenuPress={handleMenuPress}
+      <AppLayoutTemplate
+        headerTitle="MaharajJi"
+        role="user"
         activeTab="history"
         onTabChange={handleTabChange}
       >
@@ -106,7 +104,7 @@ export const History = React.memo(() => {
             </Typography>
           </LoadMoreBtn>
         </SectionContainer>
-      </HistoryTemplate>
+      </AppLayoutTemplate>
     </ScreenContainer>
   );
 });

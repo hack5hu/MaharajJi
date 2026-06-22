@@ -56,7 +56,7 @@ export const AdminSettingsTemplate = React.memo(({
         contentContainerStyle={{
           paddingBottom: Math.max(insets.bottom, verticalScale(20)) + verticalScale(100),
         }}
-      >
+       keyboardShouldPersistTaps="handled">
         <ContentContainer>
           {children}
         </ContentContainer>

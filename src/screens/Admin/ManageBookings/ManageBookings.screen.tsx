@@ -7,7 +7,7 @@ import { ThemeType } from '@/theme/theme';
 import { scale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
-import { ManageBookingsTemplate } from '@/components/templates/ManageBookingsTemplate';
+import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
 import { SessionCard } from '@/components/molecules/SessionCard';
 import { Chip } from '@/components/atoms/Chip';
 import { ConfirmationModal } from '@/components/organisms/ConfirmationModal';
@@ -36,7 +36,6 @@ export const ManageBookings = React.memo(() => {
     onCreateSessionPress,
     onDeleteSession,
     onViewSession,
-    onMenuPress,
     filteredSessions,
     handleLoadMore,
     isFetchingMore,
@@ -119,29 +118,28 @@ export const ManageBookings = React.memo(() => {
 
   return (
     <ScreenContainer>
-      <ManageBookingsTemplate
-        headerTitle="Sacred Spaces"
-        avatarUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuDdkgPej1-ZMD1RWntMfClLoLSMeY5PJXMGn7b8qsZkN5jHFvYHs_TxweopJ6Fm-GlUCjKpMwL6QFOq_mwbreqb9nXLM89a-OJ7K23raNC9g7j4J0Lov7Y49PWDWHXbI0KUBVzOlWS0dwE1ECD94YnhnqFKQnZFuw5whJ4ZL7o4jlwLQWVeu-HZPiKia7iOybNLryGhgcTfYsETIwtH1vqF7LT_vbFhZCUBqJDNk1BZMPfOi3_frggoxwuC_g79Qe_WAbT7669thUg"
-        onMenuPress={onMenuPress}
-        onCreateSessionPress={onCreateSessionPress}
-        filtersContent={renderFilterChips()}
+      <AppLayoutTemplate
+        headerTitle="MaharajJi"
+        role="admin"
         activeTab={activeTab}
         onTabChange={handleTabChange}
-        listContent={
-          <ListContainer>
-            <FlashList
-              data={filteredSessions}
-              renderItem={renderItem}
-              // @ts-expect-error estimatedItemSize is required but TS definition fails
-              estimatedItemSize={140}
-              showsVerticalScrollIndicator={false}
-              onEndReached={handleLoadMore}
-              onEndReachedThreshold={0.5}
-              ListFooterComponent={renderFooter}
-            />
-          </ListContainer>
-        }
-      />
+        scrollable={false}
+        filtersContent={renderFilterChips()}
+      >
+        <ListContainer>
+          <FlashList
+            data={filteredSessions}
+            renderItem={renderItem}
+            // @ts-expect-error estimatedItemSize is required but TS definition fails
+            estimatedItemSize={140}
+            showsVerticalScrollIndicator={false}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={renderFooter}
+            keyboardShouldPersistTaps="handled"
+          />
+        </ListContainer>
+      </AppLayoutTemplate>
       <ConfirmationModal
         visible={!!sessionToCancel}
         title={t('admin.manage_sessions.cancel_title', { defaultValue: 'Cancel Session' })}

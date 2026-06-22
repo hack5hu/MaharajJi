@@ -6,7 +6,7 @@ import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { scale, verticalScale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
-import { HomeBookingStatusTemplate } from '@/components/templates/HomeBookingStatusTemplate';
+import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
 import { useHomeBookingStatus } from './useHomeBookingStatus';
 import { UserSessionCard, UserSession } from '@/components/molecules/UserSessionCard';
 import { SessionCardUI } from './types';
@@ -45,7 +45,6 @@ export const HomeBookingStatus = React.memo(() => {
     handleReservePress,
     handleNotifyPress,
     handleViewAllPress,
-    handleMenuPress,
   } = useHomeBookingStatus();
 
   const navigation = useAppNavigation();
@@ -148,10 +147,9 @@ export const HomeBookingStatus = React.memo(() => {
 
   return (
     <ScreenContainer>
-      <HomeBookingStatusTemplate
-        headerTitle="Sacred Spaces"
-        avatarUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuB3Zgwf2YtZKTGT-ftE3Y8GCAzU-nxvKaWAyEqKxcIzAxcdA-qebz1eIqbuscjt-SeC5H5vKCmNnQtdFdTorLCQpEq-ygKuOFSsIPc7UYRUCeXUVvyd2DRRZLn-w5nyM9tCZqX5d4Y0ooDR6bM4jkHn4uzL6XCp_Utggmb1YR4nhKna8ckn5hukC46LjZgGZkkRmuPmqXSaRP1ri7DTcURSLXHlRlDMzz1YGGcCF2yWUSwhegWo8xgBUgprZf-yE16mzQ72aNF5B6g"
-        onMenuPress={handleMenuPress}
+      <AppLayoutTemplate
+        headerTitle="MaharajJi"
+        role="user"
         activeTab={activeTab}
         onTabChange={handleTabChange}
       >
@@ -174,7 +172,7 @@ export const HomeBookingStatus = React.memo(() => {
         ) : (
           renderEmptyState()
         )}
-      </HomeBookingStatusTemplate>
+      </AppLayoutTemplate>
     </ScreenContainer>
   );
 });

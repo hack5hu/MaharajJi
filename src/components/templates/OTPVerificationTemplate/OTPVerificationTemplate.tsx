@@ -47,7 +47,7 @@ export const OTPVerificationTemplate = React.memo(({
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: verticalScale(40) }}
         bottomOffset={verticalScale(180)}
-      >
+       keyboardShouldPersistTaps="handled">
         <InnerWrapper>
           {/* Brand Identity */}
           <BrandSection>

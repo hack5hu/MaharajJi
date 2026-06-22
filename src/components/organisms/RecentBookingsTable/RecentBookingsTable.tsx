@@ -31,7 +31,7 @@ export const RecentBookingsTable = React.memo(({ style }: RecentBookingsTablePro
       </TableHeaderContainer>
 
       {/* Table columns */}
-      <StyledScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <StyledScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         <ScrollContentContainer>
           <TableColumnsContainer>
             <Typography variant="label_caps" color="on_surface_variant" style={{ flex: 1.5, fontWeight: '600' }}>

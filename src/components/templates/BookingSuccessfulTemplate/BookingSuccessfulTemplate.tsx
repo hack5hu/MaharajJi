@@ -17,7 +17,7 @@ export const BookingSuccessfulTemplate = React.memo(({ children }: BookingSucces
           paddingTop: Math.max(insets.top, verticalScale(20)),
           paddingBottom: Math.max(insets.bottom, verticalScale(20)) + verticalScale(20),
         }}
-      >
+       keyboardShouldPersistTaps="handled">
         <ContentContainer>
           {children}
         </ContentContainer>

@@ -132,7 +132,8 @@ export const en = {
       view_all: "View All Sessions",
       no_active_bookings: "No Active Bookings",
       empty_desc: "All current sessions are fully booked or completed. Check back later for upcoming sessions.",
-      notify_me: "Notify Me of New Openings"
+      notify_me: "Notify Me of New Openings",
+      upcoming_sessions_tag: "UPCOMING SESSION"
     },
     my_bookings: {
       title: "My Bookings",

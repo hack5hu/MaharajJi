@@ -37,7 +37,7 @@ export const BookSessionTemplate = React.memo(({
         </HeaderContainer>
       </HeaderWrapper>
 
-      <StyledScrollView insetsBottom={insets.bottom}>
+      <StyledScrollView insetsBottom={insets.bottom} keyboardShouldPersistTaps="handled">
         <ContentContainer>
           {children}
         </ContentContainer>

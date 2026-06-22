@@ -4,10 +4,13 @@ import { BookingStateMode, SessionCardUI } from './types.d';
 import { format, parse } from 'date-fns';
 import { useSessionStore } from '@/stores/useSessionStore';
 import { useIsFocused } from '@react-navigation/native';
+import { Logger } from '@/utils/logger';
 
 export const useHomeBookingStatus = () => {
   const navigation = useAppNavigation();
-  const { customerSessions, isFetchingCustomerSessions, fetchCustomerSessions } = useSessionStore();
+  const customerSessions = useSessionStore(s => s.customerSessions);
+  const isFetchingCustomerSessions = useSessionStore(s => s.isFetchingCustomerSessions);
+  const fetchCustomerSessions = useSessionStore(s => s.fetchCustomerSessions);
   const isFocused = useIsFocused();
 
   // Fetch when screen focuses
@@ -76,15 +79,15 @@ export const useHomeBookingStatus = () => {
   }, [navigation]);
 
   const handleNotifyPress = useCallback(() => {
-    console.log('Notify Me of New Slots Pressed');
+    Logger.log('Notify Me of New Slots Pressed');
   }, []);
 
   const handleViewAllPress = useCallback(() => {
-    console.log('View All Sessions Pressed');
+    Logger.log('View All Sessions Pressed');
   }, []);
 
   const handleMenuPress = useCallback(() => {
-    console.log('Notifications bell clicked');
+    Logger.log('Notifications bell clicked');
   }, []);
 
   return {

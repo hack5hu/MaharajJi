@@ -19,7 +19,7 @@ axiosClient.interceptors.request.use(
     const token = storage.getString(StorageKeys.AUTH_TOKEN);
     if (token) {
       config.headers = config.headers || {};
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     const startTime = Date.now();

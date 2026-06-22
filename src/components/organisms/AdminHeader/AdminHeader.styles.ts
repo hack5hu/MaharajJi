@@ -7,9 +7,8 @@ export const HeaderContainer = styled(Box)<{ insetsTop: number }>`
   align-items: center;
   justify-content: space-between;
   padding-horizontal: ${scale(16)}px;
+  padding-vertical: ${verticalScale(12)}px;
   background-color: ${({ theme }) => theme.colors.surface};
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }) => theme.colors.outline_variant};
   z-index: 10;
 `;
 

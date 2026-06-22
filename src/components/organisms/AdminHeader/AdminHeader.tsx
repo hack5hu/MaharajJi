@@ -8,8 +8,8 @@ import { HeaderContainer, LeftSection, AvatarImage } from './AdminHeader.styles'
 
 export interface AdminHeaderProps {
   title: string;
-  avatarUrl: string;
-  onMenuPress: () => void;
+  avatarUrl?: string;
+  onMenuPress?: () => void;
   showBackButton?: boolean;
   onBackPress?: () => void;
   style?: ViewStyle;
@@ -21,12 +21,26 @@ export const AdminHeader = React.memo(({ title, avatarUrl, onMenuPress, showBack
   return (
     <HeaderContainer insetsTop={insets.top} style={style}>
       <LeftSection>
+        {showBackButton && onBackPress ? (
+          <IconButton
+            icon="arrow_back"
+            onPress={onBackPress}
+            style={{ marginRight: scale(12) }}
+          />
+        ) : (
+          avatarUrl ? <AvatarImage source={{ uri: avatarUrl }} /> : null
+        )}
         <Typography variant="headline_md" color="on_surface">
           {title}
         </Typography>
       </LeftSection>
       
-
+      {!showBackButton && onMenuPress && (
+        <IconButton
+          icon="menu"
+          onPress={onMenuPress}
+        />
+      )}
     </HeaderContainer>
   );
 });

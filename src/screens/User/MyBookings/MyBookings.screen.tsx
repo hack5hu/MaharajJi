@@ -6,7 +6,7 @@ import { ThemeType } from '@/theme/theme';
 import { scale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
-import { MyBookingsTemplate } from '@/components/templates/MyBookingsTemplate';
+import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
 import { ConfirmationModal } from '@/components/organisms/ConfirmationModal';
 import { useMyBookings } from './useMyBookings';
 import {
@@ -57,7 +57,6 @@ export const MyBookings = React.memo(() => {
     handleConfirmCancel,
     handleDismissCancel,
     handleDirectionsPress,
-    handleMenuPress,
     handleTabChange,
   } = useMyBookings();
 
@@ -147,10 +146,9 @@ export const MyBookings = React.memo(() => {
 
   return (
     <ScreenContainer>
-      <MyBookingsTemplate
-        headerTitle="Sacred Spaces"
-        avatarUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuB3Zgwf2YtZKTGT-ftE3Y8GCAzU-nxvKaWAyEqKxcIzAxcdA-qebz1eIqbuscjt-SeC5H5vKCmNnQtdFdTorLCQpEq-ygKuOFSsIPc7UYRUCeXUVvyd2DRRZLn-w5nyM9tCZqX5d4Y0ooDR6bM4jkHn4uzL6XCp_Utggmb1YR4nhKna8ckn5hukC46LjZgGZkkRmuPmqXSaRP1ri7DTcURSLXHlRlDMzz1YGGcCF2yWUSwhegWo8xgBUgprZf-yE16mzQ72aNF5B6g"
-        onMenuPress={handleMenuPress}
+      <AppLayoutTemplate
+        headerTitle="MaharajJi"
+        role="user"
         activeTab="bookings"
         onTabChange={handleTabChange}
       >
@@ -185,7 +183,7 @@ export const MyBookings = React.memo(() => {
             renderActiveBooking()
           )}
         </SectionContainer>
-      </MyBookingsTemplate>
+      </AppLayoutTemplate>
 
       <ConfirmationModal
         visible={showCancelModal}

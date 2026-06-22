@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocale } from '@/hooks/useLocale';
-import { AdminDashboardHomeTemplate } from '@/components/templates/AdminDashboardHomeTemplate';
+import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
 // import { Button } from '@/components/atoms/Button';
 // import { Typography } from '@/components/atoms/Typography';
 // import { ProgressBar } from '@/components/atoms/ProgressBar';
@@ -33,7 +33,7 @@ export const AdminDashboardHome = React.memo(() => {
     'dashboard' | 'bookings' | 'customers' | 'settings'
   >('dashboard');
 
-  const handleMenuPress = () => {};
+
   const handleTabChange = (tab: any) => {
     setActiveTab(tab);
     if (tab === 'customers') {
@@ -46,10 +46,9 @@ export const AdminDashboardHome = React.memo(() => {
   };
 
   return (
-    <AdminDashboardHomeTemplate
-      headerTitle="Sacred Spaces"
-      avatarUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuAvrKMK8ktzwlTbPhF8JxOFOUmTEOBpVoIt3kRKpL13cQqEYQHqgxx4Pf28iqQtNf6naYI3E_Vp5f0f0cpXeAKkgSaOh5JDFrJbCb1_rj7M8M-e9sCNrDFcjCGtUWugoaWKFVl4qztRbHKm9DnZD8cdfQ-8mTXllDQRO9uZQP5Dgxp48KiXXHH54fRW-xWVRSwzqMhgJzE7yFkHD9pPKJlpR8O2GiHSZqoLzxxYzby7iHSiThVn1T2hbP3MghyY3bh80oEmekBZ0lk"
-      onMenuPress={handleMenuPress}
+    <AppLayoutTemplate
+      headerTitle="MaharajJi"
+      role="admin"
       activeTab={activeTab}
       onTabChange={handleTabChange}
     >
@@ -125,7 +124,7 @@ export const AdminDashboardHome = React.memo(() => {
         {/* Recent Activity Table */}
         {/* <RecentBookingsTable style={{ marginBottom: verticalScale(32) }} /> */}
       </ContentContainer>
-    </AdminDashboardHomeTemplate>
+    </AppLayoutTemplate>
   );
 });
 

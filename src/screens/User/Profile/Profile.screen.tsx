@@ -4,7 +4,7 @@ import { ThemeType } from '@/theme/theme';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
 import { Button } from '@/components/atoms/Button';
-import { ProfileTemplate } from '@/components/templates/ProfileTemplate';
+import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
 import { useProfile } from './useProfile';
 import { verticalScale } from '@/styles/scaling';
 import {
@@ -26,17 +26,15 @@ export const Profile = React.memo(() => {
     profile,
     handleLogout,
     handleTabChange,
-    handleMenuPress,
   } = useProfile();
 
   const avatarUrl = 'https://lh3.googleusercontent.com/aida-public/AB6AXuB3Zgwf2YtZKTGT-ftE3Y8GCAzU-nxvKaWAyEqKxcIzAxcdA-qebz1eIqbuscjt-SeC5H5vKCmNnQtdFdTorLCQpEq-ygKuOFSsIPc7UYRUCeXUVvyd2DRRZLn-w5nyM9tCZqX5d4Y0ooDR6bM4jkHn4uzL6XCp_Utggmb1YR4nhKna8ckn5hukC46LjZgGZkkRmuPmqXSaRP1ri7DTcURSLXHlRlDMzz1YGGcCF2yWUSwhegWo8xgBUgprZf-yE16mzQ72aNF5B6g';
 
   return (
     <ScreenContainer>
-      <ProfileTemplate
-        headerTitle="Sacred Spaces"
-        avatarUrl={avatarUrl}
-        onMenuPress={handleMenuPress}
+      <AppLayoutTemplate
+        headerTitle="MaharajJi"
+        role="user"
         activeTab="profile"
         onTabChange={handleTabChange}
       >
@@ -98,7 +96,7 @@ export const Profile = React.memo(() => {
             }}
           />
         </ButtonWrapper>
-      </ProfileTemplate>
+      </AppLayoutTemplate>
     </ScreenContainer>
   );
 });
