@@ -13,6 +13,7 @@ interface UserStoreState {
   hasMore: boolean;
   isFetchingNextPage: boolean;
   totalElements: number;
+  searchQuery: string;
 }
 
 interface UserStoreActions {
@@ -20,6 +21,7 @@ interface UserStoreActions {
   fetchNextPageCustomers: () => Promise<void>;
   addCustomerLocally: (customer: AdminCustomer) => void;
   removeCustomerLocally: (phoneNumber: string) => void;
+  setSearchQuery: (query: string) => void;
 }
 
 export type UserStore = UserStoreState & UserStoreActions;
@@ -31,6 +33,7 @@ const initialState: UserStoreState = {
   hasMore: true,
   isFetchingNextPage: false,
   totalElements: 0,
+  searchQuery: '',
 };
 
 export const useUserStore = create<UserStore>()(
@@ -41,6 +44,11 @@ export const useUserStore = create<UserStore>()(
       addCustomerLocally: (customer) =>
         set((state) => {
           state.customers.unshift(customer);
+        }),
+
+      setSearchQuery: (query) =>
+        set((state) => {
+          state.searchQuery = query;
         }),
 
       removeCustomerLocally: (phoneNumber) =>
@@ -60,7 +68,7 @@ export const useUserStore = create<UserStore>()(
           set((state) => { state.isFetching = true; state.isFetchingNextPage = false; });
         }
         try {
-          const res = await UserService.fetchAllCustomers(0, 20);
+          const res = await UserService.fetchAllCustomers(0, 20, get().searchQuery);
           if (res.success && res.data) {
             set((state) => {
               const isArray = Array.isArray(res.data);
@@ -84,7 +92,7 @@ export const useUserStore = create<UserStore>()(
         set((s) => { s.isFetchingNextPage = true; });
         try {
           const nextPage = state.currentPage + 1;
-          const res = await UserService.fetchAllCustomers(nextPage, 20);
+          const res = await UserService.fetchAllCustomers(nextPage, 20, state.searchQuery);
           if (res.success && res.data) {
             set((s) => {
               const isArray = Array.isArray(res.data);
@@ -112,6 +120,7 @@ export const useUserStore = create<UserStore>()(
         currentPage: state.currentPage,
         hasMore: state.hasMore,
         totalElements: state.totalElements,
+        searchQuery: state.searchQuery,
       }),
     },
   ),

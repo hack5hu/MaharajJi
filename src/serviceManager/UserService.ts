@@ -3,11 +3,12 @@ import { ApiEndpoint } from './endpoints';
 import { ApiResponse, AdminCustomer, AddCustomerRequest, PagedResponse } from './types.d';
 
 export const UserService = {
-  fetchAllCustomers: async (page?: number, size?: number): Promise<ApiResponse<PagedResponse<AdminCustomer>>> => {
+  fetchAllCustomers: async (page?: number, size?: number, search?: string): Promise<ApiResponse<PagedResponse<AdminCustomer>>> => {
     try {
       const pageParam = page !== undefined ? `page=${page}` : '';
       const sizeParam = size !== undefined ? `size=${size}` : '';
-      const queryParams = [pageParam, sizeParam].filter(Boolean).join('&');
+      const searchParam = search ? `search=${encodeURIComponent(search)}` : '';
+      const queryParams = [searchParam, pageParam, sizeParam].filter(Boolean).join('&');
       
       const url = queryParams ? `${ApiEndpoint.ADMIN_CUSTOMERS}?${queryParams}` : ApiEndpoint.ADMIN_CUSTOMERS;
       

@@ -3,7 +3,6 @@ import { Trash2, Calendar } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { Typography } from '@/components/atoms/Typography';
-import { Badge } from '@/components/atoms/Badge';
 import { Box } from '@/components/atoms/Box';
 import { scale, verticalScale } from '@/styles/scaling';
 import {
@@ -33,11 +32,9 @@ export const CustomerCard = React.memo(({
   initials,
   name,
   phone,
-  status,
   lastVisit,
   avatarColorHex,
   onPress,
-  onEditPress,
   onDeletePress,
 }: CustomerCardProps) => {
   const theme = useTheme() as ThemeType;

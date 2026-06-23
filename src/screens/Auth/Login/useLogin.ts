@@ -14,6 +14,7 @@ export const useLogin = () => {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
   const [isTruecallerLoading, setIsTruecallerLoading] = useState(false);
+  const [isSendingOTP, setIsSendingOTP] = useState(false);
 
   const { execute, isLoading: isApiLoading } = useApi(AuthService.login);
   
@@ -27,7 +28,7 @@ export const useLogin = () => {
     setError,
   });
 
-  const isLoading = isApiLoading || isTruecallerLoading;
+  const isLoading = isApiLoading || isTruecallerLoading || isSendingOTP;
   const shouldInterceptInput = isTruecallerSupported && !hasDismissedTruecaller && !error;
 
   const onPhoneChange = useCallback((text: string) => {
@@ -59,6 +60,7 @@ export const useLogin = () => {
       }
 
       // 2. Trigger MSG91 sendOTP
+      setIsSendingOTP(true);
       Logger.log('MSG91 sendOTP Request', { identifier: '91' + phone });
       const response = await OTPWidget.sendOTP({ identifier: '91' + phone });
       Logger.log('MSG91 sendOTP Response', response);
@@ -73,6 +75,8 @@ export const useLogin = () => {
     } catch (e: any) {
       Logger.error('MSG91 sendOTP Error', e);
       setError(e?.message || t('user.errors.server_error'));
+    } finally {
+      setIsSendingOTP(false);
     }
   }, [phone, navigation, t, execute]);
 

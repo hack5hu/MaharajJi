@@ -6,7 +6,6 @@ import { scale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
 import { Button } from '@/components/atoms/Button';
-import { Box } from '@/components/atoms/Box';
 import { BookSessionTemplate } from '@/components/templates/BookSessionTemplate';
 import { useBookSession } from './useBookSession';
 import {

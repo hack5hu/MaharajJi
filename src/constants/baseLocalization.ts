@@ -12,7 +12,7 @@ export const en = {
     nav_history: "History",
     nav_profile: "Profile",
     nav_dashboard: "Dashboard",
-    nav_customers: "Customers",
+    nav_customers: "Members",
     nav_settings: "Settings"
   },
   admin: {
@@ -25,13 +25,13 @@ export const en = {
       create_new_booking: "Create New Booking",
       broadcast_news: "Broadcast News",
       export_data: "Export Data",
-      welcome_admin: "Welcome, Admin",
-      dashboard_desc: "Manage bookings, view capacity, and coordinate customers.",
+      welcome_admin: "Welcome, {{name}}",
+      dashboard_desc: "Manage bookings, view capacity, and coordinate members.",
       quick_actions: "QUICK ACTIONS",
       devotional_quote: "🙏 Radhe Radhe! 'Selfless service and devotion to the community brings true peace and harmony.'",
       info_card_title: "Quick Guidelines",
       info_card_body: "Use the action buttons above to schedule new spiritual sessions or register community members. All notifications are sent automatically via app.",
-      total_customers: "TOTAL CUSTOMERS",
+      total_customers: "TOTAL MEMBERS",
       total_bookings: "TOTAL BOOKINGS",
       remaining_capacity: "REMAINING CAPACITY",
       booked_label: "BOOKED",
@@ -41,13 +41,13 @@ export const en = {
       trending_up: "TRENDING UP ↑",
       recent_bookings: "Recent Bookings",
       view_all: "VIEW ALL",
-      table_customer: "Customer",
+      table_customer: "Member",
       table_service: "Service",
       table_date: "Date",
       table_status: "Status",
       nav_dashboard: "Dashboard",
       nav_bookings: "Bookings",
-      nav_customers: "Customers",
+      nav_customers: "Members",
       nav_settings: "Settings"
     },
     session_attendees: {
@@ -61,16 +61,17 @@ export const en = {
       no_results: 'No attendees found',
     },
     manage_users: {
-      empty_title: "No Customers Found",
-      empty_desc: "Add a customer to see them listed here.",
+      empty_title: "No Members Found",
+      empty_desc: "Add a member to see them listed here.",
       alphabetical: "Alphabetical",
       recently_added: "Recently Added",
       more_filters: "More Filters",
-      delete_title: "Delete Customer",
-      delete_confirm: "Are you sure you want to delete this customer? This action cannot be undone."
+      delete_title: "Delete Member",
+      delete_confirm: "Are you sure you want to delete this member? This action cannot be undone.",
+      total_members: "Total Members"
     },
     add_new_customer: {
-      back_to_customers: "Back to Customers",
+      back_to_customers: "Back to Members",
       add_new_member: "Add New Member",
       subtitle: "Invite a new individual to the Sacred Spaces community. Please ensure the phone number is accurate to facilitate seamless communication.",
       full_name_label: "Full Name",
@@ -78,7 +79,7 @@ export const en = {
       phone_number_label: "Phone Number",
       phone_number_placeholder: "98765 43210",
       info_text: "Adding a member allows them to receive booking confirmations and spiritual session reminders directly via SMS and WhatsApp.",
-      add_customer_button: "Add Customer",
+      add_customer_button: "Add Member",
       cancel_button: "Cancel",
       adding: "Adding...",
       success_message: "Member Added!",
@@ -94,13 +95,13 @@ export const en = {
       create_button: "CREATE NEW SESSION",
       filter_all: "ALL SESSIONS",
       filter_active: "ACTIVE",
-      filter_drafts: "DRAFTS",
-      filter_past: "PAST",
+      filter_archive: "ARCHIVE",
       published_by: "PUBLISHED BY",
       schedule_title: "Schedule Future Event",
       schedule_desc: "Add a new recurring or one-time session to the calendar.",
       cancel_title: "Cancel Session",
-      cancel_desc: "Are you sure you want to cancel this session? This action cannot be undone."
+      cancel_desc: "Are you sure you want to cancel this session? This action cannot be undone.",
+      search_placeholder: "Search sessions..."
     },
     create_session: {
       title: "Create New Session",
@@ -115,7 +116,7 @@ export const en = {
       location_label: "LOCATION",
       location_loading: "Loading...",
       location_placeholder: "Select location",
-      seats_label: "SEATS",
+      seats_label: "TOKENS",
       max_user_label: "MAX/USER",
       booking_open_label: "Booking Window Open Date",
       booking_open_desc: "When users can start booking seats. Must be strictly before the Event Day.",
@@ -130,7 +131,7 @@ export const en = {
   },
   user: {
     home_booking_status: {
-      welcome: "Welcome, Brother",
+      welcome: "Welcome, {{name}}",
       subtitle: "Find your next moment of spiritual connection and community gathering below.",
       available_sessions: "Available Sessions",
       upcoming_sessions: "Upcoming Sessions",

@@ -1,6 +1,6 @@
 export interface SessionCardProps {
   title: string;
-  status: 'active' | 'draft' | 'past';
+  status: 'active' | 'archive';
   sessionDate: string;
   bookingDate: string;
   bookingStartTime: string;

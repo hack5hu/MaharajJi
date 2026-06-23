@@ -14,15 +14,17 @@ interface SessionStoreState {
   isFetchingNextPage: boolean;
   customerSessions: AdminSession[];
   isFetchingCustomerSessions: boolean;
+  searchQuery: string;
 }
 
 interface SessionStoreActions {
-  fetchSessions: (reset?: boolean) => Promise<void>;
-  fetchNextPageSessions: () => Promise<void>;
+  fetchSessions: (reset?: boolean, tab?: number) => Promise<void>;
+  fetchNextPageSessions: (tab?: number) => Promise<void>;
   setSessions: (sessions: AdminSession[]) => void;
   removeSession: (id: string) => void;
   updateSessionStatus: (id: string, status: string) => void;
   fetchCustomerSessions: () => Promise<void>;
+  setSearchQuery: (query: string) => void;
 }
 
 export type SessionStore = SessionStoreState & SessionStoreActions;
@@ -35,12 +37,18 @@ const initialState: SessionStoreState = {
   isFetchingNextPage: false,
   customerSessions: [],
   isFetchingCustomerSessions: false,
+  searchQuery: '',
 };
 
 export const useSessionStore = create<SessionStore>()(
   persist(
     immer((set, get) => ({
       ...initialState,
+
+      setSearchQuery: (query) =>
+        set((state) => {
+          state.searchQuery = query;
+        }),
 
       setSessions: (sessions) =>
         set((state) => {
@@ -60,7 +68,7 @@ export const useSessionStore = create<SessionStore>()(
           }
         }),
 
-      fetchSessions: async (reset = true) => {
+      fetchSessions: async (reset = true, tab = 1) => {
         if (reset) {
           set((state) => {
             state.isFetching = true;
@@ -71,7 +79,7 @@ export const useSessionStore = create<SessionStore>()(
           set((state) => { state.isFetching = true; });
         }
         try {
-          const res = await SessionService.fetchAllAdminSessions(0, 10);
+          const res = await SessionService.fetchAllAdminSessions(0, 20, tab, get().searchQuery);
           if (res.success && res.data) {
             set((state) => {
               const isArray = Array.isArray(res.data);
@@ -87,14 +95,14 @@ export const useSessionStore = create<SessionStore>()(
         }
       },
 
-      fetchNextPageSessions: async () => {
+      fetchNextPageSessions: async (tab = 1) => {
         const state = get();
         if (state.isFetchingNextPage || !state.hasMore) return;
 
         set((s) => { s.isFetchingNextPage = true; });
         try {
           const nextPage = state.currentPage + 1;
-          const res = await SessionService.fetchAllAdminSessions(nextPage, 10);
+          const res = await SessionService.fetchAllAdminSessions(nextPage, 20, tab, state.searchQuery);
           if (res.success && res.data) {
             set((s) => {
               const isArray = Array.isArray(res.data);
@@ -135,6 +143,7 @@ export const useSessionStore = create<SessionStore>()(
         customerSessions: state.customerSessions,
         currentPage: state.currentPage,
         hasMore: state.hasMore,
+        searchQuery: state.searchQuery,
       }),
     },
   ),

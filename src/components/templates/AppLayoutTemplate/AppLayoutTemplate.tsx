@@ -1,16 +1,15 @@
 import React from 'react';
-import { Platform, ScrollView } from 'react-native';
+import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AdminHeader } from '@/components/organisms/AdminHeader';
 import { CustomerBottomNav } from '@/components/organisms/CustomerBottomNav';
 import { AdminBottomNav } from '@/components/organisms/AdminBottomNav';
-import { scale, verticalScale } from '@/styles/scaling';
+import { verticalScale } from '@/styles/scaling';
 import {
   TemplateContainer,
   HeaderWrapper,
   ContentContainer,
   StyledScrollView,
-  FiltersWrapper,
 } from './AppLayoutTemplate.styles';
 import { AppLayoutTemplateProps } from './types.d';
 
@@ -24,7 +23,6 @@ export const AppLayoutTemplate = React.memo(
     scrollable = true,
     showBackButton = false,
     onBackPress,
-    filtersContent,
     hideHeader = false,
   }: AppLayoutTemplateProps) => {
     const insets = useSafeAreaInsets();

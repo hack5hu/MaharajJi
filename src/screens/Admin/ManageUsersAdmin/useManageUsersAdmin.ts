@@ -12,7 +12,6 @@ export const useManageUsersAdmin = () => {
   const navigation = useAppNavigation();
   const theme = useTheme() as ThemeType;
   
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterOption>('Alphabetical');
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -26,12 +25,31 @@ export const useManageUsersAdmin = () => {
   const isFetchingNextPage = useUserStore(state => state.isFetchingNextPage);
   const hasMore = useUserStore(state => state.hasMore);
   const totalElements = useUserStore(state => state.totalElements);
+  
+  const [localSearchQuery, setLocalSearchQuery] = useState(useUserStore.getState().searchQuery);
 
   const { execute: deleteCustomer, isLoading: isDeleting } = useApi(UserService.deleteCustomer);
 
   useEffect(() => {
     fetchCustomers(true);
   }, [fetchCustomers]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      // Trigger API only if 3 or more characters, or if it's empty (cleared)
+      if (localSearchQuery.length >= 3 || localSearchQuery.length === 0) {
+        if (localSearchQuery !== useUserStore.getState().searchQuery) {
+          useUserStore.getState().setSearchQuery(localSearchQuery);
+          // fetchCustomers is stable, we can safely call it from the store
+          useUserStore.getState().fetchCustomers(true);
+        }
+      }
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [localSearchQuery]);
 
   const handleLoadMore = useCallback(() => {
     fetchNextPageCustomers();
@@ -41,7 +59,7 @@ export const useManageUsersAdmin = () => {
     return (customers || []).map((c) => ({
       id: c.phoneNumber, // Using phone as unique ID
       initials: c.name ? c.name.substring(0, 2).toUpperCase() : 'CU',
-      name: c.name,
+      name: c.name ? c.name.toLowerCase().replace(/\b\w/g, char => char.toUpperCase()) : '',
       phone: c.phoneNumber,
       status: (c.status === 'Premium' ? 'Premium' : 'Regular') as 'Premium' | 'Regular',
       lastVisit: c.createdAt ? format(new Date(c.createdAt), 'dd MMM yyyy') : 'Just now',
@@ -51,7 +69,7 @@ export const useManageUsersAdmin = () => {
 
   // Handlers
   const handleSearchChange = useCallback((query: string) => {
-    setSearchQuery(query);
+    setLocalSearchQuery(query);
   }, []);
 
   const handleFilterPress = useCallback((filter: FilterOption) => {
@@ -67,11 +85,13 @@ export const useManageUsersAdmin = () => {
   }, []);
 
   const handleDeleteCustomer = useCallback((id: string) => {
+    console.log('[useManageUsersAdmin] handleDeleteCustomer called for id:', id);
     setCustomerToDelete(id);
     setShowDeleteModal(true);
   }, []);
 
   const confirmDeleteCustomer = useCallback(async () => {
+    console.log('[useManageUsersAdmin] confirmDeleteCustomer called, customerToDelete:', customerToDelete);
     if (!customerToDelete) return;
     const phone = customerToDelete;
     
@@ -88,6 +108,7 @@ export const useManageUsersAdmin = () => {
   }, [customerToDelete, removeCustomerLocally, deleteCustomer, fetchCustomers]);
 
   const cancelDeleteCustomer = useCallback(() => {
+    console.log('[useManageUsersAdmin] cancelDeleteCustomer called');
     setShowDeleteModal(false);
     setCustomerToDelete(null);
   }, []);
@@ -100,18 +121,10 @@ export const useManageUsersAdmin = () => {
     console.log('View user', id);
   }, []);
 
-  // Filtered List
+  // Filtered List (Frontend filtering for Active/Premium only, since search is now Backend)
   const filteredUsers = useMemo(() => {
     let result = allUsers;
     
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(u => 
-        u.name.toLowerCase().includes(q) || 
-        u.phone.includes(q)
-      );
-    }
-
     if (activeFilter === 'Premium Only') {
       result = result.filter(u => u.status === 'Premium');
     } else if (activeFilter === 'Regular Only') {
@@ -123,10 +136,10 @@ export const useManageUsersAdmin = () => {
     }
 
     return result;
-  }, [allUsers, searchQuery, activeFilter]);
+  }, [allUsers, activeFilter]);
 
   return {
-    searchQuery,
+    searchQuery: localSearchQuery,
     handleSearchChange,
     activeFilter,
     handleFilterPress,

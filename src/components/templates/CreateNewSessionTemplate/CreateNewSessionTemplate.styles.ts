@@ -32,8 +32,7 @@ export const BackPressable = styled.Pressable`
 export const MainContent = styled(Box)`
   padding-top: ${verticalScale(16)}px;
   padding-horizontal: ${scale(20)}px;
-  padding-bottom: ${verticalScale(80)}px;
-  flex: 1;
+  padding-bottom: ${verticalScale(24)}px;
 `;
 
 
@@ -47,10 +46,9 @@ export const FormContainer = styled(Box)`
 `;
 
 export const ActionsContainer = styled(Box)`
-  padding: ${scale(20)}px;
-  padding-bottom: ${scale(40)}px;
+  padding-horizontal: ${scale(20)}px;
+  padding-top: ${verticalScale(12)}px;
   background-color: ${({ theme }) => theme.colors.surface};
   flex-direction: column;
   gap: ${verticalScale(8)}px;
-  margin-top: auto;
 `;

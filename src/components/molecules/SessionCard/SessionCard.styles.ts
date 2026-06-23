@@ -5,14 +5,16 @@ import { ThemeType } from '@/theme/theme';
 import FastImage from 'react-native-fast-image';
 
 export const CardContainer = styled.Pressable<{ isPast?: boolean }>`
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
-  border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
-  padding: ${scale(16)}px;
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
+  border-radius: ${moderateScale(24)}px;
+  border-width: 1px;
+  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
+  padding: ${scale(20)}px;
   margin-bottom: ${verticalScale(16)}px;
-  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
+  shadow-color: #000;
   shadow-offset: 0px 4px;
-  shadow-opacity: 0.06;
-  shadow-radius: 12px;
+  shadow-opacity: 0.05;
+  shadow-radius: 20px;
   elevation: 3;
   opacity: ${({ isPast }) => isPast ? 0.65 : 1};
 `;
@@ -24,7 +26,7 @@ export const CardHeader = styled(Box)`
   margin-bottom: ${verticalScale(12)}px;
 `;
 
-export const StatusTag = styled(Box)<{ status: 'active' | 'draft' | 'past'; theme: ThemeType }>`
+export const StatusTag = styled(Box)<{ status: 'active' | 'archive'; theme: ThemeType }>`
   padding-horizontal: ${scale(12)}px;
   padding-vertical: ${verticalScale(4)}px;
   border-radius: ${moderateScale(12)}px;
@@ -32,12 +34,11 @@ export const StatusTag = styled(Box)<{ status: 'active' | 'draft' | 'past'; them
   justify-content: center;
   background-color: ${({ theme, status }) => {
     if (status === 'active') return theme.colors.primary_container;
-    if (status === 'draft') return theme.colors.secondary_container;
     return theme.colors.surface_container_highest;
   }};
 `;
 
-export const TagText = styled.Text<{ status: 'active' | 'draft' | 'past'; theme: ThemeType }>`
+export const TagText = styled.Text<{ status: 'active' | 'archive'; theme: ThemeType }>`
   font-size: ${scale(10)}px;
   font-family: 'Plus Jakarta Sans';
   font-weight: 700;
@@ -45,7 +46,6 @@ export const TagText = styled.Text<{ status: 'active' | 'draft' | 'past'; theme:
   letter-spacing: 0.5px;
   color: ${({ theme, status }) => {
     if (status === 'active') return theme.colors.on_primary_container;
-    if (status === 'draft') return theme.colors.on_secondary_container;
     return theme.colors.on_surface_variant;
   }};
 `;
@@ -56,18 +56,30 @@ export const SessionTitle = styled(Box)`
 
 export const DetailsContainer = styled(Box)`
   flex-direction: column;
-  align-items: flex-start;
-  gap: ${scale(8)}px;
-  margin-bottom: ${verticalScale(16)}px;
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
-  padding: ${scale(12)}px;
-  border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.md}px;
+  gap: ${scale(12)}px;
+  margin-bottom: ${verticalScale(20)}px;
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.secondary_container};
+  padding: ${scale(16)}px;
+  border-radius: ${moderateScale(16)}px;
+  border-width: 1px;
+  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
 `;
 
 export const DetailsRow = styled(Box)`
   flex-direction: row;
   align-items: center;
-  gap: ${scale(8)}px;
+`;
+
+export const DetailsLeft = styled(Box)`
+  flex-direction: row;
+  align-items: center;
+  gap: ${scale(12)}px;
+  flex: 1;
+`;
+
+export const DetailsValue = styled(Box)`
+  flex: 1;
+  align-items: flex-end;
 `;
 
 export const Divider = styled(Box)`
@@ -112,9 +124,9 @@ export const ActionButtons = styled(Box)`
 `;
 
 export const ActionButton = styled.Pressable<{ isDestructive?: boolean; theme: ThemeType }>`
-  width: ${scale(36)}px;
-  height: ${scale(36)}px;
-  border-radius: ${({ theme }) => theme.rounded.lg}px;
+  width: ${scale(40)}px;
+  height: ${scale(40)}px;
+  border-radius: ${({ theme }) => theme.rounded.xl}px;
   align-items: center;
   justify-content: center;
   background-color: ${({ theme, isDestructive }) => 

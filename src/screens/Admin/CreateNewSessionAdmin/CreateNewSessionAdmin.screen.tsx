@@ -1,4 +1,5 @@
 import React from 'react';
+import { Keyboard } from 'react-native';
 import { useWatch } from 'react-hook-form';
 import { useLocale } from '@/hooks/useLocale';
 import { Button } from '@/components/atoms/Button';
@@ -13,7 +14,6 @@ export const CreateNewSessionAdmin = React.memo(() => {
   const {
     form,
     onSubmit,
-    onSaveDraft,
     isLoading,
     locations,
     navigation,
@@ -53,18 +53,13 @@ export const CreateNewSessionAdmin = React.memo(() => {
         <>
           <StyledButtonWrapper>
             <Button
-              onPress={onSubmit}
+              onPress={() => {
+                Keyboard.dismiss();
+                onSubmit();
+              }}
               variant="primary"
               label={isLoading ? t('admin.create_session.publish_loading') : t('admin.create_session.publish_btn')}
               loading={isLoading}
-              disabled={isLoading}
-            />
-          </StyledButtonWrapper>
-          <StyledButtonWrapper>
-            <Button
-              onPress={onSaveDraft}
-              variant="outline"
-              label={t('admin.create_session.save_draft_btn')}
               disabled={isLoading}
             />
           </StyledButtonWrapper>

@@ -28,11 +28,6 @@ export const Button = React.memo(({ label, onPress, variant = 'primary', fullWid
     return variant === 'primary' ? 'on_primary' : 'primary';
   };
 
-  const getBorderColor = () => {
-    if (disabled) return 'transparent';
-    return variant === 'outline' ? theme.colors.outline : 'transparent';
-  };
-
   return (
     <Pressable
       onPress={disabled || loading ? undefined : onPress}

@@ -93,7 +93,7 @@ export const useCreateNewSessionAdmin = () => {
       return {
         title: editSession.title || '',
         date: parsedDate,
-        location: editSession.location || 'Main Hall',
+        location: editSession.location || '',
         tokens: editSession.totalTokens || 25,
         maxPeoplePerToken: editSession.maxPeoplePerToken || 4,
         bookingOpenDate: editSession.bookingOpenDate ? parseDateString(editSession.bookingOpenDate) : addDays(parsedDate, -1),
@@ -111,7 +111,7 @@ export const useCreateNewSessionAdmin = () => {
     return {
       title: '',
       date: addDays(today, 2),
-      location: 'Main Hall',
+      location: '',
       tokens: 25,
       maxPeoplePerToken: 4,
       bookingOpenDate: addDays(today, 1),

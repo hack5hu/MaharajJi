@@ -54,7 +54,7 @@ export const useTruecallerLogin = ({ setLoading, setError }: UseTruecallerLoginP
           // Save profile info in MMKV
           const isUserAdmin = responseData.role === 'ADMIN' || responseData.role === 'SUPER_ADMIN';
           const profile = {
-            name: isUserAdmin ? 'Admin User' : 'User',
+            name: responseData.name || (isUserAdmin ? 'Admin User' : 'User'),
             phone: '', // Will populate later from profile API
           };
           storage.set(StorageKeys.USER_PROFILE, JSON.stringify(profile));

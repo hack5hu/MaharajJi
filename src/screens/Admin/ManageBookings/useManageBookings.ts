@@ -10,6 +10,7 @@ import { useSessionStore } from '@/stores/useSessionStore';
 export const useManageBookings = () => {
   const navigation = useAppNavigation();
   const [activeFilter, setActiveFilter] = useState<SessionFilter>('all');
+  const [localSearchQuery, setLocalSearchQuery] = useState(useSessionStore.getState().searchQuery);
   
   const sessions = useSessionStore(state => state.sessions);
   const isFetching = useSessionStore(state => state.isFetching);
@@ -21,14 +22,33 @@ export const useManageBookings = () => {
 
   const { execute: cancelSession, isLoading: isCancelling } = useApi(SessionService.cancelSession);
 
+  const getTabNumber = useCallback((filter: SessionFilter): number => {
+    if (filter === 'active') return 2;
+    if (filter === 'archive') return 3;
+    return 1; // 'all'
+  }, []);
+
   useEffect(() => {
-    // Call API in the background on mount
-    fetchSessions(true);
-  }, [fetchSessions]);
+    // Fetch sessions whenever active filter tab changes
+    fetchSessions(true, getTabNumber(activeFilter));
+  }, [activeFilter, fetchSessions, getTabNumber]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (localSearchQuery.length >= 3 || localSearchQuery.length === 0) {
+        if (localSearchQuery !== useSessionStore.getState().searchQuery) {
+          useSessionStore.getState().setSearchQuery(localSearchQuery);
+          fetchSessions(true, getTabNumber(activeFilter));
+        }
+      }
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [localSearchQuery, activeFilter, getTabNumber, fetchSessions]);
 
   const handleLoadMore = useCallback(() => {
-    fetchNextPageSessions();
-  }, [fetchNextPageSessions]);
+    fetchNextPageSessions(getTabNumber(activeFilter));
+  }, [activeFilter, fetchNextPageSessions, getTabNumber]);
 
   const formatTimeStr = (timeStr?: string) => {
     if (!timeStr) return '';
@@ -42,12 +62,14 @@ export const useManageBookings = () => {
   };
 
   const allSessions: SessionData[] = useMemo(() => {
+    const todayStr = format(new Date(), 'yyyy-MM-dd');
     return (sessions || []).map((s) => {
       // Map API status to UI status
       let uiStatus: SessionData['status'] = 'active';
-      if (s.status === 'PUBLISHED') uiStatus = 'active';
-      else if (s.status === 'CANCELLED') uiStatus = 'past';
-      else if (s.status === 'DRAFT') uiStatus = 'draft';
+      const isPastDate = s.sessionDate ? s.sessionDate < todayStr : false;
+      if (s.status === 'CANCELLED' || s.status === 'COMPLETED' || isPastDate) {
+        uiStatus = 'archive';
+      }
 
       return {
         id: s.id,
@@ -66,6 +88,10 @@ export const useManageBookings = () => {
   }, [sessions]);
 
   // Handlers
+  const handleSearchChange = useCallback((query: string) => {
+    setLocalSearchQuery(query);
+  }, []);
+
   const handleFilterChange = useCallback((filter: SessionFilter) => {
     setActiveFilter(filter);
   }, []);
@@ -92,13 +118,21 @@ export const useManageBookings = () => {
     console.log('AdminHeader menu notification pressed');
   }, []);
 
-  // Derived filter state
   const filteredSessions = useMemo(() => {
-    if (activeFilter === 'all') return allSessions;
-    return allSessions.filter(session => session.status === activeFilter);
+    let result = allSessions;
+    
+    if (activeFilter !== 'all') {
+      result = result.filter(session => session.status === activeFilter);
+    }
+    
+    // Frontend search filtering removed to rely entirely on backend
+    
+    return result;
   }, [allSessions, activeFilter]);
 
   return {
+    searchQuery: localSearchQuery,
+    handleSearchChange,
     activeFilter,
     handleFilterChange,
     onCreateSessionPress: handleCreateSessionPress,

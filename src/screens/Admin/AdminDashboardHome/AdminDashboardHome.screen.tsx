@@ -25,6 +25,7 @@ import {
 
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { verticalScale } from '@/styles/scaling';
+import { storage, StorageKeys } from '@/utils/storage';
 
 export const AdminDashboardHome = React.memo(() => {
   const { t } = useLocale();
@@ -33,6 +34,8 @@ export const AdminDashboardHome = React.memo(() => {
     'dashboard' | 'bookings' | 'customers' | 'settings'
   >('dashboard');
 
+  const profileStr = storage.getString(StorageKeys.USER_PROFILE);
+  const adminName = profileStr ? JSON.parse(profileStr)?.name : 'Admin';
 
   const handleTabChange = (tab: any) => {
     setActiveTab(tab);
@@ -55,7 +58,7 @@ export const AdminDashboardHome = React.memo(() => {
       <ContentContainer>
         <WelcomeContainer>
           <WelcomeTitle variant="headline_lg" color="on_surface">
-            {t('admin.dashboard_home.welcome_admin')}
+            {t('admin.dashboard_home.welcome_admin', { name: adminName })}
           </WelcomeTitle>
           <WelcomeSubtitle variant="body_lg">
             {t('admin.dashboard_home.dashboard_desc')}

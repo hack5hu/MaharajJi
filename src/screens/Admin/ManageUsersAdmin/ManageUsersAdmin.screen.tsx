@@ -1,18 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, ScrollView } from 'react-native';
 import { Users } from 'lucide-react-native';
 import { EmptyIconWrapper } from '../ManageBookings/ManageBookings.styles';
 import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
 import { Input } from '@/components/atoms/Input';
 import { FAB } from '@/components/atoms/FAB';
-import { Search, UserPlus } from 'lucide-react-native';
+import { Search } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CustomerCard } from '@/components/molecules/CustomerCard';
-import { Chip } from '@/components/atoms/Chip';
 import { useManageUsersAdmin } from './useManageUsersAdmin';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import { UserData } from './types.d';
-import { SortAsc, Clock, Filter, Plus, Calendar } from 'lucide-react-native';
+import { Plus } from 'lucide-react-native';
 import { scale, verticalScale } from '@/styles/scaling';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
@@ -27,6 +26,7 @@ import {
   FooterContainer,
   SearchAndFilterWrapper,
   ScreenTitleWrapper,
+  ScreenWrapper,
 } from './ManageUsersAdmin.styles';
 import { Typography } from '@/components/atoms/Typography';
 
@@ -39,11 +39,8 @@ export const ManageUsersAdmin = React.memo(() => {
   const {
     searchQuery,
     handleSearchChange,
-    activeFilter,
-    handleFilterPress,
     filteredUsers,
     handleAddCustomer,
-    handleEditCustomer,
     handleDeleteCustomer,
     handleUserPress,
     showDeleteModal,
@@ -56,6 +53,8 @@ export const ManageUsersAdmin = React.memo(() => {
     totalElements,
   } = useManageUsersAdmin();
 
+  console.log('[ManageUsersAdmin] render, showDeleteModal:', showDeleteModal, 'isDeleting:', isDeleting);
+
   const handleTabChange = useCallback((tab: any) => {
     setActiveTab(tab);
     if (tab === 'dashboard') {
@@ -66,33 +65,6 @@ export const ManageUsersAdmin = React.memo(() => {
       navigation.navigate('AdminSettings');
     }
   }, [navigation]);
-
-  const renderFilterChips = () => {
-    return (
-      <>
-        <Chip
-          label="All Members"
-          isActive={activeFilter === 'Alphabetical'}
-          onPress={() => handleFilterPress('Alphabetical')}
-        />
-        <Chip
-          label="Recent"
-          isActive={activeFilter === 'Recently Added'}
-          onPress={() => handleFilterPress('Recently Added')}
-        />
-        <Chip
-          label="Frequent"
-          isActive={false}
-          onPress={() => console.log('Frequent')}
-        />
-        <Chip
-          label="Needs Outreach"
-          isActive={false}
-          onPress={() => console.log('Needs Outreach')}
-        />
-      </>
-    );
-  };
 
   const renderItem: ListRenderItem<UserData> = useCallback(({ item }) => (
     <CustomerCard
@@ -105,7 +77,7 @@ export const ManageUsersAdmin = React.memo(() => {
       onPress={() => handleUserPress(item.id)}
       onDeletePress={() => handleDeleteCustomer(item.id)}
     />
-  ), [handleUserPress, handleEditCustomer, handleDeleteCustomer]);
+  ), [handleUserPress, handleDeleteCustomer]);
 
   const renderEmpty = () => {
     if (isFetchingMore || isLoading) return null;
@@ -125,7 +97,7 @@ export const ManageUsersAdmin = React.memo(() => {
   };
 
   return (
-    <>
+    <ScreenWrapper>
       <AppLayoutTemplate
         headerTitle=""
         role="admin"
@@ -133,15 +105,19 @@ export const ManageUsersAdmin = React.memo(() => {
         onTabChange={handleTabChange}
         scrollable={false}
         hideHeader={true}
-        filtersContent={renderFilterChips()}
       >
         <ScreenTitleWrapper style={{ paddingTop: useSafeAreaInsets().top }}>
           <Typography variant="headline_lg_mobile" color="on_surface" style={{ fontWeight: '700' }}>
             Community Members
           </Typography>
-          <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: verticalScale(4) }}>
+          <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: verticalScale(4), marginBottom: verticalScale(4) }}>
             Manage and connect with your spiritual circle.
           </Typography>
+          {totalElements > 0 && (
+            <Typography variant="body_sm" color="on_surface" style={{ fontWeight: '700' }}>
+              {t('admin.manage_users.total_members') || 'Total Members'}: {totalElements}
+            </Typography>
+          )}
         </ScreenTitleWrapper>
 
         <SearchAndFilterWrapper>
@@ -151,6 +127,12 @@ export const ManageUsersAdmin = React.memo(() => {
             placeholder="Search members..."
             leftIcon={<Search color={theme.colors.outline as string} size={scale(20)} />}
           />
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ flexDirection: 'row', gap: scale(8) }}
+          >
+          </ScrollView>
         </SearchAndFilterWrapper>
 
 
@@ -165,6 +147,7 @@ export const ManageUsersAdmin = React.memo(() => {
             contentContainerStyle={{ paddingBottom: verticalScale(120) }}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5}
+            keyboardShouldPersistTaps="handled"
             ListEmptyComponent={renderEmpty}
             ListFooterComponent={
               isFetchingMore ? (
@@ -191,7 +174,7 @@ export const ManageUsersAdmin = React.memo(() => {
         onDismiss={cancelDeleteCustomer}
         loading={isDeleting}
       />
-    </>
+    </ScreenWrapper>
   );
 });
 

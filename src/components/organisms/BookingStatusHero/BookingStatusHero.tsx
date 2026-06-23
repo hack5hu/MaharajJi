@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ViewStyle } from 'react-native';
 import { Typography } from '@/components/atoms/Typography';
-import { Box } from '@/components/atoms/Box';
 import { useLocale } from '@/hooks/useLocale';
 import { ThemeType } from '@/theme/theme';
 import { useTheme } from 'styled-components/native';
-import { moderateScale, scale, verticalScale } from '@/styles/scaling';
-import { Power, PlusCircle } from 'lucide-react-native';
+import { moderateScale, scale } from '@/styles/scaling';
+import { PlusCircle } from 'lucide-react-native';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import {
   HeroContainer,
-  StatusCard,
-  StatusHeader,
-  StatusBadgeContainer,
-  ToggleButton,
   QuickActionsCard,
   PrimaryActionButton,
   SecondaryActionsContainer,
@@ -29,9 +24,6 @@ export const BookingStatusHero = React.memo(
     const { t } = useLocale();
     const theme = useTheme() as ThemeType;
     const navigation = useAppNavigation();
-    const [isOpen, setIsOpen] = useState(true);
-
-    const toggleStatus = () => setIsOpen(!isOpen);
 
     return (
       <HeroContainer style={style}>

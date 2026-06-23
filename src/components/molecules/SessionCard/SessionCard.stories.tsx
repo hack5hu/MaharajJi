@@ -30,7 +30,7 @@ export const Draft = () => (
   <View style={{ padding: 16 }}>
     <SessionCard
       title="Monday Evening Meditation"
-      status="draft"
+      status="active"
       sessionDate="May 13, 2024"
       bookingDate="May 11, 2024"
       bookingStartTime="06:00 PM"
@@ -46,7 +46,7 @@ export const Past = () => (
   <View style={{ padding: 16 }}>
     <SessionCard
       title="Weekly Community Reflection"
-      status="past"
+      status="archive"
       sessionDate="May 05, 2024"
       bookingDate="May 03, 2024"
       bookingStartTime="10:00 AM"

@@ -7,6 +7,18 @@ export const ScreenContainer = styled(Box)`
   flex: 1;
 `;
 
+export const ScreenTitleWrapper = styled(Box)`
+  padding-horizontal: ${scale(16)}px;
+  padding-top: ${verticalScale(12)}px;
+  padding-bottom: ${verticalScale(24)}px;
+`;
+
+export const SearchAndFilterWrapper = styled(Box)`
+  margin-bottom: ${verticalScale(24)}px;
+  padding-horizontal: ${scale(16)}px;
+  gap: ${scale(12)}px;
+`;
+
 export const EmptyStateContainer = styled(Box)`
   border-width: 2px;
   border-style: dashed;
@@ -35,6 +47,7 @@ export const EmptyIconWrapper = styled(Box)`
 
 export const ListContainer = styled(Box)`
   flex: 1;
+  padding: 0 ${scale(16)}px;
 `;
 
 export const FooterContainer = styled(Box)`

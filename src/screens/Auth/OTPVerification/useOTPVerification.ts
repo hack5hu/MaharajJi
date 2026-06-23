@@ -16,8 +16,12 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqI
   const [otp, setOtp] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
   const [resendTimer, setResendTimer] = useState(90);
+  const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
+  const [isResendingOTP, setIsResendingOTP] = useState(false);
 
-  const { execute, isLoading } = useApi(AuthService.verifyOtp);
+  const { execute, isLoading: isApiLoading } = useApi(AuthService.verifyOtp);
+  
+  const isLoading = isApiLoading || isVerifyingOTP || isResendingOTP;
 
   // Resend OTP Countdown Timer
   useEffect(() => {
@@ -48,6 +52,7 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqI
     const cleanPhone = phoneNumber ? phoneNumber.replace('+91 ', '').trim() : '';
 
     try {
+      setIsVerifyingOTP(true);
       // 1. Verify with MSG91 SDK
       Logger.log('MSG91 verifyOTP Request', { reqId, otp: currentOtp });
       const verifyResp = await OTPWidget.verifyOTP({ reqId, otp: currentOtp });
@@ -71,7 +76,7 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqI
         // Save profile info in MMKV
         const isUserAdmin = responseData.role === 'ADMIN' || responseData.role === 'SUPER_ADMIN';
         const profile = {
-          name: isUserAdmin ? 'Admin User' : 'Brother John',
+          name: responseData.name || (isUserAdmin ? 'Admin User' : 'Brother John'),
           phone: cleanPhone,
         };
         storage.set(StorageKeys.USER_PROFILE, JSON.stringify(profile));
@@ -87,11 +92,14 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqI
     } catch (e: any) {
       Logger.error('MSG91 verifyOTP Error', e);
       setError(e?.message || t('user.otp_verification.error_otp'));
+    } finally {
+      setIsVerifyingOTP(false);
     }
   }, [otp, phoneNumber, execute, navigation, t, reqId]);
 
   const onResendPress = useCallback(async () => {
     try {
+      setIsResendingOTP(true);
       Logger.log('MSG91 retryOTP Request', { reqId, channel: 1 });
       const retryResp = await OTPWidget.retryOTP({ reqId, channel: 1 }); // channel 1 = SMS
       Logger.log('MSG91 retryOTP Response', retryResp);
@@ -104,6 +112,8 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqI
     } catch (e: any) {
       Logger.error('MSG91 retryOTP Error', e);
       setError(e?.message || t('user.errors.server_error'));
+    } finally {
+      setIsResendingOTP(false);
     }
   }, [reqId, t]);
 

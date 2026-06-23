@@ -27,11 +27,15 @@ export const SessionService = {
   fetchAllAdminSessions: async (
     page?: number,
     size?: number,
+    tab?: number,
+    search?: string,
   ): Promise<ApiResponse<PagedResponse<AdminSession>>> => {
     try {
       const params = new URLSearchParams();
       if (page !== undefined) params.append('page', page.toString());
       if (size !== undefined) params.append('size', size.toString());
+      if (tab !== undefined) params.append('tab', tab.toString());
+      if (search) params.append('search', search);
 
       const url = params.toString()
         ? `${ApiEndpoint.ADMIN_ALL_SESSIONS}?${params.toString()}`

@@ -50,7 +50,7 @@ export const useAddNewCustomerAdmin = () => {
       setNameError(undefined);
     }
 
-    const phoneRegex = /^[6-9]\d{9}$/; // Starts with 6-9 and has 10 digits
+    const phoneRegex = /^\d{10}$/; // Any 10 digits
     if (!phoneRegex.test(phoneNumber)) {
       setPhoneError(t('admin.add_new_customer.error_phone'));
       isValid = false;

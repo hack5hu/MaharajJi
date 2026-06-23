@@ -1,7 +1,7 @@
 export interface SessionData {
   id: string;
   title: string;
-  status: 'active' | 'draft' | 'past';
+  status: 'active' | 'archive';
   sessionDate: string;
   bookingDate: string;
   bookingStartTime: string;
@@ -13,4 +13,4 @@ export interface SessionData {
   originalData?: any;
 }
 
-export type SessionFilter = 'all' | 'active' | 'draft' | 'past';
+export type SessionFilter = 'all' | 'active' | 'archive';

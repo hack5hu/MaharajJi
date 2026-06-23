@@ -8,6 +8,7 @@ import { scale, verticalScale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
 import { useHomeBookingStatus } from './useHomeBookingStatus';
+import { storage, StorageKeys } from '@/utils/storage';
 import { UserSessionCard, UserSession } from '@/components/molecules/UserSessionCard';
 import { SessionCardUI } from './types';
 import {
@@ -36,6 +37,9 @@ export const HomeBookingStatus = React.memo(() => {
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
   const [activeTab, setActiveTab] = useState<'home' | 'bookings' | 'history' | 'profile'>('home');
+
+  const profileStr = storage.getString(StorageKeys.USER_PROFILE);
+  const userName = profileStr ? JSON.parse(profileStr)?.name : 'Brother John';
 
   const {
     mode,
@@ -156,7 +160,7 @@ export const HomeBookingStatus = React.memo(() => {
         {/* Welcome Section */}
         <WelcomeSection>
           <WelcomeTitle variant="headline_lg_mobile" color="on_surface">
-            {t('user.home_booking_status.welcome')}
+            {t('user.home_booking_status.welcome', { name: userName })}
           </WelcomeTitle>
           <WelcomeSubtitle variant="body_sm">
             {t('user.home_booking_status.subtitle')}

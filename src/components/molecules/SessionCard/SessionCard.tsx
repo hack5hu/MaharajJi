@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar as CalendarIcon, Clock as ClockIcon, Pencil, Trash2, Eye, User, MoreVertical } from 'lucide-react-native';
+import { Calendar as CalendarIcon, Clock as ClockIcon, Trash2, Eye, User } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { Typography } from '@/components/atoms/Typography';
@@ -14,6 +14,8 @@ import {
   SessionTitle,
   DetailsContainer,
   DetailsRow,
+  DetailsLeft,
+  DetailsValue,
   CardFooter,
   AuthorContainer,
   AvatarImage,
@@ -31,7 +33,6 @@ export const SessionCard = React.memo(({
   bookingStartTime,
   bookingEndTime,
   publishedBy,
-  onEditPress,
   onDeletePress,
   onViewPress,
   onPress,
@@ -39,7 +40,7 @@ export const SessionCard = React.memo(({
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
 
-  const isPast = status === 'past';
+  const isPast = status === 'archive';
 
   return (
     <CardContainer isPast={isPast} onPress={onPress}>
@@ -47,9 +48,6 @@ export const SessionCard = React.memo(({
         <StatusTag status={status}>
           <TagText status={status}>{status}</TagText>
         </StatusTag>
-        <ActionButton style={{ borderWidth: 0, width: scale(24), height: scale(24) }}>
-          <MoreVertical color={theme.colors.on_surface_variant as string} size={scale(18)} />
-        </ActionButton>
       </CardHeader>
 
       <SessionTitle>
@@ -65,24 +63,45 @@ export const SessionCard = React.memo(({
 
       <DetailsContainer>
         <DetailsRow>
-          <CalendarIcon color={theme.colors.on_surface_variant as string} size={scale(16)} />
-          <Typography variant="body_sm" color="on_surface_variant">
-            {t('admin.manage_sessions.session_date') || 'Session Date'}: {sessionDate}
-          </Typography>
+          <DetailsLeft>
+            <CalendarIcon color={theme.colors.primary as string} size={scale(16)} />
+            <Typography variant="body_sm" color="on_surface_variant" style={{ fontWeight: '500' }}>
+              {t('admin.manage_sessions.session_date') || 'Session Date'}:
+            </Typography>
+          </DetailsLeft>
+          <DetailsValue>
+            <Typography variant="body_sm" color="on_surface" style={{ fontWeight: '600' }}>
+              {sessionDate}
+            </Typography>
+          </DetailsValue>
         </DetailsRow>
         
         <DetailsRow>
-          <CalendarIcon color={theme.colors.on_surface_variant as string} size={scale(16)} />
-          <Typography variant="body_sm" color="on_surface_variant">
-            {t('admin.manage_sessions.booking_date') || 'Booking Date'}: {bookingDate}
-          </Typography>
+          <DetailsLeft>
+            <CalendarIcon color={theme.colors.primary as string} size={scale(16)} />
+            <Typography variant="body_sm" color="on_surface_variant" style={{ fontWeight: '500' }}>
+              {t('admin.manage_sessions.booking_date') || 'Booking Date'}:
+            </Typography>
+          </DetailsLeft>
+          <DetailsValue>
+            <Typography variant="body_sm" color="on_surface" style={{ fontWeight: '600' }}>
+              {bookingDate}
+            </Typography>
+          </DetailsValue>
         </DetailsRow>
 
         <DetailsRow>
-          <ClockIcon color={theme.colors.on_surface_variant as string} size={scale(16)} />
-          <Typography variant="body_sm" color="on_surface_variant">
-            {t('admin.manage_sessions.booking_time') || 'Booking Time'}: {bookingStartTime} - {bookingEndTime}
-          </Typography>
+          <DetailsLeft>
+            <ClockIcon color={theme.colors.primary as string} size={scale(16)} />
+            <Typography variant="body_sm" color="on_surface_variant" style={{ fontWeight: '500' }}>
+              {t('admin.manage_sessions.booking_time') || 'Booking Time'}:
+            </Typography>
+          </DetailsLeft>
+          <DetailsValue>
+            <Typography variant="body_sm" color="on_surface" style={{ fontWeight: '600' }}>
+              {bookingStartTime} - {bookingEndTime}
+            </Typography>
+          </DetailsValue>
         </DetailsRow>
       </DetailsContainer>
 
@@ -106,7 +125,7 @@ export const SessionCard = React.memo(({
         </AuthorContainer>
 
         <ActionButtons>
-          {status === 'past' ? (
+          {status === 'archive' ? (
             onViewPress && (
               <ActionButton onPress={onViewPress}>
                 <Eye color={theme.colors.on_surface_variant as string} size={scale(18)} />
@@ -114,11 +133,6 @@ export const SessionCard = React.memo(({
             )
           ) : (
             <>
-              {onEditPress && (
-                <ActionButton onPress={onEditPress}>
-                  <Pencil color={theme.colors.on_surface_variant as string} size={scale(18)} />
-                </ActionButton>
-              )}
               {onDeletePress && (
                 <ActionButton onPress={onDeletePress} isDestructive>
                   <Trash2 color={theme.colors.error as string} size={scale(18)} />

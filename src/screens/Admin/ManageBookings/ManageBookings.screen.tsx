@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { Pressable, ActivityIndicator } from 'react-native';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
-import { CalendarPlus } from 'lucide-react-native';
+import { CalendarPlus, Plus, Search } from 'lucide-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { FAB } from '@/components/atoms/FAB';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { scale } from '@/styles/scaling';
@@ -11,10 +13,15 @@ import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
 import { SessionCard } from '@/components/molecules/SessionCard';
 import { Chip } from '@/components/atoms/Chip';
 import { ConfirmationModal } from '@/components/organisms/ConfirmationModal';
+import { Input } from '@/components/atoms/Input';
+import { Box } from '@/components/atoms/Box';
+import { Typography } from '@/components/atoms/Typography';
 import { useManageBookings } from './useManageBookings';
 import { SessionData, SessionFilter } from './types.d';
 import {
   ScreenContainer,
+  ScreenTitleWrapper,
+  SearchAndFilterWrapper,
   StyledEmptyStateContainer,
   EmptyIconWrapper,
   ListContainer,
@@ -27,10 +34,13 @@ export const ManageBookings = React.memo(() => {
   const theme = useTheme() as ThemeType;
   const navigation = useAppNavigation();
   const { t } = useLocale();
+  const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'bookings' | 'customers' | 'settings'>('bookings');
   const [sessionToCancel, setSessionToCancel] = useState<string | null>(null);
 
   const {
+    searchQuery,
+    handleSearchChange,
     activeFilter,
     handleFilterChange,
     onCreateSessionPress,
@@ -52,23 +62,7 @@ export const ManageBookings = React.memo(() => {
     }
   }, [navigation]);
 
-  const renderFilterChips = () => {
-    const filters: { id: SessionFilter; labelKey: string }[] = [
-      { id: 'all', labelKey: 'admin.manage_sessions.filter_all' },
-      { id: 'active', labelKey: 'admin.manage_sessions.filter_active' },
-      { id: 'draft', labelKey: 'admin.manage_sessions.filter_drafts' },
-      { id: 'past', labelKey: 'admin.manage_sessions.filter_past' },
-    ];
 
-    return filters.map(filter => (
-      <Chip
-        key={filter.id}
-        label={t(filter.labelKey)}
-        isActive={activeFilter === filter.id}
-        onPress={() => handleFilterChange(filter.id)}
-      />
-    ));
-  };
 
   const renderItem: ListRenderItem<SessionData> = useCallback(({ item }) => (
     <SessionCard
@@ -124,8 +118,47 @@ export const ManageBookings = React.memo(() => {
         activeTab={activeTab}
         onTabChange={handleTabChange}
         scrollable={false}
-        filtersContent={renderFilterChips()}
+        hideHeader={true}
       >
+        <ScreenTitleWrapper>
+          <Typography variant="headline_lg" color="on_surface" style={{ fontWeight: '700', fontSize: 32, marginBottom: 8 }}>
+            {t('admin.manage_sessions.title') || 'Manage Bookings'}
+          </Typography>
+          <Typography variant="body_lg" color="on_surface_variant">
+            {t('admin.manage_sessions.subtitle') || 'Manage and coordinate upcoming spiritual events.'}
+          </Typography>
+        </ScreenTitleWrapper>
+
+        <SearchAndFilterWrapper>
+          <Input
+            value={searchQuery}
+            onChangeText={handleSearchChange}
+            placeholder={t('admin.manage_sessions.search_placeholder') || 'Search sessions...'}
+            leftIcon={<Search color={theme.colors.outline as string} size={scale(20)} />}
+          />
+          <Box style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
+            <FlashList
+              data={[
+                { id: 'all' as SessionFilter, labelKey: 'admin.manage_sessions.filter_all' },
+                { id: 'active' as SessionFilter, labelKey: 'admin.manage_sessions.filter_active' },
+                { id: 'archive' as SessionFilter, labelKey: 'admin.manage_sessions.filter_archive' },
+              ]}
+              renderItem={({ item }) => (
+                <Box style={{ marginRight: 8 }}>
+                  <Chip
+                    label={t(item.labelKey)}
+                    isActive={activeFilter === item.id}
+                    onPress={() => handleFilterChange(item.id)}
+                  />
+                </Box>
+              )}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              // @ts-expect-error estimatedItemSize is required but TS definition fails
+              estimatedItemSize={100}
+            />
+          </Box>
+        </SearchAndFilterWrapper>
         <ListContainer>
           <FlashList
             data={filteredSessions}
@@ -140,6 +173,11 @@ export const ManageBookings = React.memo(() => {
           />
         </ListContainer>
       </AppLayoutTemplate>
+      <FAB 
+        icon={<Plus color={theme.colors.on_primary_container as string} size={scale(24)} />}
+        onPress={onCreateSessionPress}
+        bottom={scale(96) + insets.bottom}
+      />
       <ConfirmationModal
         visible={!!sessionToCancel}
         title={t('admin.manage_sessions.cancel_title', { defaultValue: 'Cancel Session' })}
