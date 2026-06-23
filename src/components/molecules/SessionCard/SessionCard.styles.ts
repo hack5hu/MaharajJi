@@ -26,26 +26,30 @@ export const CardHeader = styled(Box)`
   margin-bottom: ${verticalScale(12)}px;
 `;
 
-export const StatusTag = styled(Box)<{ status: 'active' | 'archive'; theme: ThemeType }>`
+export const StatusTag = styled(Box)<{ status: string; theme: ThemeType }>`
   padding-horizontal: ${scale(12)}px;
   padding-vertical: ${verticalScale(4)}px;
   border-radius: ${moderateScale(12)}px;
   align-items: center;
   justify-content: center;
   background-color: ${({ theme, status }) => {
-    if (status === 'active') return theme.colors.primary_container;
+    if (status === 'LIVE') return theme.colors.primary_container;
+    if (status === 'UPCOMING') return theme.colors.secondary_container;
+    if (status === 'CANCELLED') return theme.colors.error_container;
     return theme.colors.surface_container_highest;
   }};
 `;
 
-export const TagText = styled.Text<{ status: 'active' | 'archive'; theme: ThemeType }>`
+export const TagText = styled.Text<{ status: string; theme: ThemeType }>`
   font-size: ${scale(10)}px;
   font-family: 'Plus Jakarta Sans';
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: ${({ theme, status }) => {
-    if (status === 'active') return theme.colors.on_primary_container;
+    if (status === 'LIVE') return theme.colors.on_primary_container;
+    if (status === 'UPCOMING') return theme.colors.on_secondary_container;
+    if (status === 'CANCELLED') return theme.colors.error;
     return theme.colors.on_surface_variant;
   }};
 `;

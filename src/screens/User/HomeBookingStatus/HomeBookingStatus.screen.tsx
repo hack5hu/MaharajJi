@@ -54,7 +54,6 @@ export const HomeBookingStatus = React.memo(() => {
   const navigation = useAppNavigation();
 
   const handleTabChange = useCallback((tab: 'home' | 'bookings' | 'history' | 'profile') => {
-    setActiveTab(tab);
     if (tab === 'bookings') {
       navigation.navigate('MyBookings');
     } else if (tab === 'profile') {

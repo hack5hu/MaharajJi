@@ -1,7 +1,7 @@
 export interface SessionData {
   id: string;
   title: string;
-  status: 'active' | 'archive';
+  status: 'LIVE' | 'UPCOMING' | 'COMPLETED' | 'CANCELLED';
   sessionDate: string;
   bookingDate: string;
   bookingStartTime: string;
@@ -13,4 +13,4 @@ export interface SessionData {
   originalData?: any;
 }
 
-export type SessionFilter = 'all' | 'active' | 'archive';
+export type SessionFilter = 'active' | 'archive';

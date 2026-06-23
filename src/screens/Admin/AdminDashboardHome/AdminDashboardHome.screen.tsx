@@ -38,7 +38,6 @@ export const AdminDashboardHome = React.memo(() => {
   const adminName = profileStr ? JSON.parse(profileStr)?.name : 'Admin';
 
   const handleTabChange = (tab: any) => {
-    setActiveTab(tab);
     if (tab === 'customers') {
       navigation.navigate('ManageUsersAdmin');
     } else if (tab === 'bookings') {
@@ -67,14 +66,14 @@ export const AdminDashboardHome = React.memo(() => {
 
         <BookingStatusHero style={{ marginBottom: verticalScale(24) }} />
 
-        <InfoCard>
+        {/* <InfoCard>
           <InfoCardTitle variant="headline_md" color="on_surface">
             {t('admin.dashboard_home.info_card_title')}
           </InfoCardTitle>
           <InfoCardBody variant="body_sm">
             {t('admin.dashboard_home.info_card_body')}
           </InfoCardBody>
-        </InfoCard>
+        </InfoCard> */}
 
         <DevotionalBanner>
           <DevotionalText variant="body_lg" color="on_primary_container">

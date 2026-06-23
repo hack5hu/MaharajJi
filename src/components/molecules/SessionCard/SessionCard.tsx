@@ -40,7 +40,7 @@ export const SessionCard = React.memo(({
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
 
-  const isPast = status === 'archive';
+  const isPast = status === 'COMPLETED' || status === 'CANCELLED';
 
   return (
     <CardContainer isPast={isPast} onPress={onPress}>
@@ -125,7 +125,7 @@ export const SessionCard = React.memo(({
         </AuthorContainer>
 
         <ActionButtons>
-          {status === 'archive' ? (
+          {status === 'COMPLETED' || status === 'CANCELLED' ? (
             onViewPress && (
               <ActionButton onPress={onViewPress}>
                 <Eye color={theme.colors.on_surface_variant as string} size={scale(18)} />

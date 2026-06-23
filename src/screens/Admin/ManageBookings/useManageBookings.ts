@@ -9,7 +9,7 @@ import { useSessionStore } from '@/stores/useSessionStore';
 
 export const useManageBookings = () => {
   const navigation = useAppNavigation();
-  const [activeFilter, setActiveFilter] = useState<SessionFilter>('all');
+  const [activeFilter, setActiveFilter] = useState<SessionFilter>('active');
   const [localSearchQuery, setLocalSearchQuery] = useState(useSessionStore.getState().searchQuery);
   
   const sessions = useSessionStore(state => state.sessions);
@@ -25,7 +25,7 @@ export const useManageBookings = () => {
   const getTabNumber = useCallback((filter: SessionFilter): number => {
     if (filter === 'active') return 2;
     if (filter === 'archive') return 3;
-    return 1; // 'all'
+    return 2;
   }, []);
 
   useEffect(() => {
@@ -64,12 +64,8 @@ export const useManageBookings = () => {
   const allSessions: SessionData[] = useMemo(() => {
     const todayStr = format(new Date(), 'yyyy-MM-dd');
     return (sessions || []).map((s) => {
-      // Map API status to UI status
-      let uiStatus: SessionData['status'] = 'active';
-      const isPastDate = s.sessionDate ? s.sessionDate < todayStr : false;
-      if (s.status === 'CANCELLED' || s.status === 'COMPLETED' || isPastDate) {
-        uiStatus = 'archive';
-      }
+      // Map API status directly to UI status
+      const uiStatus: SessionData['status'] = (s.sessionState as any) || 'LIVE';
 
       return {
         id: s.id,
@@ -120,9 +116,10 @@ export const useManageBookings = () => {
 
   const filteredSessions = useMemo(() => {
     let result = allSessions;
-    
-    if (activeFilter !== 'all') {
-      result = result.filter(session => session.status === activeFilter);
+    if (activeFilter === 'active') {
+      result = result.filter(session => session.status === 'LIVE' || session.status === 'UPCOMING');
+    } else if (activeFilter === 'archive') {
+      result = result.filter(session => session.status === 'COMPLETED' || session.status === 'CANCELLED');
     }
     
     // Frontend search filtering removed to rely entirely on backend

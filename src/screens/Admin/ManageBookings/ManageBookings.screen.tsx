@@ -52,7 +52,6 @@ export const ManageBookings = React.memo(() => {
   } = useManageBookings();
 
   const handleTabChange = useCallback((tab: any) => {
-    setActiveTab(tab);
     if (tab === 'dashboard') {
       navigation.navigate('AdminDashboardHome');
     } else if (tab === 'customers') {
@@ -139,14 +138,13 @@ export const ManageBookings = React.memo(() => {
           <Box style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
             <FlashList
               data={[
-                { id: 'all' as SessionFilter, labelKey: 'admin.manage_sessions.filter_all' },
-                { id: 'active' as SessionFilter, labelKey: 'admin.manage_sessions.filter_active' },
-                { id: 'archive' as SessionFilter, labelKey: 'admin.manage_sessions.filter_archive' },
+                { id: 'active' as SessionFilter, labelKey: 'ACTIVE' },
+                { id: 'archive' as SessionFilter, labelKey: 'ARCHIVE' },
               ]}
               renderItem={({ item }) => (
                 <Box style={{ marginRight: 8 }}>
                   <Chip
-                    label={t(item.labelKey)}
+                    label={item.labelKey}
                     isActive={activeFilter === item.id}
                     onPress={() => handleFilterChange(item.id)}
                   />

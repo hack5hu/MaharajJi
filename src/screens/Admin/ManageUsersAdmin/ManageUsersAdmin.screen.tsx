@@ -56,7 +56,6 @@ export const ManageUsersAdmin = React.memo(() => {
   console.log('[ManageUsersAdmin] render, showDeleteModal:', showDeleteModal, 'isDeleting:', isDeleting);
 
   const handleTabChange = useCallback((tab: any) => {
-    setActiveTab(tab);
     if (tab === 'dashboard') {
       navigation.navigate('AdminDashboardHome');
     } else if (tab === 'bookings') {
