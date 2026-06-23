@@ -65,6 +65,7 @@ export const useSessionStore = create<SessionStore>()(
           const session = state.sessions.find((s) => s.id === id);
           if (session) {
             session.status = status;
+            session.sessionState = status;
           }
         }),
 

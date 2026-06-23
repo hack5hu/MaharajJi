@@ -36,9 +36,9 @@ export const AppLayoutTemplate = React.memo(
     };
 
     return (
-      <TemplateContainer>
+      <TemplateContainer paddingTop={insets.top + verticalScale(16)}>
         {!hideHeader && (
-          <HeaderWrapper paddingTop={insets.top}>
+          <HeaderWrapper>
             <AdminHeader
               title={headerTitle}
               showBackButton={showBackButton}

@@ -92,7 +92,7 @@ export const ManageBookings = React.memo(() => {
             <ActivityIndicator size="small" color={theme.colors.primary as string} />
           </FooterContainer>
         )}
-        <Pressable onPress={onCreateSessionPress}>
+        {/* <Pressable onPress={onCreateSessionPress}>
           <StyledEmptyStateContainer>
             <EmptyIconWrapper>
               <CalendarPlus color={theme.colors.primary as string} size={scale(24)} />
@@ -104,7 +104,7 @@ export const ManageBookings = React.memo(() => {
               {t('admin.manage_sessions.schedule_desc')}
             </EmptyStateDesc>
           </StyledEmptyStateContainer>
-        </Pressable>
+        </Pressable> */}
       </ListContainer>
     );
   };

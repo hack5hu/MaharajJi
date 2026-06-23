@@ -3,6 +3,7 @@ export interface AttendeeCardProps {
   customerPhone: string;
   status: string;
   numberOfPeople: number;
+  tokenNumber: number;
   bookingId: string;
   onPress?: () => void;
 }

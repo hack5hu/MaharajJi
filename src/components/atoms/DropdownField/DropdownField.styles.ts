@@ -15,7 +15,9 @@ export const PickerButton = styled(TouchableOpacity)<{ isError?: boolean }>`
   border-radius: ${({ theme }) => theme.rounded.DEFAULT}px;
   padding-horizontal: ${scale(16)}px;
   padding-vertical: ${verticalScale(14)}px;
-  background-color: ${({ theme, isError }) => isError ? theme.colors.error_container : theme.colors.surface_container_low};
+  background-color: ${({ theme, isError }) => isError ? theme.colors.error_container : theme.colors.surface};
+  border-width: 1px;
+  border-color: ${({ theme, isError }) => isError ? theme.colors.error : theme.colors.outline_variant};
 `;
 
 export const ModalOverlay = styled(TouchableOpacity)`

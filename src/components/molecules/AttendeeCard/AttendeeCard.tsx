@@ -12,7 +12,7 @@ import {
   AttendeeDetails,
   AttendeeNameText,
   AttendeeStatus,
-  BookingIdText,
+  TokenBadge,
 } from './AttendeeCard.styles';
 
 export const AttendeeCard = React.memo(({
@@ -20,6 +20,7 @@ export const AttendeeCard = React.memo(({
   customerPhone,
   status,
   numberOfPeople,
+  tokenNumber,
   bookingId,
   onPress,
 }: AttendeeCardProps) => {
@@ -81,9 +82,11 @@ export const AttendeeCard = React.memo(({
             ? t('admin.session_attendees.person', { count: 1 })
             : t('admin.session_attendees.people', { count: numberOfPeople })}
         </Typography>
-        <BookingIdText variant="label_caps" color="on_surface_variant">
-          #{bookingId.substring(0, 8).toUpperCase()}
-        </BookingIdText>
+        <TokenBadge>
+          <Typography variant="label_caps" color="on_primary_container" style={{ fontWeight: '800', letterSpacing: 0.5 }}>
+            TOKEN #{tokenNumber}
+          </Typography>
+        </TokenBadge>
       </AttendeeStatus>
     </AttendeeCardContainer>
   );

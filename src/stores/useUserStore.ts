@@ -20,7 +20,7 @@ interface UserStoreActions {
   fetchCustomers: (reset?: boolean) => Promise<void>;
   fetchNextPageCustomers: () => Promise<void>;
   addCustomerLocally: (customer: AdminCustomer) => void;
-  removeCustomerLocally: (phoneNumber: string) => void;
+  removeCustomerLocally: (id: string) => void;
   setSearchQuery: (query: string) => void;
 }
 
@@ -51,9 +51,9 @@ export const useUserStore = create<UserStore>()(
           state.searchQuery = query;
         }),
 
-      removeCustomerLocally: (phoneNumber) =>
+      removeCustomerLocally: (id) =>
         set((state) => {
-          state.customers = state.customers.filter((c: AdminCustomer) => c.phoneNumber !== phoneNumber);
+          state.customers = state.customers.filter((c: AdminCustomer) => c.id !== id && c.phoneNumber !== id);
         }),
 
       fetchCustomers: async (reset = true) => {

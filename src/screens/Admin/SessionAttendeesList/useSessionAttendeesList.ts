@@ -48,12 +48,13 @@ export const useSessionAttendeesList = () => {
     const query = searchQuery.toLowerCase().trim();
     return attendees.filter((a) =>
       a.customerName.toLowerCase().includes(query) ||
-      a.customerPhone.toLowerCase().includes(query)
+      a.customerPhone.toLowerCase().includes(query) ||
+      a.tokenNumber.toString() === query 
     );
   }, [attendees, searchQuery]);
 
   const filledCount = useMemo(() => {
-    return attendees.reduce((acc, curr) => acc + curr.numberOfPeople, 0);
+    return attendees.length;
   }, [attendees]);
 
   return {

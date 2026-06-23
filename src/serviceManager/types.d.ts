@@ -110,6 +110,7 @@ export interface CustomerBooking {
   customerId: string;
   customerName: string;
   customerPhone: string;
+  tokenNumber: number;
   numberOfPeople: number;
   status: string;
   bookedAt: string;

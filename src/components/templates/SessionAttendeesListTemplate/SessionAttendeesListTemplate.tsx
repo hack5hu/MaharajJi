@@ -1,13 +1,15 @@
 import React, { useMemo, useCallback } from 'react';
 import { ActivityIndicator } from 'react-native';
+import { Pressable } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
-import { Calendar, Search } from 'lucide-react-native';
+import { Calendar, Search, ArrowLeft } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { scale, verticalScale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
-import { AdminHeader } from '@/components/organisms/AdminHeader';
+import { Box } from '@/components/atoms/Box';
 import { CustomerBooking } from '@/serviceManager/types.d';
 import { SessionAttendeesListTemplateProps } from './types.d';
 import { AttendeeCard } from '@/components/molecules/AttendeeCard';
@@ -45,6 +47,7 @@ export const SessionAttendeesListTemplate = React.memo(({
 }: SessionAttendeesListTemplateProps) => {
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
+  const insets = useSafeAreaInsets();
 
   const progressPercent = useMemo(() => {
     if (totalTokens === 0) return 0;
@@ -58,6 +61,7 @@ export const SessionAttendeesListTemplate = React.memo(({
         customerPhone={item.customerPhone}
         status={item.status}
         numberOfPeople={item.numberOfPeople}
+        tokenNumber={item.tokenNumber}
         bookingId={item.id}
         onPress={onAttendeePress ? () => onAttendeePress(item) : undefined}
       />
@@ -66,13 +70,17 @@ export const SessionAttendeesListTemplate = React.memo(({
 
   return (
     <ScreenContainer>
-      <AdminHeader
-        title={t('admin.session_attendees.title')}
-        avatarUrl=""
-        onMenuPress={() => {}}
-        onBackPress={onBackPress}
-        showBackButton
-      />
+      <Box style={{ paddingHorizontal: scale(20), paddingTop: insets.top + verticalScale(16), backgroundColor: theme.colors.surface as string }}>
+        <Pressable 
+          onPress={onBackPress}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: scale(6) }}
+        >
+          <ArrowLeft color={theme.colors.primary as string} size={scale(18)} />
+          <Typography variant="label_caps" color="primary" style={{ textTransform: 'uppercase' }}>
+            {t('admin.session_attendees.back_to_sessions')}
+          </Typography>
+        </Pressable>
+      </Box>
 
       <MainContent>
         <SummaryCard>

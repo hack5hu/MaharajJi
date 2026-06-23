@@ -53,6 +53,12 @@ export const AttendeeStatus = styled(Box)`
   align-items: flex-end;
 `;
 
-export const BookingIdText = styled(Typography)`
-  margin-top: ${verticalScale(4)}px;
+export const TokenBadge = styled(Box)`
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary_container};
+  padding-horizontal: ${scale(8)}px;
+  padding-vertical: ${verticalScale(4)}px;
+  border-radius: ${scale(6)}px;
+  margin-top: ${verticalScale(6)}px;
+  align-items: center;
+  justify-content: center;
 `;

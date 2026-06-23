@@ -4,13 +4,13 @@ import { scale, verticalScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
 import { Typography } from '@/components/atoms/Typography';
 
-export const TemplateContainer = styled(Box)`
+export const TemplateContainer = styled(Box)<{ paddingTop: number }>`
   flex: 1;
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.background};
+  padding-top: ${({ paddingTop }) => paddingTop}px;
 `;
 
-export const HeaderWrapper = styled(Box)<{ paddingTop: number }>`
-  padding-top: ${({ paddingTop }) => paddingTop}px;
+export const HeaderWrapper = styled(Box)`
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
   z-index: 40;
   height: ${verticalScale(76)}px;
