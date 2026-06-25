@@ -6,6 +6,7 @@ import { ThemeType } from '@/theme/theme';
 
 export const ScreenContainer = styled(Box)`
   flex: 1;
+  
 `;
 
 export const WelcomeSection = styled(Box)`

@@ -22,7 +22,6 @@ import { AdminSettings } from './src/screens/Admin/AdminSettings';
 import { HomeBookingStatus } from './src/screens/User/HomeBookingStatus';
 import { MyBookings } from './src/screens/User/MyBookings';
 import { Profile } from './src/screens/User/Profile';
-import { History } from './src/screens/User/History';
 import { BookingSuccessful } from './src/screens/User/BookingSuccessful';
 import { BookSession } from './src/screens/User/BookSession';
 import { Login } from './src/screens/Auth/Login';
@@ -73,7 +72,6 @@ function App() {
               <Stack.Screen name="HomeBookingStatus" component={HomeBookingStatus} />
               <Stack.Screen name="MyBookings" component={MyBookings} />
               <Stack.Screen name="Profile" component={Profile} />
-              <Stack.Screen name="History" component={History} />
               <Stack.Screen name="BookingSuccessful" component={BookingSuccessful} />
               <Stack.Screen name="BookSession" component={BookSession} />
             </Stack.Navigator>

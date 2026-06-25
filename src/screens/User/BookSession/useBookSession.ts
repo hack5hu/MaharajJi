@@ -28,24 +28,31 @@ export const useBookSession = () => {
   const { execute: bookSession, isLoading } = useApi((payload: { id: string, num: number }) => SessionService.bookSession(payload.id, payload.num));
   const { t } = useLocale();
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const handleConfirm = useCallback(async () => {
     if (!session?.sessionId) return;
     
+    setErrorMessage(null);
     const response = await bookSession({ id: session.sessionId, num: seats });
-    
+    console.log(response)
     if (response.success && response.data) {
-      const bookingId = response.data?.id || response.data?.bookingId || (typeof response.data === 'string' ? response.data : null) || `#SS-${Math.floor(10000 + Math.random() * 90000)}`;
+      const data = typeof response.data === 'object' ? response.data : {};
+      const tokenNumber = data.tokenNumber || 0;
+      const location = data.location || session?.location || '';
+      const date = data.sessionDate ? data.sessionDate.split('-').reverse().join('-') : session?.date || '';
 
       navigation.navigate('BookingSuccessful', {
-        bookingId,
-        date: session?.date || '',
-        time: session?.time || '',
+        tokenNumber,
+        date,
         attendees: seats,
-        hall: session?.location || '',
+        location,
         imageUrl: session?.imageUrl || '',
       });
     } else {
-      Logger.error('Booking Error', response.error || t('user.errors.server_error', { defaultValue: 'Something went wrong. Please try again.' }));
+      const msg = response.error?.message || t('user.errors.server_error', { defaultValue: 'Something went wrong. Please try again.' });
+      setErrorMessage(msg);
+      Logger.error('Booking Error', msg);
     }
   }, [navigation, session, seats, bookSession, t]);
 
@@ -53,9 +60,15 @@ export const useBookSession = () => {
     navigation.goBack();
   }, [navigation]);
 
+  const clearErrorMessage = useCallback(() => {
+    setErrorMessage(null);
+  }, []);
+
   return {
     seats,
     maxSeats,
+    errorMessage,
+    clearErrorMessage,
     handleIncrement,
     handleDecrement,
     handleConfirm,

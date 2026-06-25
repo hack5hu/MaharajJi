@@ -36,7 +36,7 @@ export const AppLayoutTemplate = React.memo(
     };
 
     return (
-      <TemplateContainer paddingTop={insets.top + verticalScale(16)}>
+      <TemplateContainer paddingTop={hideHeader ? insets.top + verticalScale(16) : 0}>
         {!hideHeader && (
           <HeaderWrapper>
             <AdminHeader

@@ -10,11 +10,16 @@ import { Logger } from '@/utils/logger';
 export const useMyBookings = () => {
   const navigation = useAppNavigation();
   const isFocused = useIsFocused();
-  const [activeBooking, setActiveBooking] = useState<ActiveBooking | null>(null);
+  const [activeBookings, setActiveBookings] = useState<ActiveBooking[]>([]);
   const [pastBookings, setPastBookings] = useState<BookingItem[]>([]);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [cancelling, setCancelling] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [bookingToCancel, setBookingToCancel] = useState<string | null>(null);
+
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
 
   const fetchMethod = useCallback((payload?: { page?: number; size?: number }) => {
     return SessionService.getMyBookings(payload?.page, payload?.size);
@@ -22,75 +27,114 @@ export const useMyBookings = () => {
 
   const { execute: fetchMyBookings, isLoading } = useApi(fetchMethod);
 
-  const loadBookings = useCallback(async () => {
-    const res = await fetchMyBookings({ page: 0, size: 10 });
+  const loadBookings = useCallback(async (pageNum: number = 0) => {
+    if (pageNum === 0) {
+      setHasMore(true);
+    } else {
+      setIsFetchingMore(true);
+    }
+
+    const res = await fetchMyBookings({ page: pageNum, size: 10 });
     if (res.success && res.data) {
       const sessions = res.data.content || [];
-      if (sessions.length > 0) {
-        // The first CONFIRMED booking is our active booking
-        const active = sessions.find((s: any) => s.status === 'CONFIRMED');
-        const others = sessions.filter((s: any) => s !== active || s.status !== 'CONFIRMED');
+      const totalPages = res.data.totalPages || 1;
+      
+      if (pageNum >= totalPages - 1) {
+        setHasMore(false);
+      }
 
-        if (active) {
-          setActiveBooking({
-            id: active.id,
-            title: active.sessionTitle || '',
-            comingUpLabel: active.status || 'Upcoming',
-            date: active.sessionDate ? active.sessionDate.split('-').reverse().join('-') : '',
-            time: 'All Day',
-            token: active.id,
-            location: active.location || 'Mathura',
-            imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCEtE2JjakLNeBJmicEiJD8obcEkHelZjrpbugxmHmVnDIaFV05ZgJgdcC-PZ_Ug68oR7izHKsV-xA6FxelHeM1F_5lLICY9B28sZ-vHv3EZTr-aO563tOge6Ks9m471xcG41tD4R8ym0esE0wWWif6xKU2hXfn6oFEuwCXVW-DYJGvCAINWbhCLWncaQ4UYChG6bgBV7oFk2BhFjDlZu8DKZRrvtlUQDP31nDTDsnskDLYa6ryf8twUmK9ZXRvJxUgRUfkdSWdxdA',
-            qrCodeUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBAjRkBCYO4Br8XlDeFLhAmou-CKysjf5JkefHepmLFsxHBjS6FPXFlwJc0dmX7gnP2J07Xr9TlZm3Bi0iflO5VCwMxW4GKHc_S0-dGEJbmLhP_yDdhko8LbjsDK1yVjI9AJYyDfY7TpxQbpvGaclpxoqLq7oOe2GWBUnZqIB_qa0KGXG06t_5DAg96BNN1CM7P-uBDSvuGOZ2fBM1Tq78r86XNUw8sg9DXq8vhekEXOZjkCcqXp__Vqxmbew8ZoZcFyrvBJP-EX44',
-            status: BookingStatus.CONFIRMED,
-          });
-        } else {
-          setActiveBooking(null);
-        }
+      // Filter and sort active bookings
+      const actives = sessions.filter((s: any) => 
+        (s.sessionState === 'LIVE' || s.sessionState === 'UPCOMING') && s.status === 'CONFIRMED'
+      );
+      
+      actives.sort((a: any, b: any) => {
+        if (a.sessionState === 'LIVE' && b.sessionState !== 'LIVE') return -1;
+        if (a.sessionState !== 'LIVE' && b.sessionState === 'LIVE') return 1;
+        return 0;
+      });
 
-        const mappedOthers: BookingItem[] = others.map((s) => ({
-          id: s.id,
-          title: s.sessionTitle || '',
-          date: s.sessionDate ? s.sessionDate.split('-').reverse().join('-') : '',
-          time: 'All Day',
-          status: s.status === 'CANCELLED' ? BookingStatus.CANCELLED : BookingStatus.COMPLETED,
-          category: 'temple_hindu',
-        }));
+      const mappedActives: ActiveBooking[] = actives.map((active: any) => ({
+        id: active.id,
+        title: active.sessionTitle || '',
+        comingUpLabel: active.sessionState || 'Upcoming',
+        date: active.sessionDate ? active.sessionDate.split('-').reverse().join('-') : '',
+        token: active.id,
+        location: active.location || 'Mathura',
+        imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCEtE2JjakLNeBJmicEiJD8obcEkHelZjrpbugxmHmVnDIaFV05ZgJgdcC-PZ_Ug68oR7izHKsV-xA6FxelHeM1F_5lLICY9B28sZ-vHv3EZTr-aO563tOge6Ks9m471xcG41tD4R8ym0esE0wWWif6xKU2hXfn6oFEuwCXVW-DYJGvCAINWbhCLWncaQ4UYChG6bgBV7oFk2BhFjDlZu8DKZRrvtlUQDP31nDTDsnskDLYa6ryf8twUmK9ZXRvJxUgRUfkdSWdxdA',
+        tokenNumber: active.tokenNumber || 0,
+        numberOfPeople: active.numberOfPeople || 1,
+        status: BookingStatus.CONFIRMED,
+      }));
+
+      // Filter past/history bookings
+      const others = sessions.filter((s: any) => 
+        s.status === 'CANCELLED' || s.status === 'COMPLETED' || s.sessionState === 'COMPLETED' || s.sessionState === 'CANCELLED'
+      );
+
+      const mappedOthers: BookingItem[] = others.map((s: any) => ({
+        id: s.id,
+        title: s.sessionTitle || '',
+        date: s.sessionDate ? s.sessionDate.split('-').reverse().join('-') : '',
+        time: s.bookingOpenTime ? s.bookingOpenTime.slice(0, 5) : 'All Day',
+        status: s.status === 'CANCELLED' || s.sessionState === 'CANCELLED' ? BookingStatus.CANCELLED : BookingStatus.COMPLETED,
+        category: 'temple_hindu',
+      }));
+
+      if (pageNum === 0) {
+        setActiveBookings(mappedActives);
         setPastBookings(mappedOthers);
       } else {
-        setActiveBooking(null);
-        setPastBookings([]);
+        setActiveBookings(prev => [...prev, ...mappedActives]);
+        setPastBookings(prev => [...prev, ...mappedOthers]);
       }
     }
+    setIsFetchingMore(false);
   }, [fetchMyBookings]);
 
   useEffect(() => {
     if (isFocused) {
-      loadBookings();
+      setPage(0);
+      loadBookings(0);
     }
   }, [isFocused, loadBookings]);
 
-  const handleCancelPress = useCallback(() => {
+  const loadMoreBookings = useCallback(() => {
+    if (!isLoading && !isFetchingMore && hasMore) {
+      const nextPage = page + 1;
+      setPage(nextPage);
+      loadBookings(nextPage);
+    }
+  }, [isLoading, isFetchingMore, hasMore, page, loadBookings]);
+
+  const handleCancelPress = useCallback((bookingId: string) => {
+    setBookingToCancel(bookingId);
     setShowCancelModal(true);
   }, []);
 
   const handleConfirmCancel = useCallback(async () => {
-    if (!activeBooking) return;
+    if (!bookingToCancel) return;
     setCancelling(true);
     try {
-      const res = await SessionService.cancelCustomerBooking(activeBooking.id);
+      const res = await SessionService.cancelCustomerBooking(bookingToCancel);
       if (res.success) {
-        const cancelledItem: BookingItem = {
-          id: `past_cancelled_${Date.now()}`,
-          title: activeBooking.title,
-          date: activeBooking.date,
-          time: activeBooking.time,
-          status: BookingStatus.CANCELLED,
-          category: 'self_improvement',
-        };
+        const activeToCancel = activeBookings.find(b => b.id === bookingToCancel);
         
-        setPastBookings((prev) => [cancelledItem, ...prev]);
-        setActiveBooking(null);
+        if (activeToCancel) {
+          const cancelledItem: BookingItem = {
+            id: `past_cancelled_${Date.now()}`,
+            title: activeToCancel.title,
+            date: activeToCancel.date,
+            time: activeToCancel.time,
+            status: BookingStatus.CANCELLED,
+            category: 'self_improvement',
+          };
+          
+          setPastBookings((prev) => [cancelledItem, ...prev]);
+          setActiveBookings((prev) => prev.filter(b => b.id !== bookingToCancel));
+        }
+        
+        setBookingToCancel(null);
         setSuccessMessage('Booking cancelled successfully.');
         
         setTimeout(() => {
@@ -104,16 +148,14 @@ export const useMyBookings = () => {
     } finally {
       setCancelling(false);
       setShowCancelModal(false);
+      setBookingToCancel(null);
     }
-  }, [activeBooking]);
+  }, [bookingToCancel, activeBookings]);
 
   const handleDismissCancel = useCallback(() => {
     setShowCancelModal(false);
+    setBookingToCancel(null);
   }, []);
-
-  const handleDirectionsPress = useCallback(() => {
-    console.log('Get directions pressed for: ', activeBooking?.location);
-  }, [activeBooking]);
 
   const handleFilterPress = useCallback(() => {
     console.log('Filter past bookings pressed');
@@ -138,19 +180,18 @@ export const useMyBookings = () => {
   }, [navigation]);
 
   return {
-    activeBooking,
+    activeBookings,
     pastBookings,
+    isLoading: isLoading && page === 0,
+    isFetchingMore,
     showCancelModal,
     cancelling,
     successMessage,
-    isLoading,
+    bookingToCancel,
+    loadMoreBookings,
     handleCancelPress,
     handleConfirmCancel,
     handleDismissCancel,
-    handleDirectionsPress,
-    handleFilterPress,
-    handleLoadMore,
-    handleMenuPress,
     handleTabChange,
   };
 };

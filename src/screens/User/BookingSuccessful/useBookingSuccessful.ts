@@ -1,12 +1,8 @@
 import { useCallback } from 'react';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 
-export const useBookingSuccessful = (bookingId?: string) => {
+export const useBookingSuccessful = () => {
   const navigation = useAppNavigation();
-
-  const handleAddCalendar = useCallback(() => {
-    console.log('Add to calendar clicked for booking: ', bookingId);
-  }, [bookingId]);
 
   const handleViewAllBookings = useCallback(() => {
     navigation.navigate('MyBookings');
@@ -17,7 +13,6 @@ export const useBookingSuccessful = (bookingId?: string) => {
   }, [navigation]);
 
   return {
-    handleAddCalendar,
     handleViewAllBookings,
     handleBackHome,
   };

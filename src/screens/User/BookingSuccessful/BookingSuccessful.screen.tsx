@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BackHandler } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { useRoute } from '@react-navigation/native';
-import { Check, Calendar, Clock, Users, MapPin, Info } from 'lucide-react-native';
+import { Check, Calendar, Users, MapPin } from 'lucide-react-native';
 import { ThemeType } from '@/theme/theme';
 import { scale, verticalScale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
@@ -24,7 +24,6 @@ import {
   CardBannerImage,
   GridContainer,
   GridCol,
-  InfoBanner,
   ButtonContainer,
 } from './BookingSuccessful.styles';
 
@@ -35,11 +34,10 @@ export const BookingSuccessful = React.memo(() => {
   const navigation = useAppNavigation();
 
   // Default fallback values if params are missing
-  const bookingId = route.params?.bookingId || '#SS-88291';
+  const tokenNumber = route.params?.tokenNumber || 0;
   const date = route.params?.date || 'All Day';
-  const time = route.params?.time || 'All Day';
-  const attendees = route.params?.attendees || 2;
-  const hall = route.params?.hall || 'Main Chapel';
+  const attendees = route.params?.attendees || 1;
+  const location = route.params?.location || 'Main Chapel';
   const imageUrl = route.params?.imageUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuB-6JGNAokKE2FmYtxezQnj3ec4ZM0ZKRTGbSM2X7PhCqveWUUsw306MZd36PcORyeuikA7N3nJk02WtUuIg-giBW-jNhQCYSnVzDtGe8btW7uYkqPVKBkUXi1q5IijqbvL-raEaUEjpufWmhl7ZZHrPoYevp8OFH3tWDBLkwXh050O2mbWAWCqIJAo2vrZyT2KGhmu23ighquJTI7-oID-1oIU6p_Pq0hCgC1f1z4Sb2jTtYUQMMS7xdlAooItXACJbIkwzRvNY8I';
 
   useEffect(() => {
@@ -61,9 +59,8 @@ export const BookingSuccessful = React.memo(() => {
   }, [navigation]);
 
   const {
-    handleAddCalendar,
     handleViewAllBookings,
-  } = useBookingSuccessful(bookingId);
+  } = useBookingSuccessful();
 
   return (
     <ScreenContainer>
@@ -91,10 +88,10 @@ export const BookingSuccessful = React.memo(() => {
           <CardHeader>
             <Box>
               <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700', fontSize: 10 }}>
-                {t('user.booking_successful.booking_id_label')}
+                {t('user.booking_successful.token_no_label') || 'TOKEN NO.'}
               </Typography>
               <Typography variant="headline_md" color="primary" style={{ fontWeight: '700', marginTop: 2 }}>
-                {bookingId}
+                #{tokenNumber}
               </Typography>
             </Box>
           </CardHeader>
@@ -120,18 +117,6 @@ export const BookingSuccessful = React.memo(() => {
 
             <GridCol>
               <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
-                <Clock color={theme.colors.on_surface_variant as string} size={scale(16)} />
-                <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700' }}>
-                  {t('user.booking_successful.time_label')}
-                </Typography>
-              </Box>
-              <Typography variant="body_lg" color="on_surface" style={{ fontWeight: '600' }}>
-                {time}
-              </Typography>
-            </GridCol>
-
-            <GridCol>
-              <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
                 <Users color={theme.colors.on_surface_variant as string} size={scale(16)} />
                 <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700' }}>
                   {t('user.booking_successful.attendees_label')}
@@ -146,37 +131,18 @@ export const BookingSuccessful = React.memo(() => {
               <Box style={{ flexDirection: 'row', alignItems: 'center', gap: scale(4) }}>
                 <MapPin color={theme.colors.on_surface_variant as string} size={scale(16)} />
                 <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700' }}>
-                  {t('user.booking_successful.hall_label')}
+                  {t('user.booking_successful.location_label') || 'LOCATION'}
                 </Typography>
               </Box>
               <Typography variant="body_lg" color="on_surface" style={{ fontWeight: '600' }}>
-                {hall}
+                {location}
               </Typography>
             </GridCol>
           </GridContainer>
-
-          {/* Information Footer */}
-          <InfoBanner>
-            <Info color={theme.colors.secondary as string} size={scale(18)} />
-            <Typography variant="body_sm" color="on_surface_variant" style={{ flex: 1, lineHeight: 18 }}>
-              {t('user.booking_successful.info_footer')}
-            </Typography>
-          </InfoBanner>
         </CardWrapper>
 
         {/* Action Buttons */}
         <ButtonContainer>
-          <Button
-            label={t('user.booking_successful.add_to_calendar')}
-            onPress={handleAddCalendar}
-            variant="primary"
-            fullWidth
-            style={{
-              backgroundColor: theme.colors.primary,
-              borderRadius: theme.rounded.lg,
-              paddingVertical: verticalScale(14),
-            }}
-          />
           <Button
             label={t('user.booking_successful.view_all_bookings')}
             onPress={handleViewAllBookings}

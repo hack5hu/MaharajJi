@@ -16,16 +16,21 @@ export const useAdminSettings = () => {
       const storedRole = storage.getString(StorageKeys.USER_ROLE);
       
       let name = 'Admin User';
+      let phone = '';
       if (storedProfileStr) {
         const parsed = JSON.parse(storedProfileStr);
         if (parsed && parsed.name) {
           name = parsed.name;
+        }
+        if (parsed && parsed.phone) {
+          phone = parsed.phone;
         }
       }
 
       setProfile({
         name,
         role: storedRole || 'ADMIN',
+        phone,
       });
     } catch (e) {
       console.log('Failed to parse stored admin profile', e);

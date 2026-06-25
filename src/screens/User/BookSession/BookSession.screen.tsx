@@ -1,11 +1,10 @@
 import React from 'react';
 import { useTheme } from 'styled-components/native';
-import { Calendar, Clock, Minus, Plus } from 'lucide-react-native';
+import { Calendar, Clock, Minus, Plus, AlertCircle } from 'lucide-react-native';
 import { ThemeType } from '@/theme/theme';
 import { scale } from '@/styles/scaling';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
-import { Button } from '@/components/atoms/Button';
 import { BookSessionTemplate } from '@/components/templates/BookSessionTemplate';
 import { useBookSession } from './useBookSession';
 import {
@@ -13,14 +12,12 @@ import {
   SessionCard,
   CardBannerImage,
   SessionCardBody,
-  DetailsRow,
   DetailItem,
   CounterSection,
   CounterRow,
   CounterControls,
   CircularButton,
   DisclaimerBox,
-  ButtonWrapper,
   PageTitle,
   SessionTitle,
   SlotsText,
@@ -29,6 +26,16 @@ import {
   SelectSeatsDesc,
   CounterNumber,
   DisclaimerText,
+  BookSessionDateBadge,
+  BookSessionWindowContainer,
+  BookSessionWindowLabel,
+  StickyFooterRow,
+  FooterActionButtonWrapper,
+  GradientButtonContainer,
+  ConfirmButton,
+  ErrorBanner,
+  ErrorBannerText,
+  SessionOnText,
 } from './BookSession.styles';
 
 export const BookSession = React.memo(() => {
@@ -38,6 +45,7 @@ export const BookSession = React.memo(() => {
   const {
     seats,
     maxSeats,
+    errorMessage,
     handleIncrement,
     handleDecrement,
     handleConfirm,
@@ -50,11 +58,39 @@ export const BookSession = React.memo(() => {
     <ScreenContainer>
       <BookSessionTemplate
         onBackPress={handleBack}
+        footer={
+          <StickyFooterRow style={{ flexDirection: 'column', gap: scale(16) }}>
+            {errorMessage ? (
+              <ErrorBanner style={{ marginBottom: 0 }}>
+                <AlertCircle color="#C62828" size={scale(20)} />
+                <ErrorBannerText variant="body_sm">
+                  {errorMessage}
+                </ErrorBannerText>
+              </ErrorBanner>
+            ) : null}
+            <FooterActionButtonWrapper style={{ width: '100%' }}>
+              <GradientButtonContainer
+                colors={isLoading ? [theme.colors.surface_dim, theme.colors.surface_dim] : [theme.colors.primary, theme.colors.primary_container]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+              >
+                <ConfirmButton
+                  label={t('user.book_session.confirm_btn')}
+                  onPress={handleConfirm}
+                  variant="primary"
+                  fullWidth
+                  loading={isLoading}
+                  disabled={isLoading}
+                />
+              </GradientButtonContainer>
+            </FooterActionButtonWrapper>
+          </StickyFooterRow>
+        }
       >
         <PageTitle variant="headline_lg" color="on_surface">
           {t('user.book_session.title')}
         </PageTitle>
-
+ 
         {/* Session Card */}
         <SessionCard>
           {session?.imageUrl ? (
@@ -64,22 +100,25 @@ export const BookSession = React.memo(() => {
             <SessionTitle variant="headline_md" color="on_surface">
               {session?.sessionTitle || ''}
             </SessionTitle>
+ 
+            <BookSessionDateBadge>
+              <Calendar color={theme.colors.on_primary_container as string} size={scale(16)} />
+              <SessionOnText variant="label_caps" color="on_primary_container">
+                {t('user.home_booking_status.session_on')}: {session?.date || ''}
+              </SessionOnText>
+            </BookSessionDateBadge>
 
-            <DetailsRow>
+            <BookSessionWindowContainer>
+              <BookSessionWindowLabel variant="label_caps" color="on_surface_variant">
+                {t('user.home_booking_status.booking_window')}
+              </BookSessionWindowLabel>
               <DetailItem>
-                <Calendar color={theme.colors.primary as string} size={scale(16)} />
-                <Typography variant="body_sm" color="on_surface_variant">
-                  {session?.date || ''}
-                </Typography>
-              </DetailItem>
-
-              <DetailItem>
-                <Clock color={theme.colors.primary as string} size={scale(16)} />
+                <Clock color={theme.colors.on_surface_variant as string} size={scale(14)} />
                 <Typography variant="body_sm" color="on_surface_variant">
                   {session?.time || ''}
                 </Typography>
               </DetailItem>
-            </DetailsRow>
+            </BookSessionWindowContainer>
 
             <SlotsText variant="body_sm" color="primary">
               {t('user.home_booking_status.slots_left', { count: session?.slotsLeft || 0 })}
@@ -101,10 +140,10 @@ export const BookSession = React.memo(() => {
             <CounterControls>
               <CircularButton
                 onPress={handleDecrement}
-                disabled={seats <= 1}
+                disabled={seats <= 1 || isLoading}
               >
                 <Minus
-                  color={(seats <= 1 ? theme.colors.outline : theme.colors.primary) as string}
+                  color={(seats <= 1 || isLoading ? theme.colors.outline : theme.colors.primary) as string}
                   size={scale(20)}
                 />
               </CircularButton>
@@ -115,10 +154,10 @@ export const BookSession = React.memo(() => {
 
               <CircularButton
                 onPress={handleIncrement}
-                disabled={seats >= maxSeats}
+                disabled={seats >= maxSeats || isLoading}
               >
                 <Plus
-                  color={(seats >= maxSeats ? theme.colors.outline : theme.colors.primary) as string}
+                  color={(seats >= maxSeats || isLoading ? theme.colors.outline : theme.colors.primary) as string}
                   size={scale(20)}
                 />
               </CircularButton>
@@ -132,18 +171,6 @@ export const BookSession = React.memo(() => {
             {t('user.book_session.disclaimer')}
           </DisclaimerText>
         </DisclaimerBox>
-
-        {/* Confirmation Button */}
-        <ButtonWrapper>
-          <Button
-            label={t('user.book_session.confirm_btn')}
-            onPress={handleConfirm}
-            variant="primary"
-            fullWidth
-            loading={isLoading}
-            disabled={isLoading}
-          />
-        </ButtonWrapper>
       </BookSessionTemplate>
     </ScreenContainer>
   );

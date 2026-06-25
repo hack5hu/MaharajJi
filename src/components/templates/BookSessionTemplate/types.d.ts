@@ -4,4 +4,5 @@ export interface BookSessionTemplateProps {
   headerTitle?: string;
   onBackPress: () => void;
   children: ReactNode;
+  footer?: ReactNode;
 }

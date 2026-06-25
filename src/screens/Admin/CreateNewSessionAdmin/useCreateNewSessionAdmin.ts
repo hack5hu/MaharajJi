@@ -58,6 +58,7 @@ export const useCreateNewSessionAdmin = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'CreateNewSessionAdmin'>>();
   const editSession = route.params?.session;
   
+  const [apiError, setApiError] = useState<string | null>(null);
   const { execute: createSession, isLoading: isCreating } = useApi(SessionService.createSession);
   const { execute: fetchLocations, isLoading: isLocationsLoading } = useApi(SessionService.getLocations);
 
@@ -147,6 +148,7 @@ export const useCreateNewSessionAdmin = () => {
   }, [watchedBookingOpenTime, setValue, editSession]);
 
   const onSubmit = form.handleSubmit(async (data) => {
+    setApiError(null);
     const payload: CreateSessionRequest = {
       title: data.title,
       description: '', // Hardcoded as requested
@@ -165,6 +167,8 @@ export const useCreateNewSessionAdmin = () => {
       // showNotification({ type: NotificationType.SUCCESS, message: 'Session saved successfully!' });
       console.log('Session Saved:', result.data);
       navigation.goBack();
+    } else {
+      setApiError(result.error?.message || 'Failed to create session');
     }
   });
 
@@ -183,5 +187,6 @@ export const useCreateNewSessionAdmin = () => {
     isLoading: isCreating || isLocationsLoading,
     locations,
     isEditing: !!editSession,
+    apiError,
   };
 };

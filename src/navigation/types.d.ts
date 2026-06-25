@@ -10,14 +10,12 @@ export type RootStackParamList = {
   AdminSettings: undefined;
   HomeBookingStatus: undefined;
   MyBookings: undefined;
-  History: undefined;
   BookSession: { sessionId: string; sessionTitle: string; date: string; time: string; imageUrl: string; slotsLeft: number; maxPeoplePerToken: number; location: string };
   BookingSuccessful: {
-    bookingId: string;
+    tokenNumber: number;
     date: string;
-    time: string;
     attendees: number;
-    hall: string;
+    location: string;
     imageUrl: string;
   };
   Profile: undefined;

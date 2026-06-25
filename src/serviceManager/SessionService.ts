@@ -14,13 +14,19 @@ export const SessionService = {
     payload: CreateSessionRequest,
   ): Promise<ApiResponse<AdminSession>> => {
     try {
-      const response = await axiosClient.post<ApiResponse<AdminSession>>(
+      const response = await axiosClient.post<AdminSession>(
         ApiEndpoint.CREATE_SESSION,
         payload,
       );
-      return response.data;
-    } catch (error) {
-      throw error;
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message,
+      } as any;
     }
   },
 
@@ -49,7 +55,7 @@ export const SessionService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       } as any;
     }
   },
@@ -77,7 +83,7 @@ export const SessionService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       } as any;
     }
   },
@@ -94,7 +100,7 @@ export const SessionService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       } as any;
     }
   },
@@ -113,7 +119,7 @@ export const SessionService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       };
     }
   },
@@ -131,7 +137,7 @@ export const SessionService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       };
     }
   },
@@ -148,7 +154,7 @@ export const SessionService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       };
     }
   },
@@ -157,23 +163,16 @@ export const SessionService = {
     sessionId: string,
     numberOfPeople: number,
   ): Promise<ApiResponse<any>> => {
-    try {
-      const response = await axiosClient.post(
-        `${ApiEndpoint.BOOK_SESSION}/${sessionId}/book`,
-        {
-          numberOfPeople,
-        },
-      );
-      return {
-        success: true,
-        data: response.data,
-      };
-    } catch (error: any) {
-      return {
-        success: false,
-        error: error.message,
-      };
-    }
+    const response = await axiosClient.post(
+      `${ApiEndpoint.BOOK_SESSION}/${sessionId}/book`,
+      {
+        numberOfPeople,
+      },
+    );
+    return {
+      success: true,
+      data: response.data,
+    };
   },
 
   cancelCustomerBooking: async (
@@ -190,7 +189,7 @@ export const SessionService = {
     } catch (error: any) {
       return {
         success: false,
-        error: error.message,
+        error: error.response?.data?.message || error.message,
       };
     }
   },

@@ -14,10 +14,10 @@ export interface ActiveBooking {
   title: string;
   comingUpLabel: string;
   date: string;
-  time: string;
   token: string;
   location: string;
   imageUrl: string;
-  qrCodeUrl: string;
+  tokenNumber: number;
+  numberOfPeople: number;
   status: BookingStatus;
 }

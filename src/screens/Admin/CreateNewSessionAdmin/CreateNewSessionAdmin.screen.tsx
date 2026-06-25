@@ -3,6 +3,8 @@ import { Keyboard } from 'react-native';
 import { useWatch } from 'react-hook-form';
 import { useLocale } from '@/hooks/useLocale';
 import { Button } from '@/components/atoms/Button';
+import { Box } from '@/components/atoms/Box';
+import { Typography } from '@/components/atoms/Typography';
 import { CreateNewSessionTemplate } from '@/components/templates/CreateNewSessionTemplate';
 import { useCreateNewSessionAdmin } from './useCreateNewSessionAdmin';
 import { SessionDetailsSection } from './components/SessionDetailsSection';
@@ -17,6 +19,7 @@ export const CreateNewSessionAdmin = React.memo(() => {
     isLoading,
     locations,
     navigation,
+    apiError,
   } = useCreateNewSessionAdmin();
   
   const {
@@ -51,6 +54,13 @@ export const CreateNewSessionAdmin = React.memo(() => {
       onCancelPress={() => navigation.goBack()}
       actions={
         <>
+          {apiError && (
+            <Box style={{ backgroundColor: '#FEE2E2', padding: 12, borderRadius: 8, marginBottom: 16 }}>
+              <Typography variant="body_md" style={{ color: '#DC2626', fontWeight: '600' }}>
+                {apiError}
+              </Typography>
+            </Box>
+          )}
           <StyledButtonWrapper>
             <Button
               onPress={() => {

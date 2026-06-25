@@ -22,6 +22,18 @@ export function useApi<TRequest, TResponse>(
       setError(null);
       try {
         const response = await serviceMethod(payload);
+        
+        if (!response.success) {
+          const apiError: ApiError = {
+            success: false,
+            status: 400,
+            message: typeof response.error === 'string' ? response.error : (response.error?.message || 'An error occurred'),
+          };
+          setError(apiError);
+          setIsLoading(false);
+          return { success: false, error: apiError };
+        }
+
         setData(response.data ?? null);
         setIsLoading(false);
         return { success: true, data: response.data };

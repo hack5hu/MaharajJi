@@ -5,7 +5,7 @@ import { ThemeType } from '@/theme/theme';
 import { useTheme } from 'styled-components/native';
 import { moderateScale } from '@/styles/scaling';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { LayoutDashboard, Users, Calendar, Settings } from 'lucide-react-native';
+import { LayoutDashboard, Users, Calendar, CircleUser } from 'lucide-react-native';
 import { NavContainer, TabPressable, IconContainer } from './AdminBottomNav.styles';
 import { useLocale } from '@/hooks/useLocale';
 
@@ -25,7 +25,7 @@ export const AdminBottomNav = React.memo(({ activeTab, onTabChange, style }: Adm
       case 'dashboard': return <LayoutDashboard color={color} size={size} />;
       case 'customers': return <Users color={color} size={size} />;
       case 'bookings': return <Calendar color={color} size={size} />;
-      case 'settings': return <Settings color={color} size={size} />;
+      case 'settings': return <CircleUser color={color} size={size} />;
       default: return null;
     }
   };
@@ -51,7 +51,7 @@ export const AdminBottomNav = React.memo(({ activeTab, onTabChange, style }: Adm
       {renderTab('dashboard', t('common.nav_dashboard'))}
       {renderTab('customers', t('common.nav_customers'))}
       {renderTab('bookings', t('common.nav_bookings'))}
-      {renderTab('settings', t('common.nav_settings'))}
+      {renderTab('settings', t('common.nav_profile'))}
     </NavContainer>
   );
 });

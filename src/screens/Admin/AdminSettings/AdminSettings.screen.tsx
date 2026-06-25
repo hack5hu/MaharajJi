@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from 'styled-components/native';
 import { ThemeType } from '@/theme/theme';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
 import { Button } from '@/components/atoms/Button';
 import { AdminSettingsTemplate } from '@/components/templates/AdminSettingsTemplate';
+import { ConfirmationModal } from '@/components/organisms/ConfirmationModal';
 import { useAdminSettings } from './useAdminSettings';
 import { verticalScale } from '@/styles/scaling';
 import {
@@ -21,6 +22,7 @@ import {
 export const AdminSettings = React.memo(() => {
   const theme = useTheme() as ThemeType;
   const { t } = useLocale();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const {
     profile,
@@ -34,7 +36,7 @@ export const AdminSettings = React.memo(() => {
   return (
     <ScreenContainer>
       <AdminSettingsTemplate
-        headerTitle="Settting Screen"
+        headerTitle={t('user.profile.title')}
         
         onMenuPress={handleMenuPress}
         activeTab="settings"
@@ -66,6 +68,17 @@ export const AdminSettings = React.memo(() => {
 
           <InfoItem>
             <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700' }}>
+              {t('user.login.phone_label')}
+            </Typography>
+            <Typography variant="body_lg" color="on_surface" style={{ fontWeight: '600' }}>
+              {profile.phone ? `+91 ${profile.phone}` : '-'}
+            </Typography>
+          </InfoItem>
+
+          <Divider />
+
+          <InfoItem>
+            <Typography variant="label_caps" color="on_surface_variant" style={{ fontWeight: '700' }}>
               Role
             </Typography>
             <Typography variant="body_lg" color="primary" style={{ fontWeight: '700' }}>
@@ -77,7 +90,7 @@ export const AdminSettings = React.memo(() => {
         <ButtonWrapper>
           <Button
             label={t('user.profile.logout_btn')}
-            onPress={handleLogout}
+            onPress={() => setShowLogoutModal(true)}
             variant="primary"
             fullWidth
             style={{
@@ -87,6 +100,19 @@ export const AdminSettings = React.memo(() => {
             }}
           />
         </ButtonWrapper>
+        
+        <ConfirmationModal
+          visible={showLogoutModal}
+          title="Logout"
+          message="Are you sure you want to log out?"
+          confirmLabel={t('user.profile.logout_btn')}
+          cancelLabel={t('common.cancel')}
+          onConfirm={() => {
+            setShowLogoutModal(false);
+            handleLogout();
+          }}
+          onDismiss={() => setShowLogoutModal(false)}
+        />
       </AdminSettingsTemplate>
     </ScreenContainer>
   );

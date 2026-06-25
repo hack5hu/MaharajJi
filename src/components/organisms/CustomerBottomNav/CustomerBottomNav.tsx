@@ -24,7 +24,7 @@ export const CustomerBottomNav = React.memo(({ activeTab, onTabChange, style }: 
     }
   };
 
-  const renderTab = (id: 'home' | 'bookings' | 'history' | 'profile', label: string) => {
+  const renderTab = (id: 'home' | 'bookings' | 'profile', label: string) => {
     const isActive = activeTab === id;
     const iconColor = isActive ? theme.colors.primary : theme.colors.on_surface_variant;
     
@@ -48,7 +48,6 @@ export const CustomerBottomNav = React.memo(({ activeTab, onTabChange, style }: 
     <NavContainer insetsBottom={insets.bottom} style={style}>
       {renderTab('home', t('common.nav_home'))}
       {renderTab('bookings', t('common.nav_bookings'))}
-      {renderTab('history', t('common.nav_history'))}
       {renderTab('profile', t('common.nav_profile'))}
     </NavContainer>
   );

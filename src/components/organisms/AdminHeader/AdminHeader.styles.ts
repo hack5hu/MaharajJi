@@ -8,6 +8,7 @@ export const HeaderContainer = styled(Box)<{ insetsTop: number }>`
   justify-content: space-between;
   padding-horizontal: ${scale(16)}px;
   padding-vertical: ${verticalScale(12)}px;
+  padding-top: ${({ insetsTop }) => insetsTop + verticalScale(16)}px;
   background-color: ${({ theme }) => theme.colors.surface};
   z-index: 10;
 `;

@@ -4,6 +4,8 @@ import { Typography } from '@/components/atoms/Typography';
 import { scale, verticalScale } from '@/styles/scaling';
 import { ThemeType } from '@/theme/theme';
 import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
+import { Button } from '@/components/atoms/Button';
 
 export const ScreenContainer = styled(Box)`
   flex: 1;
@@ -137,4 +139,90 @@ export const CounterNumber = styled(Typography)`
 export const DisclaimerText = styled(Typography)`
   font-style: italic;
   text-align: center;
+`;
+
+export const BookSessionDateBadge = styled(Box)`
+  flex-direction: row;
+  align-items: center;
+  gap: ${scale(6)}px;
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary_container};
+  padding: ${verticalScale(6)}px ${scale(12)}px;
+  border-radius: ${scale(8)}px;
+  align-self: flex-start;
+`;
+
+export const BookSessionWindowContainer = styled(Box)`
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.tertiary_container || theme.colors.surface_variant};
+  border-radius: ${scale(10)}px;
+  padding: ${scale(10)}px ${scale(12)}px;
+  gap: ${verticalScale(4)}px;
+`;
+
+export const BookSessionWindowLabel = styled(Typography)`
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+`;
+
+export const StickyFooterRow = styled(Box)`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+export const FooterInfoColumn = styled(Box)`
+  flex: 1;
+  gap: ${scale(2)}px;
+  margin-right: ${scale(16)}px;
+`;
+
+export const FooterActionButtonWrapper = styled(Box)`
+  width: 100%;
+  padding: 0 0 16px 0;
+`;
+
+export const GradientButtonContainer = styled(LinearGradient)`
+  border-radius: ${scale(12)}px;
+  overflow: hidden;
+  shadow-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
+  shadow-offset: 0px 4px;
+  shadow-opacity: 0.2;
+  shadow-radius: 8px;
+  elevation: 4;
+`;
+
+export const TotalLabel = styled(Typography)`
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+`;
+
+export const TotalValue = styled(Typography)`
+  font-weight: 700;
+`;
+
+export const SessionOnText = styled(Typography)`
+  font-weight: 700;
+`;
+
+export const ConfirmButton = styled(Button)`
+  background-color: transparent;
+`;
+
+export const ErrorBanner = styled(Box)`
+  flex-direction: row;
+  align-items: center;
+  background-color: #FFEBEE;
+  padding-horizontal: ${scale(16)}px;
+  padding-vertical: ${verticalScale(12)}px;
+  border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.md}px;
+  margin-bottom: ${verticalScale(16)}px;
+  gap: ${scale(10)}px;
+`;
+
+export const ErrorBannerText = styled(Typography)`
+  color: #C62828;
+  font-weight: 600;
+  flex: 1;
 `;

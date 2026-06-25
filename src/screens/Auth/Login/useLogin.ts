@@ -53,11 +53,11 @@ export const useLogin = () => {
       // 1. Call backend API for login (to ensure backend state is ready/record user)
       const beResult = await execute({ phoneNumber: phone });
       
-      if (!beResult.success) {
-        Logger.error('Backend login error', beResult.error);
-        setError(beResult.error?.message || t('user.errors.server_error'));
-        return;
-      }
+      // if (!beResult.success) {
+      //   Logger.error('Backend login error', beResult.error);
+      //   setError(beResult.error?.message || t('user.errors.server_error'));
+      //   return;
+      // }
 
       // 2. Trigger MSG91 sendOTP
       setIsSendingOTP(true);

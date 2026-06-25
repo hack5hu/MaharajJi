@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { ActivityIndicator } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { AlertTriangle, MoreHorizontal } from 'lucide-react-native';
 import { useTheme } from 'styled-components/native';
@@ -67,62 +68,101 @@ export const HomeBookingStatus = React.memo(() => {
     handleReservePress(session as unknown as SessionCardUI);
   }, [handleReservePress]);
 
+  const listData = useMemo(() => {
+    const data: any[] = [];
+    if (liveSessions.length > 0) {
+      data.push({ type: 'live_header', id: 'live_header' });
+      liveSessions.forEach((s: any) => data.push({ type: 'live_item', session: s, id: `live_${s.id}` }));
+    }
+    if (upcomingSessions.length > 0) {
+      data.push({ type: 'upcoming_header', id: 'upcoming_header' });
+      upcomingSessions.forEach((s: any) => data.push({ type: 'upcoming_item', session: s, id: `upcoming_${s.id}` }));
+    }
+    if (data.length > 0) {
+      data.push({ type: 'footer', id: 'footer_grid' });
+    }
+    return data;
+  }, [liveSessions, upcomingSessions]);
+
+  const renderWelcomeSection = () => (
+    <WelcomeSection>
+      <WelcomeTitle variant="headline_lg_mobile" color="on_surface">
+        {t('user.home_booking_status.welcome', { name: userName })}
+      </WelcomeTitle>
+      <WelcomeSubtitle variant="body_sm">
+        {t('user.home_booking_status.subtitle')}
+      </WelcomeSubtitle>
+    </WelcomeSection>
+  );
+
+  const renderItem = useCallback(({ item }: any) => {
+    switch (item.type) {
+      case 'live_header':
+        return (
+          <HeaderLabelContainer>
+            <SectionTitle variant="headline_md" color="on_surface">
+              {t('user.home_booking_status.available_sessions')}
+            </SectionTitle>
+            <AvailableSlotsTag>
+              <TagLabel variant="label_caps" color="on_primary_container">
+                {t('user.home_booking_status.booking_open')}
+              </TagLabel>
+            </AvailableSlotsTag>
+          </HeaderLabelContainer>
+        );
+      case 'live_item':
+        return (
+          <UserSessionCard
+            session={item.session}
+            type="live"
+            onReservePress={handleReserve}
+          />
+        );
+      case 'upcoming_header':
+        return (
+          <HeaderLabelContainer style={{ marginTop: verticalScale(8) }}>
+            <SectionTitle variant="headline_md" color="on_surface">
+              {t('user.home_booking_status.upcoming_sessions') || 'Upcoming Sessions'}
+            </SectionTitle>
+          </HeaderLabelContainer>
+        );
+      case 'upcoming_item':
+        return (
+          <UserSessionCard
+            session={item.session}
+            type="upcoming"
+          />
+        );
+      case 'footer':
+        return (
+          <GridContainer>
+            <AsymmetricGridCard onPress={handleViewAllPress}>
+              <MoreHorizontal color={theme.colors.primary_container as string} size={scale(32)} />
+              <GridLabel variant="label_caps" color="on_surface_variant">
+                {t('user.home_booking_status.view_all')}
+              </GridLabel>
+            </AsymmetricGridCard>
+          </GridContainer>
+        );
+      default:
+        return null;
+    }
+  }, [handleReserve, handleViewAllPress, t, theme.colors.primary_container]);
+
   const renderAvailableState = () => {
-    if (liveSessions.length === 0 && upcomingSessions.length === 0) return null;
+    if (listData.length === 0) return null;
 
     return (
-      <ListContainer>
-        {liveSessions.length > 0 && (
-          <>
-            <HeaderLabelContainer>
-              <SectionTitle variant="headline_md" color="on_surface">
-                {t('user.home_booking_status.available_sessions')}
-              </SectionTitle>
-              <AvailableSlotsTag>
-                <TagLabel variant="label_caps" color="on_primary_container">
-                  {t('user.home_booking_status.booking_open')}
-                </TagLabel>
-              </AvailableSlotsTag>
-            </HeaderLabelContainer>
-            
-            {liveSessions.map((session: UserSession) => (
-              <UserSessionCard
-                key={session.id}
-                session={session}
-                type="live"
-                onReservePress={handleReserve}
-              />
-            ))}
-          </>
-        )}
-
-        {upcomingSessions.length > 0 && (
-          <>
-            <HeaderLabelContainer style={{ marginTop: verticalScale(8) }}>
-              <SectionTitle variant="headline_md" color="on_surface">
-                {t('user.home_booking_status.upcoming_sessions') || 'Upcoming Sessions'}
-              </SectionTitle>
-            </HeaderLabelContainer>
-            
-            {upcomingSessions.map((session: UserSession) => (
-              <UserSessionCard
-                key={session.id}
-                session={session}
-                type="upcoming"
-              />
-            ))}
-          </>
-        )}
-
-        {/* Asymmetric Grid */}
-        <GridContainer>
-          <AsymmetricGridCard onPress={handleViewAllPress}>
-            <MoreHorizontal color={theme.colors.primary_container as string} size={scale(32)} />
-            <GridLabel variant="label_caps" color="on_surface_variant">
-              {t('user.home_booking_status.view_all')}
-            </GridLabel>
-          </AsymmetricGridCard>
-        </GridContainer>
+      <ListContainer style={{ flex: 1 }}>
+        <FlashList
+          data={listData}
+          renderItem={renderItem}
+          estimatedItemSize={120}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={renderWelcomeSection()}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: verticalScale(100), paddingHorizontal: scale(16) }}
+        />
       </ListContainer>
     );
   };
@@ -155,25 +195,22 @@ export const HomeBookingStatus = React.memo(() => {
         role="user"
         activeTab={activeTab}
         onTabChange={handleTabChange}
+        scrollable={false}
       >
-        {/* Welcome Section */}
-        <WelcomeSection>
-          <WelcomeTitle variant="headline_lg_mobile" color="on_surface">
-            {t('user.home_booking_status.welcome', { name: userName })}
-          </WelcomeTitle>
-          <WelcomeSubtitle variant="body_sm">
-            {t('user.home_booking_status.subtitle')}
-          </WelcomeSubtitle>
-        </WelcomeSection>
-
         {isFetching && liveSessions.length === 0 && upcomingSessions.length === 0 ? (
-          <LoadingOverlay>
-            <ActivityIndicator size="large" color={theme.colors.primary} />
-          </LoadingOverlay>
-        ) : mode === 'available' ? (
+          <>
+            {renderWelcomeSection()}
+            <LoadingOverlay>
+              <ActivityIndicator size="large" color={theme.colors.primary} />
+            </LoadingOverlay>
+          </>
+        ) : mode === 'available' && listData.length > 0 ? (
           renderAvailableState()
         ) : (
-          renderEmptyState()
+          <>
+            {renderWelcomeSection()}
+            {renderEmptyState()}
+          </>
         )}
       </AppLayoutTemplate>
     </ScreenContainer>

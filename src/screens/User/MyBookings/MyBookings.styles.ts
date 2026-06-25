@@ -50,7 +50,7 @@ export const ActiveCard = styled(Box)`
 `;
 
 export const ActiveImageContainer = styled(Box)`
-  height: ${verticalScale(180)}px;
+  height: ${verticalScale(120)}px;
   width: 100%;
   position: relative;
 `;
@@ -65,9 +65,9 @@ export const GradientOverlay = styled(LinearGradient)`
   left: 0;
   right: 0;
   bottom: 0;
-  height: ${verticalScale(100)}px;
+  height: ${verticalScale(80)}px;
   justify-content: flex-end;
-  padding: ${scale(16)}px;
+  padding: ${scale(12)}px;
 `;
 
 export const OverlayTagText = styled(Typography)`
@@ -82,7 +82,7 @@ export const OverlayTitleText = styled(Typography)`
 `;
 
 export const CardContentBody = styled(Box)`
-  padding: ${scale(16)}px;
+  padding: ${scale(12)}px;
 `;
 
 export const ContentSplitRow = styled(Box)`
@@ -93,7 +93,7 @@ export const ContentSplitRow = styled(Box)`
 
 export const DetailsGrid = styled(Box)`
   flex: 1;
-  gap: ${verticalScale(16)}px;
+  gap: ${verticalScale(12)}px;
 `;
 
 export const GridRow = styled(Box)`
@@ -118,7 +118,7 @@ export const LocationRow = styled(Box)`
   flex-direction: row;
   align-items: center;
   gap: ${scale(6)}px;
-  margin-top: ${verticalScale(12)}px;
+  margin-top: ${verticalScale(8)}px;
 `;
 
 export const LocationText = styled(Typography)`
@@ -152,7 +152,7 @@ export const ScanText = styled.Text`
 `;
 
 export const ActionButtonsWrapper = styled(Box)`
-  padding: ${scale(16)}px;
+  padding: ${scale(12)}px;
   padding-top: 0px;
   gap: ${verticalScale(8)}px;
 `;
@@ -218,3 +218,69 @@ export const LoadingOverlay = styled(Box)`
   justify-content: center;
   padding-vertical: ${verticalScale(48)}px;
 `;
+
+export const FilterButton = styled.Pressable`
+  flex-direction: row;
+  align-items: center;
+  gap: ${scale(4)}px;
+`;
+
+export const HistoryList = styled(Box)`
+  gap: ${verticalScale(12)}px;
+`;
+
+export const HistoryCard = styled.Pressable`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
+  padding: ${scale(16)}px;
+  border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.md}px;
+  border-width: 1px;
+  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
+`;
+
+export const HistoryLeft = styled(Box)`
+  flex-direction: row;
+  align-items: center;
+  gap: ${scale(12)}px;
+  flex: 1;
+`;
+
+export const HistoryIconContainer = styled(Box)`
+  width: ${scale(44)}px;
+  height: ${scale(44)}px;
+  border-radius: ${moderateScale(8)}px;
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_highest};
+  align-items: center;
+  justify-content: center;
+`;
+
+export const HistoryTextInfo = styled(Box)`
+  flex-direction: column;
+  flex: 1;
+  gap: ${verticalScale(2)}px;
+`;
+
+export const HistoryBadge = styled(Box)<{ isCompleted: boolean }>`
+  background-color: ${({ theme, isCompleted }: { theme: ThemeType; isCompleted: boolean }) =>
+    isCompleted ? theme.colors.surface_variant : theme.colors.error_container};
+  padding-horizontal: ${scale(10)}px;
+  padding-vertical: ${verticalScale(4)}px;
+  border-radius: ${moderateScale(6)}px;
+`;
+
+export const LoadMoreBtn = styled.Pressable`
+  width: 100%;
+  margin-top: ${verticalScale(16)}px;
+  padding-vertical: ${verticalScale(16)}px;
+  border-width: 1px;
+  border-style: dashed;
+  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline};
+  border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: ${scale(8)}px;
+`;
+

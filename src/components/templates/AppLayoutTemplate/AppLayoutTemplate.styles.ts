@@ -8,12 +8,12 @@ export const TemplateContainer = styled(Box)<{ paddingTop: number }>`
   flex: 1;
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.background};
   padding-top: ${({ paddingTop }) => paddingTop}px;
+  
 `;
 
 export const HeaderWrapper = styled(Box)`
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface};
   z-index: 40;
-  height: ${verticalScale(76)}px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -36,6 +36,7 @@ export const ContentContainer = styled(Box)`
 
 export const StyledScrollView = styled.ScrollView`
   flex: 1;
+  padding: 0 ${scale(16)}px;
 `;
 
 export const FiltersWrapper = styled(Box)`

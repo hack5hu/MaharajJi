@@ -32,12 +32,30 @@ export const ContentContainer = styled(Box)`
   padding-horizontal: ${scale(20)}px;
 `;
 
-export const StyledScrollView = styled.ScrollView.attrs<{ insetsBottom: number }>(({ insetsBottom }) => ({
+export const StyledScrollView = styled.ScrollView.attrs<{ paddingBottom: number }>(({ paddingBottom }) => ({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     paddingTop: verticalScale(20),
-    paddingBottom: Math.max(insetsBottom, verticalScale(20)) + verticalScale(20),
+    paddingBottom: paddingBottom,
   },
 }))`
   flex: 1;
 `;
+
+export const FooterContainer = styled(Box)<{ insetsBottom: number }>`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.background};
+  padding-horizontal: ${scale(20)}px;
+  padding-top: ${verticalScale(16)}px;
+  padding-bottom: ${({ insetsBottom }) => Math.max(insetsBottom, verticalScale(16))}px;
+  z-index: 50;
+  shadow-color: #000;
+  shadow-offset: 0px -4px;
+  shadow-opacity: 0.05;
+  shadow-radius: 8px;
+  elevation: 8;
+`;
+
