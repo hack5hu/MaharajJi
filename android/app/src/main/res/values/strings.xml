@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Sidhpeeth Balaji Dham</string>
+
+    <string name="StallionProjectId">6a45608c75afe16fbf52bb8d</string>
+    <string name="StallionAppToken">spb_ap_d5U_lwXMH-PuQFmhxi2W2nkLiHzgAFYIdS_ozHJxZj</string>
 </resources>

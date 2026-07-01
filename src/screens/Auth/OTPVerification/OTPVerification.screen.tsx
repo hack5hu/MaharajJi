@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRoute } from '@react-navigation/native';
+
 import { OTPVerificationTemplate } from '@/components/templates/OTPVerificationTemplate';
 import { useOTPVerification } from './useOTPVerification';
 import { ScreenContainer } from './OTPVerification.styles';

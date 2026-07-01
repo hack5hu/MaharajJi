@@ -8,6 +8,10 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Sidhpeeth Balaji Dham</string>
+	<key>StallionProjectId</key>
+    <string>6a45608c75afe16fbf52bb8d</string>
+	<key>StallionAppToken</key>
+    <string>spb_ap_d5U_lwXMH-PuQFmhxi2W2nkLiHzgAFYIdS_ozHJxZj</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

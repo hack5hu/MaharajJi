@@ -14,6 +14,8 @@ export const en = {
     nav_dashboard: 'Dashboard',
     nav_customers: 'Members',
     nav_settings: 'Settings',
+    update_ready: 'A new update is ready to install.',
+    restart_app: 'Restart App',
   },
   admin: {
     dashboard_home: {

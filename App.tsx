@@ -28,8 +28,10 @@ import { Login } from './src/screens/Auth/Login';
 import { OTPVerification } from './src/screens/Auth/OTPVerification';
 import { SessionAttendeesList } from './src/screens/Admin/SessionAttendeesList';
 import { ApiDebugger } from './src/components/organisms/ApiDebugger';
+import { StallionUpdateModal } from './src/components/organisms/StallionUpdateModal';
 import type { RootStackParamList } from './src/navigation/types';
 import { storage, StorageKeys } from './src/utils/storage';
+import { withStallion } from 'react-native-stallion';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -73,10 +75,11 @@ function App() {
             </Stack.Navigator>
             <ApiDebugger />
           </NavigationContainer>
+          <StallionUpdateModal />
         </ThemeProvider>
       </KeyboardProvider>
     </SafeAreaProvider>
   );
 }
 
-export default App;
+export default withStallion(App);
