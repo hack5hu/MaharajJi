@@ -163,16 +163,23 @@ export const SessionService = {
     sessionId: string,
     numberOfPeople: number,
   ): Promise<ApiResponse<any>> => {
-    const response = await axiosClient.post(
-      `${ApiEndpoint.BOOK_SESSION}/${sessionId}/book`,
-      {
-        numberOfPeople,
-      },
-    );
-    return {
-      success: true,
-      data: response.data,
-    };
+    try {
+      const response = await axiosClient.post(
+        `${ApiEndpoint.BOOK_SESSION}/${sessionId}/book`,
+        {
+          numberOfPeople,
+        },
+      );
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message,
+      } as any;
+    }
   },
 
   cancelCustomerBooking: async (

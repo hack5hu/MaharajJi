@@ -20,8 +20,9 @@ export type RootStackParamList = {
   };
   Profile: undefined;
   Login: undefined;
-  OTPVerification: { phoneNumber: string; isAdmin: boolean; reqId?: string };
+  OTPVerification: { phoneNumber: string; isAdmin: boolean };
   SessionAttendeesList: { sessionId: string; sessionTitle: string; sessionDate: string; location: string; totalTokens: number };
+  History: undefined;
 };
 
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;

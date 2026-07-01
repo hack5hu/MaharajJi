@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { storage, StorageKeys } from '@/utils/storage';
+import { useApi } from '@/hooks/useApi';
+import { AuthService } from '@/serviceManager/AuthService';
 import { AdminProfile } from './types.d';
 
 export const useAdminSettings = () => {
@@ -9,6 +11,10 @@ export const useAdminSettings = () => {
     name: 'Admin User',
     role: 'ADMIN',
   });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const { execute: deleteAccount, isLoading: isDeleting } = useApi(AuthService.deleteAccount);
 
   useEffect(() => {
     try {
@@ -51,6 +57,17 @@ export const useAdminSettings = () => {
     });
   }, [navigation]);
 
+  const handleDeleteAccount = useCallback(async () => {
+    setApiError(null);
+    const result = await deleteAccount(undefined);
+    if (result.success) {
+      setShowDeleteModal(false);
+      handleLogout();
+    } else {
+      setApiError(result.error?.message || 'Failed to delete account');
+    }
+  }, [deleteAccount, handleLogout]);
+
   const handleTabChange = useCallback((tab: 'dashboard' | 'bookings' | 'customers' | 'settings') => {
     if (tab === 'dashboard') {
       navigation.navigate('AdminDashboardHome');
@@ -68,6 +85,12 @@ export const useAdminSettings = () => {
   return {
     profile,
     handleLogout,
+    handleDeleteAccount,
+    showDeleteModal,
+    setShowDeleteModal,
+    isDeleting,
+    apiError,
+    setApiError,
     handleTabChange,
     handleMenuPress,
   };

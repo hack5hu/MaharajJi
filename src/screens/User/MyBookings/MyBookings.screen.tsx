@@ -243,7 +243,7 @@ export const MyBookings = React.memo(() => {
   return (
     <ScreenContainer>
       <AppLayoutTemplate
-        headerTitle="MaharajJi"
+        headerTitle={t('common.app_name')}
         role="user"
         activeTab="bookings"
         onTabChange={handleTabChange}

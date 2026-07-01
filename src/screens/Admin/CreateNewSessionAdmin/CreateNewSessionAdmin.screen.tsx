@@ -37,14 +37,12 @@ export const CreateNewSessionAdmin = React.memo(() => {
 
   const dayAfterTomorrow = React.useMemo(() => {
     const d = new Date();
-    d.setDate(d.getDate() + 2);
+    d.setDate(d.getDate() + 1); // Testing: Event starts tomorrow
     return d;
   }, []);
 
   const tomorrow = React.useMemo(() => {
-    const d = new Date();
-    d.setDate(d.getDate() + 1);
-    return d;
+    return new Date(); // Testing: Booking opens today
   }, []);
 
   return (

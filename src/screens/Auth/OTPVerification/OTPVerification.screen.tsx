@@ -8,8 +8,7 @@ import { OTPVerificationScreenRouteProp } from './types.d';
 export const OTPVerification = React.memo(() => {
   const route = useRoute<OTPVerificationScreenRouteProp>();
   const phoneNumber = route.params?.phoneNumber || '';
-  const reqId = route.params?.reqId;
-  const state = useOTPVerification(route.params?.isAdmin, phoneNumber, reqId);
+  const state = useOTPVerification(route.params?.isAdmin, phoneNumber);
 
   return (
     <ScreenContainer>

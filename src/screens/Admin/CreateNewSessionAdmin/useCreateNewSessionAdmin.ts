@@ -111,11 +111,11 @@ export const useCreateNewSessionAdmin = () => {
 
     return {
       title: '',
-      date: addDays(today, 2),
+      date: addDays(today, 1),
       location: '',
       tokens: 25,
       maxPeoplePerToken: 4,
-      bookingOpenDate: addDays(today, 1),
+      bookingOpenDate: today,
       bookingOpenTime: defaultBookingOpenTime,
       bookingCloseTime: defaultBookingCloseTime,
     };

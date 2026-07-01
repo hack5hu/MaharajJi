@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAppNavigation } from '@/navigation/useAppNavigation';
 import { storage, StorageKeys } from '@/utils/storage';
+import { useApi } from '@/hooks/useApi';
+import { AuthService } from '@/serviceManager/AuthService';
 import { UserProfile } from './types.d';
 
 export const useProfile = () => {
@@ -9,6 +11,10 @@ export const useProfile = () => {
     name: 'Brother John',
     phone: '9090909090',
   });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const { execute: deleteAccount, isLoading: isDeleting } = useApi(AuthService.deleteAccount);
 
   useEffect(() => {
     try {
@@ -38,6 +44,17 @@ export const useProfile = () => {
     });
   }, [navigation]);
 
+  const handleDeleteAccount = useCallback(async () => {
+    setApiError(null);
+    const result = await deleteAccount(undefined);
+    if (result.success) {
+      setShowDeleteModal(false);
+      handleLogout();
+    } else {
+      setApiError(result.error?.message || 'Failed to delete account');
+    }
+  }, [deleteAccount, handleLogout]);
+
   const handleTabChange = useCallback((tab: 'home' | 'bookings' | 'history' | 'profile') => {
     if (tab === 'home') {
       navigation.navigate('HomeBookingStatus');
@@ -55,6 +72,12 @@ export const useProfile = () => {
   return {
     profile,
     handleLogout,
+    handleDeleteAccount,
+    showDeleteModal,
+    setShowDeleteModal,
+    isDeleting,
+    apiError,
+    setApiError,
     handleTabChange,
     handleMenuPress,
   };

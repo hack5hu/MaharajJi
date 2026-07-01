@@ -49,7 +49,7 @@ export const AdminDashboardHome = React.memo(() => {
 
   return (
     <AppLayoutTemplate
-      headerTitle="MaharajJi"
+      headerTitle={t('common.app_name')}
       role="admin"
       activeTab={activeTab}
       onTabChange={handleTabChange}

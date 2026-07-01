@@ -4,7 +4,9 @@ import { ThemeType } from '@/theme/theme';
 import { useLocale } from '@/hooks/useLocale';
 import { Typography } from '@/components/atoms/Typography';
 import { Button } from '@/components/atoms/Button';
+import { Box } from '@/components/atoms/Box';
 import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate';
+import { ConfirmationModal } from '@/components/organisms/ConfirmationModal';
 import { useProfile } from './useProfile';
 import { verticalScale } from '@/styles/scaling';
 import {
@@ -25,6 +27,11 @@ export const Profile = React.memo(() => {
   const {
     profile,
     handleLogout,
+    handleDeleteAccount,
+    showDeleteModal,
+    setShowDeleteModal,
+    isDeleting,
+    apiError,
     handleTabChange,
   } = useProfile();
 
@@ -33,11 +40,19 @@ export const Profile = React.memo(() => {
   return (
     <ScreenContainer>
       <AppLayoutTemplate
-        headerTitle="MaharajJi"
+        headerTitle={t('common.app_name')}
         role="user"
         activeTab="profile"
         onTabChange={handleTabChange}
       >
+        {apiError && (
+          <Box style={{ backgroundColor: '#FEE2E2', padding: 12, borderRadius: 8, marginBottom: 16 }}>
+            <Typography variant="body_sm" style={{ color: '#DC2626', fontWeight: '600' }}>
+              {apiError}
+            </Typography>
+          </Box>
+        )}
+
         <ProfileHeaderContainer>
           <AvatarWrapper>
             <ProfileAvatar source={{ uri: avatarUrl }} />
@@ -83,7 +98,7 @@ export const Profile = React.memo(() => {
           </InfoItem>
         </ProfileCard>
 
-        <ButtonWrapper>
+        <ButtonWrapper style={{ gap: 12 }}>
           <Button
             label={t('user.profile.logout_btn')}
             onPress={handleLogout}
@@ -95,8 +110,31 @@ export const Profile = React.memo(() => {
               paddingVertical: verticalScale(14),
             }}
           />
+          <Button
+            label={t('user.profile.delete_account_btn')}
+            onPress={() => setShowDeleteModal(true)}
+            variant="outline"
+            fullWidth
+            style={{
+              borderColor: theme.colors.error,
+              borderRadius: theme.rounded.lg,
+              paddingVertical: verticalScale(14),
+            }}
+            textColor="error"
+          />
         </ButtonWrapper>
       </AppLayoutTemplate>
+
+      <ConfirmationModal
+        visible={showDeleteModal}
+        title={t('user.profile.delete_confirm_title')}
+        message={t('user.profile.delete_confirm_msg')}
+        confirmLabel={t('user.profile.delete_confirm_ok')}
+        cancelLabel={t('user.profile.delete_confirm_cancel')}
+        onConfirm={handleDeleteAccount}
+        onDismiss={() => setShowDeleteModal(false)}
+        loading={isDeleting}
+      />
     </ScreenContainer>
   );
 });

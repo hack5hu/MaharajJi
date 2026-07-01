@@ -46,7 +46,7 @@ export const History = React.memo(() => {
   return (
     <ScreenContainer>
       <AppLayoutTemplate
-        headerTitle="MaharajJi"
+        headerTitle={t('common.app_name')}
         role="user"
         activeTab="history"
         onTabChange={handleTabChange}

@@ -5,10 +5,9 @@ import { useLocale } from '@/hooks/useLocale';
 import { storage, StorageKeys } from '@/utils/storage';
 import { useApi } from '@/hooks/useApi';
 import { AuthService } from '@/serviceManager/AuthService';
-import { OTPWidget } from '@msg91comm/sendotp-react-native';
 import { Logger } from '@/utils/logger';
 
-export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqId?: string) => {
+export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string) => {
   const navigation = useAppNavigation();
   const { t } = useLocale();
 
@@ -19,11 +18,12 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqI
   const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
   const [isResendingOTP, setIsResendingOTP] = useState(false);
 
-  const { execute, isLoading: isApiLoading } = useApi(AuthService.verifyOtp);
-  
+  const { execute: executeVerify, isLoading: isApiLoading } = useApi(AuthService.verifyOtp);
+  const { execute: executeResend } = useApi(AuthService.resendOtp);
+
   const isLoading = isApiLoading || isVerifyingOTP || isResendingOTP;
 
-  // Resend OTP Countdown Timer
+  // Resend OTP Countdown Timer — 1:30 min
   useEffect(() => {
     if (resendTimer <= 0) return;
     const interval = setInterval(() => {
@@ -41,7 +41,7 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqI
 
   const onVerifyPress = useCallback(async (filledOtp?: string) => {
     const currentOtp = typeof filledOtp === 'string' ? filledOtp : otp;
-    
+
     if (currentOtp.length !== 6) {
       setError(t('user.otp_verification.error_otp'));
       return;
@@ -53,16 +53,14 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqI
 
     try {
       setIsVerifyingOTP(true);
-      // 1. Verify with MSG91 SDK
-      Logger.log('MSG91 verifyOTP Request', { reqId, otp: currentOtp });
-      const verifyResp = await OTPWidget.verifyOTP({ reqId, otp: currentOtp });
-      Logger.log('MSG91 verifyOTP Response', verifyResp);
+      Logger.log('verifyOTP Request', { phone: cleanPhone });
 
-      // 2. Obtain token from backend
-      const result = await execute({
+      const result = await executeVerify({
         phoneNumber: cleanPhone,
         otp: currentOtp,
       });
+
+      Logger.log('verifyOTP Response', result);
 
       if (result.success && result.data) {
         const responseData = result.data;
@@ -87,35 +85,41 @@ export const useOTPVerification = (isAdmin?: boolean, phoneNumber?: string, reqI
           navigation.navigate('HomeBookingStatus');
         }
       } else if (result.error) {
-        setError(result.error.message || t('user.errors.server_error'));
+        setError(typeof result.error === 'string' ? result.error : t('user.errors.server_error'));
       }
     } catch (e: any) {
-      Logger.error('MSG91 verifyOTP Error', e);
+      Logger.error('verifyOTP Error', e);
       setError(e?.message || t('user.otp_verification.error_otp'));
     } finally {
       setIsVerifyingOTP(false);
     }
-  }, [otp, phoneNumber, execute, navigation, t, reqId]);
+  }, [otp, phoneNumber, executeVerify, navigation, t]);
 
   const onResendPress = useCallback(async () => {
+    const cleanPhone = phoneNumber ? phoneNumber.replace('+91 ', '').trim() : '';
+
     try {
       setIsResendingOTP(true);
-      Logger.log('MSG91 retryOTP Request', { reqId, channel: 1 });
-      const retryResp = await OTPWidget.retryOTP({ reqId, channel: 1 }); // channel 1 = SMS
-      Logger.log('MSG91 retryOTP Response', retryResp);
-      
-      setResendTimer(90);
-      setOtp('');
-      setError(undefined);
-      // Clear the OTP input boxes via ref
-      otpRef.current?.clear();
+      Logger.log('resendOTP Request', { phone: cleanPhone });
+
+      const result = await executeResend({ phoneNumber: cleanPhone });
+      Logger.log('resendOTP Response', result);
+
+      if (result.success) {
+        setResendTimer(90);
+        setOtp('');
+        setError(undefined);
+        otpRef.current?.clear();
+      } else {
+        setError(typeof result.error === 'string' ? result.error : t('user.errors.server_error'));
+      }
     } catch (e: any) {
-      Logger.error('MSG91 retryOTP Error', e);
+      Logger.error('resendOTP Error', e);
       setError(e?.message || t('user.errors.server_error'));
     } finally {
       setIsResendingOTP(false);
     }
-  }, [reqId, t]);
+  }, [phoneNumber, executeResend, t]);
 
   return {
     otpRef,

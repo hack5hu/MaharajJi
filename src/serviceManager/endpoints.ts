@@ -3,6 +3,8 @@ export enum ApiEndpoint {
   AUTH_LOGIN = '/auth/login',
   AUTH_VERIFY_OTP = '/auth/verify-otp',
   AUTH_TRUECALLER_LOGIN = '/auth/truecaller-login',
+  AUTH_RESEND_OTP = '/auth/resend-otp',
+  AUTH_DELETE_ACCOUNT = '/auth/account',
   GET_LOCATIONS = '/locations',
 
   // ADMIN

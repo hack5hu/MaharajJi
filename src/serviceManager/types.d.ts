@@ -37,12 +37,22 @@ export interface VerifyOtpRequest {
   otp: string;
 }
 
+export interface ResendOtpRequest {
+  phoneNumber: string;
+}
+
+export interface ResendOtpResponse {
+  message: string;
+  status: string;
+}
+
 export interface VerifyOtpResponse {
   message: string;
   token: string;
   refreshToken: string;
   userId: string;
   role: string;
+  name?: string;
 }
 
 export interface CreateSessionRequest {

@@ -13,9 +13,10 @@ export interface ButtonProps {
   loading?: boolean;
   disabled?: boolean;
   style?: ViewStyle;
+  textColor?: keyof ThemeType['colors'];
 }
 
-export const Button = React.memo(({ label, onPress, variant = 'primary', fullWidth, loading, disabled, style }: ButtonProps) => {
+export const Button = React.memo(({ label, onPress, variant = 'primary', fullWidth, loading, disabled, style, textColor }: ButtonProps) => {
   const theme = useTheme() as ThemeType;
 
   const getBackgroundColor = () => {
@@ -25,6 +26,7 @@ export const Button = React.memo(({ label, onPress, variant = 'primary', fullWid
 
   const getTextColor = (): keyof ThemeType['colors'] => {
     if (disabled) return 'on_surface_variant';
+    if (textColor) return textColor;
     return variant === 'primary' ? 'on_primary' : 'primary';
   };
 

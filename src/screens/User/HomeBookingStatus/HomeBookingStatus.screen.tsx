@@ -191,7 +191,7 @@ export const HomeBookingStatus = React.memo(() => {
   return (
     <ScreenContainer>
       <AppLayoutTemplate
-        headerTitle="MaharajJi"
+        headerTitle={t('common.app_name')}
         role="user"
         activeTab={activeTab}
         onTabChange={handleTabChange}

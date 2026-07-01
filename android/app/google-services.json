@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "452429618418",
+    "project_id": "maharajji-d0d3c",
+    "storage_bucket": "maharajji-d0d3c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452429618418:android:702991b65d193e1478446b",
+        "android_client_info": {
+          "package_name": "com.maharajji"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpJLvXZfELOiEGsgbo7Iy1solD1jBMBTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
