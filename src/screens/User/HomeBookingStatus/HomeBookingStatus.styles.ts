@@ -54,8 +54,6 @@ export const GridContainer = styled(Box)`
 
 export const AsymmetricGridCard = styled.Pressable`
   flex: 1;
-  border-width: 1px;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
   background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   padding: ${scale(24)}px;
@@ -70,10 +68,7 @@ export const GridLabel = styled(Typography)`
 `;
 
 export const EmptyStateContainer = styled(Box)`
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_lowest};
-  border-width: 1px;
-  border-style: dashed;
-  border-color: ${({ theme }: { theme: ThemeType }) => theme.colors.outline_variant};
+  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.surface_container_low};
   border-radius: ${({ theme }: { theme: ThemeType }) => theme.rounded.xl}px;
   padding-vertical: ${verticalScale(48)}px;
   padding-horizontal: ${scale(24)}px;
@@ -139,4 +134,9 @@ export const LoadingOverlay = styled(Box)`
 
 export const ListContainer = styled(Box)`
   flex: 1;
+`;
+
+export const PaddedContainer = styled(Box)`
+  flex: 1;
+  padding-horizontal: ${scale(16)}px;
 `;

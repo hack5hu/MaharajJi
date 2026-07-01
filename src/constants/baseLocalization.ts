@@ -190,6 +190,8 @@ export const en = {
     login: {
       welcome_back: 'Sidhpeeth Balaji Dham',
       phone_subtitle: 'Your path to divine connection',
+      sign_in_title: 'Sign In',
+      form_subtitle: 'Enter your phone number to continue',
       phone_label: 'PHONE NUMBER',
       phone_placeholder: '1234567890',
       restriction_info:

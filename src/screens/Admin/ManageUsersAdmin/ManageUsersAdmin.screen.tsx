@@ -112,7 +112,7 @@ export const ManageUsersAdmin = React.memo(() => {
           <Typography variant="body_sm" color="on_surface_variant" style={{ marginTop: verticalScale(4), marginBottom: verticalScale(4) }}>
             Manage and connect with your spiritual circle.
           </Typography>
-          {totalElements > 0 && (
+          {totalElements > 0 && filteredUsers.length > 0 && (
             <Typography variant="body_sm" color="on_surface" style={{ fontWeight: '700' }}>
               {t('admin.manage_users.total_members') || 'Total Members'}: {totalElements}
             </Typography>
@@ -158,11 +158,11 @@ export const ManageUsersAdmin = React.memo(() => {
           />
         </ListContainer>
       </AppLayoutTemplate>
-      <FAB 
+      {/* <FAB 
         icon={<Plus color={theme.colors.on_primary_container as string} size={scale(24)} />}
         onPress={handleAddCustomer}
         bottom={scale(96) + useSafeAreaInsets().bottom}
-      />
+      /> */}
       <ConfirmationModal
         visible={showDeleteModal}
         title={t('admin.manage_users.delete_title')}

@@ -44,6 +44,7 @@ export const useUserStore = create<UserStore>()(
       addCustomerLocally: (customer) =>
         set((state) => {
           state.customers.unshift(customer);
+          state.totalElements += 1;
         }),
 
       setSearchQuery: (query) =>
@@ -53,7 +54,11 @@ export const useUserStore = create<UserStore>()(
 
       removeCustomerLocally: (id) =>
         set((state) => {
+          const initialLength = state.customers.length;
           state.customers = state.customers.filter((c: AdminCustomer) => c.id !== id && c.phoneNumber !== id);
+          if (state.customers.length < initialLength) {
+            state.totalElements = Math.max(0, state.totalElements - 1);
+          }
         }),
 
       fetchCustomers: async (reset = true) => {
@@ -76,6 +81,10 @@ export const useUserStore = create<UserStore>()(
               state.hasMore = isArray ? false : !res.data!.last;
               state.currentPage = 0;
               state.totalElements = isArray ? state.customers.length : (res.data!.totalElements || 0);
+              
+              if (state.customers.length === 0) {
+                state.totalElements = 0;
+              }
             });
           }
         } catch (error) {

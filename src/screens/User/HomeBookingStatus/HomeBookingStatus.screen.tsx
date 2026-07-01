@@ -32,6 +32,7 @@ import {
   NotifyButtonText,
   LoadingOverlay,
   ListContainer,
+  PaddedContainer,
 } from './HomeBookingStatus.styles';
 
 export const HomeBookingStatus = React.memo(() => {
@@ -198,19 +199,19 @@ export const HomeBookingStatus = React.memo(() => {
         scrollable={false}
       >
         {isFetching && liveSessions.length === 0 && upcomingSessions.length === 0 ? (
-          <>
+          <PaddedContainer>
             {renderWelcomeSection()}
             <LoadingOverlay>
               <ActivityIndicator size="large" color={theme.colors.primary} />
             </LoadingOverlay>
-          </>
+          </PaddedContainer>
         ) : mode === 'available' && listData.length > 0 ? (
           renderAvailableState()
         ) : (
-          <>
+          <PaddedContainer>
             {renderWelcomeSection()}
             {renderEmptyState()}
-          </>
+          </PaddedContainer>
         )}
       </AppLayoutTemplate>
     </ScreenContainer>
